@@ -5,6 +5,7 @@
     "esModuleInterop": true,
     "outDir": "../out/",
     "strict": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "declaration": true
   }
 }

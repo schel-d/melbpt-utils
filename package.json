@@ -1,8 +1,9 @@
 {
   "name": "melbpt-utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A library for code common to my various melbpt projects.",
-  "main": "index.js",
+  "main": "out/index.js",
+  "types": "out/index.d.js",
   "scripts": {
     "prebuild": "rimraf out",
     "build": "tsc --project ts/tsconfig.json",
