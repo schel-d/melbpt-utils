@@ -1,9 +1,13 @@
 import { StopID } from "../network/id";
 
 /**
- * The error object used when errors occur reading a timetable file.
+ * The error object used when errors occur reading/creating a timetable file.
  */
 export class TtblFormatError extends Error {
+  /**
+   * Creates a {@link TtblFormatError}.
+   * @param message The error message.
+   */
   constructor(message: string) {
     super(message);
     this.name = "TtblFormatError";
@@ -69,6 +73,10 @@ export class TtblFormatError extends Error {
  * version.
  */
 export class TtblVersionError extends Error {
+  /**
+   * Creates a {@link TtblVersionError}.
+   * @param supportedVersion The version this file should be.
+   */
   constructor(supportedVersion: string) {
     super(`Unsupported .ttbl version. Please use version "${supportedVersion}".`);
     this.name = "TtblVersionError";

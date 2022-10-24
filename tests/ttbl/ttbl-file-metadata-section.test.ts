@@ -35,6 +35,7 @@ test("TtblFileMetadataSection.promote promotes correctly", () => {
     "[timetable]\nversion: 2\nkey: value\nkey: value",
     "[timetable]\nversion: 2\nkey: value\nkey: value2",
     "[timetable]\nversion: 2\n:key",
+    "[timetable]\nversion: 2\n:key:value",
     "[timetable]\nversion: 2\nkey:",
     "[timetable]\nversion: 2\ntext"
   ];

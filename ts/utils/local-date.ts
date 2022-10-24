@@ -22,8 +22,8 @@ export class LocalDate {
   readonly day: number;
 
   /**
-   * Creates a {@link LocalDate}. Throws an error if Luxon reckons it's not a
-   * valid date.
+   * Creates a {@link LocalDate}. Throws a {@link TimeError} if Luxon reckons
+   * it's not a valid date.
    * @param year The year.
    * @param month The month, e.g. 5 for May.
    * @param day The day (of the month).
@@ -41,7 +41,7 @@ export class LocalDate {
 
   /**
    * Creates a {@link LocalDate} from an ISO8601 string, e.g. "2022-07-21".
-   * Throws an error if the string is invalid.
+   * Throws a {@link TimeError} if the string is invalid.
    * @param iso The ISO8601 string, e.g. "2022-07-21".
    */
   static fromISO(iso: string): LocalDate {
@@ -56,7 +56,9 @@ export class LocalDate {
   }
 
   /**
-   * Creates a {@link LocalDate} from a Luxon {@link DateTime} object.
+   * Creates a {@link LocalDate} from a Luxon {@link DateTime} object. Throws a
+   * {@link TimeError} if {@link DateTime.isValid} is false on the value
+   * provided.
    * @param luxon The Luxon {@link DateTime} object.
    */
   static fromLuxon(luxon: DateTime): LocalDate {
@@ -150,6 +152,6 @@ export class LocalDate {
  * Function that detects whether a value is a LocalDate object or not.
  * @param value The potential LocalDate.
  */
-export function isLocalDate(value: any): value is LocalDate {
-  return value != null && value.toMelbDateTime != null;
+export function isLocalDate(value: unknown): value is LocalDate {
+  return value != null && "toMelbDateTime" in value;
 }

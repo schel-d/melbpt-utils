@@ -8,8 +8,17 @@ export type Metadata = Record<string, string>;
  * "key: value". Used for the metadata at the top of each .ttbl file.
  */
 export class TtblFileMetadataSection extends TtblFileSection {
+  /**
+   * The metadata found inside this section of the .ttbl file.
+   */
   readonly data: Metadata;
 
+  /**
+   * Creates a {@link TtblFileMetadataSection}.
+   * @param title The string inside the square brackets at the start of the
+   * file, not including the square brackets themselves.
+   * @param data The metadata found inside this section of the .ttbl file.
+   */
   constructor(title: string, data: Metadata) {
     // Convert data back to text for base class's sake.
     super(title, Object.keys(data).map(k => `${k}: ${data[k]}`));

@@ -19,10 +19,13 @@ export class LocalTime {
    * Creates a {@link LocalTime} given a minute of day value.
    * @param minuteOfDay The minute of the day, e.g. 74 for 1:14am. Can exceed
    * `60 * 24` to represent times during the following day (for timetable
-   * purposes), but no more than one day.
+   * purposes), but no more than one day, otherwise a {@link TimeError} is
+   * thrown.
    */
   constructor(minuteOfDay: number) {
-    if (isNaN(minuteOfDay) || minuteOfDay < 0 || minuteOfDay >= 60 * 24 * 2) {
+    if (!Number.isInteger(minuteOfDay)
+      || minuteOfDay < 0
+      || minuteOfDay >= 60 * 24 * 2) {
       throw TimeError.timeOutOfRange(minuteOfDay);
     }
     this.minuteOfDay = minuteOfDay;
@@ -56,7 +59,7 @@ export class LocalTime {
    * Parses a {@link LocalTime} from a string, e.g. "2:04" or "15:28". The
    * string must be in 24-hour format (leading zero not mandatory). To indicate
    * that the time occurs on the next day, use the next day flag, not a ">"
-   * character.
+   * character. Throws a {@link TimeError} on failure.
    * @param value The string, e.g. "2:04" or "15:28".
    * @param nextDay Whether this time occurs on the next day.
    */
@@ -81,7 +84,8 @@ export class LocalTime {
   /**
    * Parses a {@link LocalTime} from a string, e.g. ">2:04" or "15:28". The
    * string must be in 24-hour format (leading zero not mandatory). To indicate
-   * that the time occurs on the next day, use a ">" character.
+   * that the time occurs on the next day, use a ">" character. Throws a
+   * {@link TimeError} on failure.
    * @param value The string, e.g. ">2:04" or "15:28".
    */
   static parseWithMarker(value: string): LocalTime {
@@ -145,16 +149,16 @@ export class LocalTime {
   }
 
   /**
-   * Return the same local time, but the non-"next day" version. Throws an error
-   * if this local time is not the "next day" version.
+   * Return the same local time, but the non-"next day" version. Throws a
+   * {@link TimeError} if this local time is not the "next day" version.
    */
   yesterday(): LocalTime {
     return new LocalTime(this.minuteOfDay - 24 * 60);
   }
 
   /**
-   * Return the same local time, but the "next day" version. Throws an error if
-   * this local time is already the "next day" version.
+   * Return the same local time, but the "next day" version. Throws a
+   * {@link TimeError} if this local time is already the "next day" version.
    */
   tomorrow(): LocalTime {
     return new LocalTime(this.minuteOfDay + 24 * 60);
@@ -162,7 +166,6 @@ export class LocalTime {
 
   /**
    * Returns the local time that is set to 12:00am the next day.
-   * @returns
    */
   static startOfTomorrow(): LocalTime {
     return new LocalTime(24 * 60);

@@ -6,9 +6,27 @@ import { lineify } from "./utils";
  * A "section" of a .ttbl file, where sections begin with [bracketed strings].
  */
 export class TtblFileSection {
+  /**
+   * The string inside the square brackets at the start of the file, not
+   * including the square brackets themselves.
+   */
   readonly title: string;
+
+  /**
+   * The text found inside this section, between this section's title and the
+   * next section (excluding blank lines, and each surrounding whitespace
+   * removed).
+   */
   readonly lines: string[];
 
+  /**
+   * Creates a {@link TtblFileSection}.
+   * @param title The string inside the square brackets at the start of the
+   * file, not including the square brackets themselves.
+   * @param lines The text found inside this section, between this section's
+   * title and the next section (excluding blank lines, and each surrounding
+   * whitespace removed).
+   */
   constructor(title: string, lines: string[]) {
     this.title = title;
     this.lines = lines;

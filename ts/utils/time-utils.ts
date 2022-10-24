@@ -1,3 +1,5 @@
+import { DayOfWeek } from "./day-of-week";
+
 /**
  * The official time zone name for Melbourne as used by Luxon.
  */
@@ -8,6 +10,10 @@ export const melbTimeZone = "Australia/Melbourne";
  * operation occurs.
  */
 export class TimeError extends Error {
+  /**
+   * Creates a {@link TimeError}.
+   * @param message The error message.
+   */
   constructor(message: string) {
     super(message);
     this.name = "TimeError";
@@ -56,6 +62,33 @@ export class TimeError extends Error {
   static invalidISODate(iso: string): TimeError {
     return new TimeError(
       `"${iso}" is an invalid date string.`
+    );
+  }
+
+  /**
+   * "`value`" is not a valid week day range.
+   */
+  static invalidWDR(value: string): TimeError {
+    return new TimeError(
+      `"${value}" is not a valid week day range.`
+    );
+  }
+
+  /**
+   * "`value`" is not a valid week day range.
+   */
+  static invalidDayOfWeekIndex(value: number): TimeError {
+    return new TimeError(
+      `"${value}" is not a valid day of week index for this week day range.`
+    );
+  }
+
+  /**
+   * This week day range does not have "`dayOfWeek`".
+   */
+  static dayNotFound(dayOfWeek: DayOfWeek): TimeError {
+    return new TimeError(
+      `This week day range does not have "${dayOfWeek.codeName}".`
     );
   }
 }
