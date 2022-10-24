@@ -1,5 +1,5 @@
-import { TtblVersionError } from "../../ts/ttbl/error";
-import { throwIfUnsupportedVersion } from "../../ts/ttbl/ttbl-version";
+import { TtblVersionError, throwIfUnsupportedVersion }
+  from "../../ts/ttbl/ttbl-version";
 
 test("throwIfUnsupportedVersion throws as appropriate", () => {
   expect(() => throwIfUnsupportedVersion(""))

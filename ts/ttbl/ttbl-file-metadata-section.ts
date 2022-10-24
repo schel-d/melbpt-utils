@@ -1,4 +1,6 @@
-import { TtblFormatError } from "./error";
+import { LocalDate } from "../utils/local-date";
+import { parseIntNull } from "../utils/num-utils";
+import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
 
 export type Metadata = Record<string, string>;
@@ -57,5 +59,60 @@ export class TtblFileMetadataSection extends TtblFileSection {
     });
 
     return new TtblFileMetadataSection(section.title, data);
+  }
+
+  /**
+   * Returns the value with the given key, or throws a {@link TtblFormatError}
+   * if the key was not found.
+   * @param key The key.
+   */
+  get(key: string): string {
+    if (key in this.data) { return this.data[key]; }
+    throw TtblFormatError.metadataMissingKey(this.title, key);
+  }
+
+  /**
+   * Returns the value with the given key as a number, or throws a
+   * {@link TtblFormatError} if the key was not found or value was not a number.
+   * @param key The key.
+   */
+  getInt(key: string): number {
+    const num = parseIntNull(this.get(key));
+    if (num != null) { return num; }
+    throw TtblFormatError.metadataKeyWrongType(this.title, key, "number");
+  }
+
+  /**
+   * Returns the value with the given key as a {@link LocalDate}, or throws a
+   * {@link TtblFormatError} if the key was not found or value was not a date.
+   * @param key The key.
+   * @param allowWildcard True if "*" is allowed (causes the function to return
+   * null).
+   */
+  getDate(key: string, allowWildcard: false): LocalDate
+  getDate(key: string, allowWildcard: true): LocalDate | null
+  getDate(key: string, allowWildcard: boolean): LocalDate | null {
+    const str = this.get(key);
+    if (allowWildcard && str == "*") { return null; }
+
+    try {
+      return LocalDate.fromISO(str);
+    }
+    catch {
+      throw TtblFormatError.metadataKeyWrongType(this.title, key, "date");
+    }
+  }
+
+  /**
+   * Returns the value with the given key as a number, or throws a
+   * {@link TtblFormatError} if the key was not found or value was not a number.
+   * @param key The key.
+   */
+  getEnum<T extends readonly string[]>(key: string, options: T): T[number] {
+    const val = this.get(key);
+    if (options.includes(val)) { return val; }
+    throw TtblFormatError.metadataKeyWrongType(
+      this.title, key, `enum[${options.join(", ")}]`
+    );
   }
 }

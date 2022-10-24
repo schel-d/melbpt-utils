@@ -1,4 +1,3 @@
-import { TtblVersionError } from "./error";
 import { lineify } from "./utils";
 
 /**
@@ -28,5 +27,20 @@ export function throwIfUnsupportedVersion(text: string) {
   }
   if (requiredLines.some((v, i) => lines[i] !== v)) {
     throw new TtblVersionError(requiredVersion);
+  }
+}
+
+/**
+ * The error object used when the timetable being read in is an unsupported
+ * version.
+ */
+export class TtblVersionError extends Error {
+  /**
+   * Creates a {@link TtblVersionError}.
+   * @param supportedVersion The version this file should be.
+   */
+  constructor(supportedVersion: string) {
+    super(`Unsupported .ttbl version. Please use version "${supportedVersion}".`);
+    this.name = "TtblVersionError";
   }
 }

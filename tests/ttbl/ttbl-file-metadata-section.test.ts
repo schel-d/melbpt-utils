@@ -1,4 +1,4 @@
-import { TtblFormatError } from "../../ts/ttbl/error";
+import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
 import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
 import { Metadata, TtblFileMetadataSection }
   from "../../ts/ttbl/ttbl-file-metadata-section";

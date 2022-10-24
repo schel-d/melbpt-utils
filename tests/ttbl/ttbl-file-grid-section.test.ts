@@ -1,4 +1,4 @@
-import { TtblFormatError } from "../../ts/ttbl/error";
+import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
 import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
 import { TtblFileGridSection } from "../../ts/ttbl/ttbl-file-grid-section";
 import { LocalTime } from "../../ts/utils/local-time";
@@ -11,38 +11,8 @@ test("TtblFileGridSection.promote promotes correctly", () => {
   }
   const passing: PassingConfig[] = [
     {
-      text: "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 03:04   17:52 >1:02",
-      result: new TtblFileGridSection(
-        "up",
-        new WeekDayRange(true, true, true, true, true, true, true),
-        [{
-          stop: 1,
-          comment: "place",
-          times: [
-            new LocalTime(3 * 60 + 4),
-            new LocalTime(17 * 60 + 52),
-            new LocalTime(25 * 60 + 2),
-          ]
-        }]
-      )
-    },
-    {
-      text: "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place-place 03:04 >1:02",
-      result: new TtblFileGridSection(
-        "up",
-        new WeekDayRange(true, true, true, true, true, true, true),
-        [{
-          stop: 1,
-          comment: "place-place",
-          times: [
-            new LocalTime(3 * 60 + 4),
-            new LocalTime(25 * 60 + 2),
-          ]
-        }]
-      )
-    },
-    {
-      text: "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 03:04\n0002 place 03:06",
+      text: "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 03:04 04:04\n0002 " +
+        "place 03:06 -\n0003 place 03:08 04:08",
       result: new TtblFileGridSection(
         "up",
         new WeekDayRange(true, true, true, true, true, true, true),
@@ -51,14 +21,52 @@ test("TtblFileGridSection.promote promotes correctly", () => {
             stop: 1,
             comment: "place",
             times: [
-              new LocalTime(3 * 60 + 4)
+              new LocalTime(3 * 60 + 4),
+              new LocalTime(4 * 60 + 4)
             ]
           },
           {
             stop: 2,
             comment: "place",
             times: [
-              new LocalTime(3 * 60 + 6)
+              new LocalTime(3 * 60 + 6),
+              null
+            ]
+          },
+          {
+            stop: 3,
+            comment: "place",
+            times: [
+              new LocalTime(3 * 60 + 8),
+              new LocalTime(4 * 60 + 8)
+            ]
+          }
+        ]
+      )
+    },
+    {
+      text: "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place-ville " +
+        "03:04 12:47 >01:59\n0002 somewhere 03:06 13:04 >03:58",
+      result: new TtblFileGridSection(
+        "up",
+        new WeekDayRange(true, true, true, true, true, true, true),
+        [
+          {
+            stop: 1,
+            comment: "place-ville",
+            times: [
+              new LocalTime(3 * 60 + 4),
+              new LocalTime(12 * 60 + 47),
+              new LocalTime(25 * 60 + 59)
+            ]
+          },
+          {
+            stop: 2,
+            comment: "somewhere",
+            times: [
+              new LocalTime(3 * 60 + 6),
+              new LocalTime(13 * 60 + 4),
+              new LocalTime(27 * 60 + 58)
             ]
           }
         ]
@@ -71,10 +79,15 @@ test("TtblFileGridSection.promote promotes correctly", () => {
   }
 
   const failing = [
-    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place place 03:04 >1:02",
-    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place",
+    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place place 03:04 >1:02\n" +
+    "0002 place 03:04 >1:02",
+    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place place 03:04 >1:02\n" +
+    "0002 place disgrace 03:04 >1:02",
+    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 0002 disgrace",
     "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 03:04\n0002 other 03:06 04:06",
     "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 03:04\n0001 other 03:06",
+    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place 04:04\n0002 other 03:06",
+    "[timetable]\nversion: 2\n[up, MTWTFSS]\n0001 place >02:04\n0002 other 03:06",
   ];
   for (const text of failing) {
     const section = TtblFileSection.parseSections(text)[1];

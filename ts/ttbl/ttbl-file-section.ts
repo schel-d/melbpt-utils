@@ -1,5 +1,4 @@
-import { TtblFormatError } from "./error";
-import { throwIfUnsupportedVersion } from "./ttbl-version";
+import { TtblFormatError } from "./ttbl-format-error";
 import { lineify } from "./utils";
 
 /**
@@ -22,25 +21,27 @@ export class TtblFileSection {
   /**
    * Creates a {@link TtblFileSection}.
    * @param title The string inside the square brackets at the start of the
-   * file, not including the square brackets themselves.
+   * file. Throws a {@link TtblFormatError} if the title string given still
+   * includes the brackets.
    * @param lines The text found inside this section, between this section's
    * title and the next section (excluding blank lines, and each surrounding
    * whitespace removed).
    */
   constructor(title: string, lines: string[]) {
+    if (title.includes("[") || title.includes("]")) {
+      throw TtblFormatError.badTitle(title);
+    }
     this.title = title;
     this.lines = lines;
   }
 
   /**
-   * Returns an array of sections parsed from the text. Throws a
-   * TtblVersionError if the .ttbl version is unsupported.
+   * Returns an array of sections parsed from the text. Does not check for the
+   * correct version, but will throw a {@link TtblFormatError} if a section is
+   * empty or contains illegal characters in the title.
    * @param text The text.
    */
   static parseSections(text: string): TtblFileSection[] {
-    // Throw a TtblVersionError if the version is not supported.
-    throwIfUnsupportedVersion(text);
-
     // Split the file into lines, removing empty lines, and trimming whitespace.
     const lines = lineify(text);
 
@@ -75,5 +76,12 @@ export class TtblFileSection {
     }
 
     return sections;
+  }
+
+  /**
+   * Returns the contents of this timetable section as a .ttbl compliant string.
+   */
+  write(): string {
+    return `[${this.title}]\n${this.lines.join("\n")}`;
   }
 }

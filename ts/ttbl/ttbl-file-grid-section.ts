@@ -1,12 +1,14 @@
 import { DirectionID, StopID } from "../network/id";
 import { LocalTime } from "../utils/local-time";
 import { parseIntNull } from "../utils/num-utils";
-import { TimeError } from "../utils/time-utils";
 import { WeekDayRange } from "../utils/week-day-range";
-import { TtblFormatError } from "./error";
+import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
 import { splitTrim } from "./utils";
 
+/**
+ * The information stored inside each row of the grid.
+ */
 export type GridRow = {
   stop: StopID,
   comment: string,
@@ -46,9 +48,35 @@ export class TtblFileGridSection extends TtblFileSection {
       writeGridRow(k, Math.max(...rows.map(r => r.comment.length)))
     ));
 
+    // Must be at least 2 rows.
+    if (rows.length < 2) {
+      throw TtblFormatError.gridTooShort(this.title);
+    }
+
     // Check rectangularacity (all rows have same number of columns).
     if (rows.some(r => r.times.length != rows[0].times.length)) {
       throw TtblFormatError.gridJagged(this.title);
+    }
+
+    // Check each services for number of stops and time travel.
+    for (let col = 0; col < rows[0].times.length; col++) {
+      // Get every time in this column and filter all blanks.
+      const service = rows
+        .map(r => r.times[col])
+        .filter(t => t != null) as LocalTime[];
+
+      // Each service must stop at least twice.
+      if (service.length < 2) {
+        throw TtblFormatError.gridServiceTooFewStops(this.title, col);
+      }
+
+      // Times must be sequential, ordered from earliest to latest down the
+      // rows (so check each time occurs after the one before it).
+      for (let stop = 1; stop < service.length; stop++) {
+        if (service[stop - 1].isAfter(service[stop])) {
+          throw TtblFormatError.gridServiceTimeTravel(this.title, col);
+        }
+      }
     }
 
     this.direction = direction;
