@@ -85,7 +85,8 @@ export class Ttbl {
     const sections = TtblFileSection.parseSections(text);
 
     // Parse metadata (except version since it's already checked above). First
-    // section in timetable must be the metadata.
+    // section in timetable must be the metadata. sections[0] is guaranteed to
+    // exist since the version declaration was present.
     const metadata = TtblFileMetadataSection.promote(sections[0]);
     const created = metadata.getDate("created", false);
     const id = metadata.getInt("id");

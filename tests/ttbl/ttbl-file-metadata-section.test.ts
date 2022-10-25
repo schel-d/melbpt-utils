@@ -3,7 +3,7 @@ import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
 import { Metadata, TtblFileMetadataSection }
   from "../../ts/ttbl/ttbl-file-metadata-section";
 
-test("TtblFileMetadataSection.promote promotes correctly", () => {
+test("promote", () => {
   const passing: { text: string, result: Metadata }[] = [
     {
       text: "[timetable]\nversion: 2",

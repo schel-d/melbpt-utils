@@ -1,0 +1,6 @@
+[timetable]
+version: 2
+[up, MTWTFSS]
+0001 place 03:04 04:04
+0002 place 03:06 -
+0003 place 03:08 04:08

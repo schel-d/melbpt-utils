@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { LocalDate } from "../../ts/utils/local-date";
 import { TimeError } from "../../ts/utils/time-utils";
 
-test("LocalDate rejects invalid dates", () => {
+test("constructor validation", () => {
   expect(() => new LocalDate(2020, 2, 29)).not.toThrow(TimeError);
 
   expect(() => new LocalDate(2021, 2, 29)).toThrow(TimeError);
@@ -10,7 +10,7 @@ test("LocalDate rejects invalid dates", () => {
   expect(() => new LocalDate(2022, NaN, 4)).toThrow(TimeError);
 });
 
-test("LocalDate can be converted from ISO", () => {
+test("fromISO", () => {
   expect(LocalDate.fromISO("2020-02-29").year).toStrictEqual(2020);
   expect(LocalDate.fromISO("2020-02-29").month).toStrictEqual(2);
   expect(LocalDate.fromISO("2020-02-29").day).toStrictEqual(29);
@@ -19,7 +19,7 @@ test("LocalDate can be converted from ISO", () => {
   expect(() => LocalDate.fromISO("2022-13-01")).toThrow(TimeError);
 });
 
-test("LocalDate can be converted from ISO", () => {
+test("fromLuxon", () => {
   expect(LocalDate.fromLuxon(DateTime.utc(2020, 2, 29)).year)
     .toStrictEqual(2020);
   expect(LocalDate.fromLuxon(DateTime.utc(2020, 2, 29)).month)
@@ -39,11 +39,11 @@ test("LocalDate can be converted from ISO", () => {
     .toThrow(TimeError);
 });
 
-test("LocalDate can be converted to ISO", () => {
+test("toISO", () => {
   expect(new LocalDate(2022, 10, 24).toISO()).toStrictEqual("2022-10-24");
 });
 
-test("LocalDate before/after comparisons work correctly", () => {
+test("isBefore, isAfter, isBeforeOrEqual, and isAfterOrEqual", () => {
   expect(new LocalDate(2022, 10, 24).isBefore(new LocalDate(2021, 10, 30)))
     .toStrictEqual(false);
   expect(new LocalDate(2022, 10, 24).isBefore(new LocalDate(2022, 8, 30)))
@@ -72,7 +72,7 @@ test("LocalDate before/after comparisons work correctly", () => {
     .toStrictEqual(true);
 });
 
-test("LocalDate yesterday and tomorrow work correctly", () => {
+test("yesterday and tomorrow", () => {
   expect(new LocalDate(2022, 10, 24).tomorrow().toISO())
     .toStrictEqual("2022-10-25");
   expect(new LocalDate(2022, 12, 31).tomorrow().toISO())

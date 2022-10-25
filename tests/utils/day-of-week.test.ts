@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { DayOfWeek } from "../../ts/utils/day-of-week";
 import { TimeError } from "../../ts/utils/time-utils";
 
-test("DayOfWeek daysSinceMonday must be an integer 0-6 inclusive", () => {
+test("constructor validation", () => {
   expect(() => new DayOfWeek(0)).not.toThrow(TimeError);
   expect(() => new DayOfWeek(1)).not.toThrow(TimeError);
   expect(() => new DayOfWeek(6)).not.toThrow(TimeError);
@@ -16,7 +16,7 @@ test("DayOfWeek daysSinceMonday must be an integer 0-6 inclusive", () => {
   expect(() => new DayOfWeek(NaN)).toThrow(TimeError);
 });
 
-test("DayOfWeek gives correct name and codename", () => {
+test("name and codename", () => {
   expect(DayOfWeek.mon.name).toStrictEqual("Monday");
   expect(DayOfWeek.fri.name).toStrictEqual("Friday");
   expect(DayOfWeek.sun.name).toStrictEqual("Sunday");
@@ -25,7 +25,7 @@ test("DayOfWeek gives correct name and codename", () => {
   expect(DayOfWeek.sun.codeName).toStrictEqual("sun");
 });
 
-test("DayOfWeek gives correct value for isWeekend and isWeekday", () => {
+test("isWeekend and isWeekday", () => {
   expect(DayOfWeek.wed.isWeekday).toStrictEqual(true);
   expect(DayOfWeek.sat.isWeekday).toStrictEqual(false);
   expect(DayOfWeek.sun.isWeekday).toStrictEqual(false);
@@ -34,7 +34,7 @@ test("DayOfWeek gives correct value for isWeekend and isWeekday", () => {
   expect(DayOfWeek.sun.isWeekend).toStrictEqual(true);
 });
 
-test("DayOfWeek gives correct value for yesterday and tomorrow", () => {
+test("yesterday and tomorrow", () => {
   expect(DayOfWeek.mon.yesterday()).toStrictEqual(DayOfWeek.sun);
   expect(DayOfWeek.sat.yesterday()).toStrictEqual(DayOfWeek.fri);
   expect(DayOfWeek.sun.yesterday()).toStrictEqual(DayOfWeek.sat);
@@ -43,7 +43,7 @@ test("DayOfWeek gives correct value for yesterday and tomorrow", () => {
   expect(DayOfWeek.sun.tomorrow()).toStrictEqual(DayOfWeek.mon);
 });
 
-test("DayOfWeek gives correct value from luxon datetime", () => {
+test("fromLuxon", () => {
   expect(DayOfWeek.fromLuxon(DateTime.utc(2022, 10, 24)))
     .toStrictEqual(DayOfWeek.mon);
   expect(DayOfWeek.fromLuxon(DateTime.local(2022, 10, 24)))

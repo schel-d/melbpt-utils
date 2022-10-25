@@ -2,7 +2,7 @@ import { DateTime } from "luxon";
 import { LocalTime } from "../../ts/utils/local-time";
 import { TimeError } from "../../ts/utils/time-utils";
 
-test("LocalTime rejects invalid times", () => {
+test("constructor validation", () => {
   expect(() => new LocalTime(2 * 60 + 22)).not.toThrow(TimeError);
 
   expect(() => new LocalTime(NaN)).toThrow(TimeError);
@@ -13,16 +13,23 @@ test("LocalTime rejects invalid times", () => {
   expect(() => new LocalTime(5.5)).toThrow(TimeError);
 });
 
-test("LocalTime interprets correct hour, minute, and isNextDay values", () => {
+test("hour, minute, and isNextDay", () => {
   expect(new LocalTime(2 * 60 + 22).hour).toStrictEqual(2);
   expect(new LocalTime(2 * 60 + 22).minute).toStrictEqual(22);
   expect(new LocalTime(2 * 60 + 22).isNextDay).toStrictEqual(false);
   expect(new LocalTime(45 * 60 + 59).hour).toStrictEqual(21);
   expect(new LocalTime(45 * 60 + 59).minute).toStrictEqual(59);
   expect(new LocalTime(45 * 60 + 59).isNextDay).toStrictEqual(true);
+
+  expect(LocalTime.fromTime(2, 22).hour).toStrictEqual(2);
+  expect(LocalTime.fromTime(2, 22).minute).toStrictEqual(22);
+  expect(LocalTime.fromTime(2, 22).isNextDay).toStrictEqual(false);
+  expect(LocalTime.fromTime(21, 59, true).hour).toStrictEqual(21);
+  expect(LocalTime.fromTime(21, 59, true).minute).toStrictEqual(59);
+  expect(LocalTime.fromTime(21, 59, true).isNextDay).toStrictEqual(true);
 });
 
-test("LocalTime parses correct hour, minute, and isNextDay values", () => {
+test("parseWithMarker", () => {
   expect(LocalTime.parseWithMarker("2:22").hour).toStrictEqual(2);
   expect(LocalTime.parseWithMarker("2:22").minute).toStrictEqual(22);
   expect(LocalTime.parseWithMarker("2:22").isNextDay).toStrictEqual(false);
@@ -31,7 +38,7 @@ test("LocalTime parses correct hour, minute, and isNextDay values", () => {
   expect(LocalTime.parseWithMarker(">21:59").isNextDay).toStrictEqual(true);
 });
 
-test("LocalTime converts to string correctly", () => {
+test("toString", () => {
   expect(LocalTime.parseWithMarker("2:22").toString(true))
     .toStrictEqual("02:22");
   expect(LocalTime.parseWithMarker("2:22").toString(false))
@@ -42,7 +49,7 @@ test("LocalTime converts to string correctly", () => {
     .toStrictEqual("21:59");
 });
 
-test("LocalTime converts to string correctly", () => {
+test("fromLuxon", () => {
   expect(LocalTime.fromLuxon(
     DateTime.local(2022, 10, 24, 4, 17, 29)
   ).toString(true)).toStrictEqual("04:17");
@@ -58,7 +65,7 @@ test("LocalTime converts to string correctly", () => {
   ).toString(true)).toStrictEqual("19:59");
 });
 
-test("LocalTime before/after comparisons work correctly", () => {
+test("isBefore, isAfter, isBeforeOrEqual, and isAfterOrEqual", () => {
   const time = LocalTime.parseWithMarker("04:20");
   expect(time.isBefore(LocalTime.parseWithMarker("03:46")))
     .toStrictEqual(false);
@@ -84,7 +91,7 @@ test("LocalTime before/after comparisons work correctly", () => {
     .toStrictEqual(true);
 });
 
-test("LocalTime tomorrow and yesterday work correctly", () => {
+test("tomorrow and yesterday", () => {
   expect(() => LocalTime.parseWithMarker(">00:00").tomorrow())
     .toThrow(TimeError);
   expect(() => LocalTime.parseWithMarker(">05:32").tomorrow())
@@ -104,7 +111,7 @@ test("LocalTime tomorrow and yesterday work correctly", () => {
     .toStrictEqual("00:00");
 });
 
-test("LocalTime.startOfTomorrow is correct value", () => {
+test("startOfTomorrow", () => {
   expect(LocalTime.startOfTomorrow().toString(true))
     .toStrictEqual(">00:00");
 });

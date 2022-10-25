@@ -4,7 +4,48 @@ import { TtblFileGridSection } from "../../ts/ttbl/ttbl-file-grid-section";
 import { LocalTime } from "../../ts/utils/local-time";
 import { WeekDayRange } from "../../ts/utils/week-day-range";
 
-test("TtblFileGridSection.promote promotes correctly", () => {
+test("constructor validation", () => {
+  expect(() => {
+    new TtblFileGridSection("up", WeekDayRange.parse("MTWTFSS"), [
+      {
+        stop: 1,
+        comment: "place",
+        times: [
+          new LocalTime(3 * 60 + 4)
+        ]
+      },
+      {
+        stop: 2,
+        comment: "place",
+        times: [
+          new LocalTime(3 * 60 + 6),
+          new LocalTime(3 * 60 + 8)
+        ]
+      }
+    ]);
+  }).toThrow(TtblFormatError);
+  expect(() => {
+    new TtblFileGridSection("up", WeekDayRange.parse("MTWTFSS"), [
+      {
+        stop: 1,
+        comment: "place",
+        times: [
+          new LocalTime(3 * 60 + 4),
+          new LocalTime(4 * 60 + 4)
+        ]
+      },
+      {
+        stop: 2,
+        comment: "place",
+        times: [
+          new LocalTime(3 * 60 + 6)
+        ]
+      }
+    ]);
+  }).toThrow(TtblFormatError);
+});
+
+test("promote", () => {
   type PassingConfig = {
     text: string,
     result: TtblFileGridSection,
@@ -93,45 +134,4 @@ test("TtblFileGridSection.promote promotes correctly", () => {
     const section = TtblFileSection.parseSections(text)[1];
     expect(() => TtblFileGridSection.promote(section)).toThrow(TtblFormatError);
   }
-});
-
-test("Cannot create TtblFileGridSection with jagged rows", () => {
-  expect(() => {
-    new TtblFileGridSection("up", WeekDayRange.parse("MTWTFSS"), [
-      {
-        stop: 1,
-        comment: "place",
-        times: [
-          new LocalTime(3 * 60 + 4)
-        ]
-      },
-      {
-        stop: 2,
-        comment: "place",
-        times: [
-          new LocalTime(3 * 60 + 6),
-          new LocalTime(3 * 60 + 8)
-        ]
-      }
-    ]);
-  }).toThrow(TtblFormatError);
-  expect(() => {
-    new TtblFileGridSection("up", WeekDayRange.parse("MTWTFSS"), [
-      {
-        stop: 1,
-        comment: "place",
-        times: [
-          new LocalTime(3 * 60 + 4),
-          new LocalTime(4 * 60 + 4)
-        ]
-      },
-      {
-        stop: 2,
-        comment: "place",
-        times: [
-          new LocalTime(3 * 60 + 6)
-        ]
-      }
-    ]);
-  }).toThrow(TtblFormatError);
 });

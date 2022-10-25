@@ -56,6 +56,18 @@ export class LocalTime {
   }
 
   /**
+   * Returns a {@link LocalTime} constructed from a given hour, minute, and
+   * optionally assigning next day.
+   * @param hour The hour of the day (0 to 23 inclusive).
+   * @param minute The minute of the day (0 to 59 inclusive).
+   * @param nextDay True if this time occurs on the next day (used for timetable
+   * purposes). False if omitted.
+   */
+  static fromTime(hour: number, minute: number, nextDay = false): LocalTime {
+    return new LocalTime((nextDay ? (hour + 24) : hour) * 60 + minute);
+  }
+
+  /**
    * Parses a {@link LocalTime} from a string, e.g. "2:04" or "15:28". The
    * string must be in 24-hour format (leading zero not mandatory). To indicate
    * that the time occurs on the next day, use the next day flag, not a ">"
@@ -76,9 +88,7 @@ export class LocalTime {
     const minute = parseInt(components[1]);
     if (hour >= 24 || minute >= 60) { throw TimeError.badTimeString(value); }
 
-    const hourConsideringNextDay = nextDay ? (hour + 24) : hour;
-    const minuteOfDay = hourConsideringNextDay * 60 + minute;
-    return new LocalTime(minuteOfDay);
+    return LocalTime.fromTime(hour, minute, nextDay);
   }
 
   /**
@@ -110,7 +120,7 @@ export class LocalTime {
    * @param time The luxon datetime.
    */
   static fromLuxon(time: DateTime): LocalTime {
-    return new LocalTime(time.hour * 60 + time.minute);
+    return LocalTime.fromTime(time.hour, time.minute);
   }
 
   /**
