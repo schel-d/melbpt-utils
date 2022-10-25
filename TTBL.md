@@ -4,7 +4,7 @@ Timetables in MelbPT (TrainQuery) are stored as `.ttbl` files.
 
 ## Version declaration
 
-The first lines of a valid `.ttbl` file must contain:
+The first lines of a valid `.ttbl` file must be:
 
 ```
 [timetable]
@@ -43,7 +43,7 @@ ends: *
 | ------- | ------------------------------------------------------ | -------- |
 | version | Version number, must be `"2"`.                         | ✅       |
 | created | Date the file was created.                             | ✅       |
-| id      | Timetable ID as a decimal integer (more detail below). | ✅       |
+| id      | Timetable ID as a decimal integer (see details below). | ✅       |
 | line    | Line ID as a decimal integer.                          | ✅       |
 | type    | Either `"main"`, `"temporary"`, or `"public-holiday"`. | ✅       |
 | begins  | Date the timetable comes into effect, or `"*"`.        | ✅       |
@@ -65,7 +65,7 @@ section must contain two elements, separated by commas:
   replaced with underscores (`"_"`), e.g. `"MTWT___"` for Monday-Thursday.
 
 The content of the section must have a row for each stop in that direction on
-this line, and each row must have (separated by spaces):
+this line, and each row must have (in order, separated by spaces):
 
 - The stop ID (ideally written with 4 digits).
 - A string (ideally the stop name) without any spaces. After parsing the file,
@@ -95,7 +95,7 @@ part of the Monday-Thursday timetable.
 
 ## Complete example
 
-The following the current (as of 25 Oct 2022) Seymour line timetable:
+The current Seymour line timetable at the time of writing (25 Oct 2022):
 
 ```
 [timetable]
