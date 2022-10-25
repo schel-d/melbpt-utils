@@ -1,5 +1,6 @@
-import { MaxLineID, StopID } from "../network/id";
-import { MaxTimetableID } from "../timetable/id";
+import { MaxLineID, MinLineID } from "../network/line-id";
+import { StopID } from "../network/stop-id";
+import { MaxTimetableID, MinTimetableID } from "../network/timetable-id";
 
 /**
  * The error object used when errors occur reading/creating a timetable file.
@@ -146,24 +147,24 @@ export class TtblFormatError extends Error {
   }
 
   /**
-   * Line IDs must be between 0 - {@link MaxLineID} inclusive, so "`given`" is
-   * invalid.
+   * Line IDs must be between {@link MinLineID} - {@link MaxLineID} inclusive,
+   * so "`given`" is invalid.
    */
   static invalidLineID(given: number): TtblFormatError {
     return new TtblFormatError(
-      `Line IDs must be between 0 - ${MaxLineID} inclusive, so "${given}" is ` +
-      `invalid.`
+      `Line IDs must be between ${MinLineID} - ${MaxLineID} inclusive, so ` +
+      `"${given}" is invalid.`
     );
   }
 
   /**
-   * Timetable IDs must be between 0 - {@link MaxTimetableID} inclusive, so
-   * "`given`" is invalid.
+   * Timetable IDs must be between {@link MinTimetableID} -
+   * {@link MaxTimetableID} inclusive, so "`given`" is invalid.
    */
   static invalidTimetableID(given: number): TtblFormatError {
     return new TtblFormatError(
-      `Timetable IDs must be between 0 - ${MaxTimetableID} inclusive, so ` +
-      `"${given}" is invalid.`
+      `Timetable IDs must be between ${MinTimetableID} - ${MaxTimetableID} ` +
+      `inclusive, so "${given}" is invalid.`
     );
   }
 }

@@ -1,19 +1,11 @@
-import { DirectionID, StopID } from "../network/id";
+import { isStopID, StopID } from "../network/stop-id";
 import { LocalTime } from "../utils/local-time";
 import { parseIntNull } from "../utils/num-utils";
-import { WeekDayRange } from "../utils/week-day-range";
+import { WeekdayRange } from "../utils/week-day-range";
 import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
 import { splitTrim } from "./utils";
-
-/**
- * The information stored inside each row of the grid.
- */
-export type GridRow = {
-  stop: StopID,
-  comment: string,
-  times: (LocalTime | null)[]
-};
+import { DirectionID, isDirectionID } from "../network/direction-id";
 
 /**
  * Like a {@link TtblFileSection}, but the contents must be in the format of a
@@ -28,7 +20,7 @@ export class TtblFileGridSection extends TtblFileSection {
   /**
    * The days of the week this section provides timetable for.
    */
-  readonly wdr: WeekDayRange;
+  readonly wdr: WeekdayRange;
 
   /**
    * The rows data found inside this section of the .ttbl file.
@@ -41,12 +33,10 @@ export class TtblFileGridSection extends TtblFileSection {
    * @param wdr The days of the week this section provides timetable for.
    * @param rows The rows data found inside this section of the .ttbl file.
    */
-  constructor(direction: DirectionID, wdr: WeekDayRange, rows: GridRow[]) {
+  constructor(direction: DirectionID, wdr: WeekdayRange, rows: GridRow[]) {
     // Convert direction, wdr, and parsed rows back to text for base class's
     // sake (for title and lines).
-    super(`${direction}, ${wdr.toString()}`, rows.map(k =>
-      writeGridRow(k, Math.max(...rows.map(r => r.comment.length)))
-    ));
+    super(toTitle(direction, wdr), toText(rows));
 
     // Must be at least 2 rows.
     if (rows.length < 2) {
@@ -93,15 +83,22 @@ export class TtblFileGridSection extends TtblFileSection {
   static promote(section: TtblFileSection): TtblFileGridSection {
     const rows: GridRow[] = [];
 
-    // Pull direction and week day range from section header.
+    // Pull direction and weekday range from section header.
     const titleWords = splitTrim(section.title, ",");
     if (titleWords.length != 2) {
       throw TtblFormatError.gridBadSyntax(section.title, section.title);
     }
+
+    // Check direction ID is ok.
     const directionID = titleWords[0];
-    let wdr: WeekDayRange | null = null;
+    if (!isDirectionID(directionID)) {
+      throw TtblFormatError.gridBadSyntax(section.title, section.title);
+    }
+
+    // Parse weekday range.
+    let wdr: WeekdayRange | null = null;
     try {
-      wdr = WeekDayRange.parse(titleWords[1]);
+      wdr = WeekdayRange.parse(titleWords[1]);
     }
     catch {
       throw TtblFormatError.gridBadSyntax(section.title, section.title);
@@ -119,7 +116,7 @@ export class TtblFileGridSection extends TtblFileSection {
 
       // First word is stop ID. Make sure it's an int, and is not a duplicate.
       const stopID = parseIntNull(words[0]);
-      if (stopID == null) {
+      if (stopID == null || !isStopID(stopID)) {
         throw TtblFormatError.gridBadSyntax(section.title, l);
       }
       if (rows.find(r => r.stop == stopID) != null) {
@@ -165,18 +162,55 @@ export class TtblFileGridSection extends TtblFileSection {
 }
 
 /**
- * Writes the grid row as a .ttbl compliant string, e.g.
- * "0001 some-comment 18:01  22:01  >02:01"
- * @param row The row data
- * @param maxCommentLength The length of the longest comment in this section
- * (used to align the times between rows).
+ * The information stored inside each row of the grid.
  */
-function writeGridRow(row: GridRow, maxCommentLength: number): string {
-  const timesString = row.times
-    .map(t => t?.toString(true) ?? "-")
-    .map(x => x.padEnd(6, " "))
-    .join(" ");
+export class GridRow {
+  /** The stop this row is for. */
+  readonly stop: StopID;
 
-  return `${row.stop.toFixed().padStart(4, "0")} ` +
-    `${row.comment.padEnd(maxCommentLength, " ")} ${timesString}`;
+  /** The comment string (ideally the stop name). */
+  readonly comment: string;
+
+  /** The array of times (or blanks) that make up the grid. */
+  readonly times: (LocalTime | null)[];
+
+  /**
+   * Creates a {@link GridRow}.
+   * @param stop The stop this row is for.
+   * @param comment The comment string (ideally the stop name).
+   * @param times The array of times (or blanks) that make up the grid.
+   */
+  constructor(stop: StopID, comment: string, times: (LocalTime | null)[]) {
+    this.stop = stop;
+    this.comment = comment;
+    this.times = times;
+  }
+}
+
+/**
+ * Returns the grid section title string for a given direction and weekday range
+ * (for the title field in the {@link TtblFileSection}).
+ * @param direction The direction.
+ * @param wdr The weekday range.
+ */
+function toTitle(direction: DirectionID, wdr: WeekdayRange) {
+  return `${direction}, ${wdr.toString()}`;
+}
+
+/**
+ * Writes the grid rows into a .ttbl compliant array of strings (for the lines
+ * field in the {@link TtblFileSection}).
+ * @param rows The grid rows.
+ */
+function toText(rows: GridRow[]) {
+  const length = Math.max(...rows.map(r => r.comment.length));
+  return rows.map(r => {
+    const timesString = r.times
+      .map(t => t?.toString(true) ?? "-")
+      .map(x => x.padEnd(6, " "))
+      .join(" ");
+
+    return `${r.stop.toFixed().padStart(4, "0")} ` +
+      `${r.comment.padEnd(length, " ")} ${timesString}`;
+  });
 }

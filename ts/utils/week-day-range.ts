@@ -4,51 +4,51 @@ import { TimeError } from "./time-utils";
 /**
  * Represents which days of the week a timetable entry runs on.
  */
-export class WeekDayRange {
+export class WeekdayRange {
   /**
-   * Whether or not Monday is included in the week day range.
+   * Whether or not Monday is included in the weekday range.
    */
   readonly mon: boolean;
 
   /**
-   * Whether or not Tuesday is included in the week day range.
+   * Whether or not Tuesday is included in the weekday range.
    */
   readonly tue: boolean;
 
   /**
-   * Whether or not Wednesday is included in the week day range.
+   * Whether or not Wednesday is included in the weekday range.
    */
   readonly wed: boolean;
 
   /**
-   * Whether or not Thursday is included in the week day range.
+   * Whether or not Thursday is included in the weekday range.
    */
   readonly thu: boolean;
 
   /**
-   * Whether or not Friday is included in the week day range.
+   * Whether or not Friday is included in the weekday range.
    */
   readonly fri: boolean;
 
   /**
-   * Whether or not Saturday is included in the week day range.
+   * Whether or not Saturday is included in the weekday range.
    */
   readonly sat: boolean;
 
   /**
-   * Whether or not Sunday is included in the week day range.
+   * Whether or not Sunday is included in the weekday range.
    */
   readonly sun: boolean;
 
   /**
-   * Creates a {@link WeekDayRange}.
-   * @param mon Whether or not Monday is included in the week day range.
-   * @param tue Whether or not Tuesday is included in the week day range.
-   * @param wed Whether or not Wednesday is included in the week day range.
-   * @param thu Whether or not Thursday is included in the week day range.
-   * @param fri Whether or not Friday is included in the week day range.
-   * @param sat Whether or not Saturday is included in the week day range.
-   * @param sun Whether or not Sunday is included in the week day range.
+   * Creates a {@link WeekdayRange}.
+   * @param mon Whether or not Monday is included in the weekday range.
+   * @param tue Whether or not Tuesday is included in the weekday range.
+   * @param wed Whether or not Wednesday is included in the weekday range.
+   * @param thu Whether or not Thursday is included in the weekday range.
+   * @param fri Whether or not Friday is included in the weekday range.
+   * @param sat Whether or not Saturday is included in the weekday range.
+   * @param sun Whether or not Sunday is included in the weekday range.
    */
   constructor(mon: boolean, tue: boolean, wed: boolean, thu: boolean,
     fri: boolean, sat: boolean, sun: boolean) {
@@ -63,11 +63,11 @@ export class WeekDayRange {
   }
 
   /**
-   * Parse a week day range from a string, e.g. "MTWT___". Throws a
+   * Parse a weekday range from a string, e.g. "MTWT___". Throws a
    * {@link TimeError} on failure.
    * @param value The string, e.g. "MTWT___".
    */
-  static parse(value: string): WeekDayRange {
+  static parse(value: string): WeekdayRange {
     if (value.length != 7) { throw TimeError.invalidWDR(value); }
 
     const isLetterOrUnderscore = (char: string, allowedLetter: string) => {
@@ -76,7 +76,7 @@ export class WeekDayRange {
       throw TimeError.invalidWDR(value);
     };
 
-    return new WeekDayRange(
+    return new WeekdayRange(
       isLetterOrUnderscore(value[0], "M"),
       isLetterOrUnderscore(value[1], "T"),
       isLetterOrUnderscore(value[2], "W"),
@@ -88,7 +88,7 @@ export class WeekDayRange {
   }
 
   /**
-   * Converts this week day range into a string, e.g. "MTWT___".
+   * Converts this weekday range into a string, e.g. "MTWT___".
    */
   toString(): string {
     return (this.mon ? "M" : "_") +
@@ -101,7 +101,7 @@ export class WeekDayRange {
   }
 
   /**
-   * Counts how many days are in this week day range.
+   * Counts how many days are in this weekday range.
    */
   get numOfDays(): number {
     let count = 0;
@@ -117,8 +117,8 @@ export class WeekDayRange {
 
   /**
    * Get day of week number (where 0 means Monday and 6 means Sunday), based on
-   * an index. This is useful for week day ranges that span multiple days. For
-   * example if the week day range is __WT_S_, index 0 returns 2 (for
+   * an index. This is useful for weekday ranges that span multiple days. For
+   * example if the weekday range is __WT_S_, index 0 returns 2 (for
    * Wednesday), index 1 returns 3 (for Thursday), and index 2 returns 5 (for
    * Saturday). Throws a {@link TimeError} if the index is out of range.
    */
@@ -138,7 +138,7 @@ export class WeekDayRange {
   }
 
   /**
-   * Returns true if the given {@link day} is within this week day range.
+   * Returns true if the given {@link day} is within this weekday range.
    * @param day The day of week to test.
    */
   includes(day: DayOfWeek): boolean {
@@ -156,9 +156,9 @@ export class WeekDayRange {
 
 
   /**
-   * Returns the index on the given day of week within this week day range, e.g.
-   * 3 for Thursday if the week day range is Mon-Thu. Throws a {@link TimeError}
-   * if the day isn't in the week day range at all.
+   * Returns the index on the given day of week within this weekday range, e.g.
+   * 3 for Thursday if the weekday range is Mon-Thu. Throws a {@link TimeError}
+   * if the day isn't in the weekday range at all.
    */
   indexOf(dayOfWeek: DayOfWeek): number {
     const days = [];

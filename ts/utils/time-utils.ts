@@ -66,29 +66,29 @@ export class TimeError extends Error {
   }
 
   /**
-   * "`value`" is not a valid week day range.
+   * "`value`" is not a valid weekday range.
    */
   static invalidWDR(value: string): TimeError {
     return new TimeError(
-      `"${value}" is not a valid week day range.`
+      `"${value}" is not a valid weekday range.`
     );
   }
 
   /**
-   * "`value`" is not a valid week day range.
+   * "`value`" is not a valid weekday range.
    */
   static invalidDayOfWeekIndex(value: number): TimeError {
     return new TimeError(
-      `"${value}" is not a valid day of week index for this week day range.`
+      `"${value}" is not a valid day of week index for this weekday range.`
     );
   }
 
   /**
-   * This week day range does not have "`dayOfWeek`".
+   * This weekday range does not have "`dayOfWeek`".
    */
   static dayNotFound(dayOfWeek: DayOfWeek): TimeError {
     return new TimeError(
-      `This week day range does not have "${dayOfWeek.codeName}".`
+      `This weekday range does not have "${dayOfWeek.codeName}".`
     );
   }
 }

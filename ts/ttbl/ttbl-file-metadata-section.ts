@@ -23,7 +23,7 @@ export class TtblFileMetadataSection extends TtblFileSection {
    */
   constructor(title: string, data: Metadata) {
     // Convert data back to text for base class's sake.
-    super(title, Object.keys(data).map(k => `${k}: ${data[k]}`));
+    super(title, toText(data));
     this.data = data;
   }
 
@@ -115,4 +115,13 @@ export class TtblFileMetadataSection extends TtblFileSection {
       this.title, key, `enum[${options.join(", ")}]`
     );
   }
+}
+
+/**
+ * Writes the metadata pairs into a .ttbl compliant array of strings (for the
+ * lines field in the {@link TtblFileSection}).
+ * @param data The metadata key-value pairs.
+ */
+function toText(data: Metadata) {
+  return Object.keys(data).map(k => `${k}: ${data[k]}`);
 }
