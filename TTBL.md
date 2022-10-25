@@ -91,7 +91,7 @@ An example of a timetable grid could be:
 ```
 
 Note that the 2:04am service will run each Tuesday-Friday morning despite being
-part of the Monday-Thursday timetable.
+part of the Monday-Thursday timetable, due to the `">"` prefixes.
 
 ## Complete example
 
