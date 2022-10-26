@@ -1,0 +1,115 @@
+{
+  "hash": "2022-10-26",
+  "stops": [
+    {
+      "id": 1,
+      "name": "Catville",
+      "platforms": [
+        {
+          "id": "1",
+          "name": "1"
+        },
+        {
+          "id": "2",
+          "name": "2"
+        }
+      ],
+      "urlName": "catville",
+      "tags": []
+    },
+    {
+      "id": 2,
+      "name": "Dogtown",
+      "platforms": [
+        {
+          "id": "1",
+          "name": "1"
+        }
+      ],
+      "urlName": "dogtown",
+      "tags": []
+    },
+    {
+      "id": 3,
+      "name": "Ratlands",
+      "platforms": [
+        {
+          "id": "1a",
+          "name": "1A"
+        },
+        {
+          "id": "1b",
+          "name": "1B"
+        }
+      ],
+      "urlName": "ratlands",
+      "tags": [
+        "mouseton"
+      ]
+    }
+  ],
+  "lines": [
+    {
+      "id": 1,
+      "name": "Catville",
+      "color": "cyan",
+      "service": "suburban",
+      "routeType": "linear",
+      "specialEventsOnly": false,
+      "tags": [
+        "ratlands",
+        "mouseton"
+      ],
+      "directions": [
+        {
+          "id": "up",
+          "name": "Ratlands",
+          "stops": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "id": "down",
+          "name": "Catville",
+          "stops": [
+            3,
+            2,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Dogtown",
+      "color": "cyan",
+      "service": "suburban",
+      "routeType": "linear",
+      "specialEventsOnly": false,
+      "tags": [
+        "ratlands",
+        "mouseton"
+      ],
+      "directions": [
+        {
+          "id": "up",
+          "name": "Ratlands",
+          "stops": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": "down",
+          "name": "Dogtown",
+          "stops": [
+            3,
+            2
+          ]
+        }
+      ]
+    }
+  ]
+}

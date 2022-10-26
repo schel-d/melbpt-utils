@@ -95,7 +95,7 @@ export type CityLoopPortal = typeof CityLoopPortals[number];
 /**
  * An array of all the possible types of service a line can be.
  */
-export const CityLoopPortals = ["suburban", "regional"] as const;
+export const CityLoopPortals = ["richmond", "north-melbourne", "jolimont"] as const;
 
 /**
  * Returns true for any valid {@link CityLoopPortal}.

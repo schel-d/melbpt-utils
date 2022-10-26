@@ -5,11 +5,19 @@ import {
 } from "./line-enums";
 import { z } from "zod";
 import { isLineID, LineID, toLineID } from "./line-id";
+import { TransitDataError } from "./error";
+import { StopID } from "./stop-id";
+
+/**
+ * Compile-time checking that if route type is "city-loop", then the portal is
+ * specified and is null otherwise.
+ */
+type PortalRequirement<Route> = Route extends "city-loop" ? CityLoopPortal : null;
 
 /**
  * Represents a line on the transit network.
  */
-export class Line {
+export class Line<Route extends LineRouteType> {
   /** The line's unique ID. */
   readonly id: LineID;
 
@@ -23,7 +31,7 @@ export class Line {
   readonly service: LineService;
 
   /** The route type, e.g. linear or city-loop. */
-  readonly routeType: LineRouteType;
+  readonly routeType: Route;
 
   /** Whether this line only operates for special events. */
   readonly specialEventsOnly: boolean;
@@ -32,7 +40,7 @@ export class Line {
   readonly tags: string[];
 
   /** The city loop portal this line uses (if any). */
-  readonly routeLoopPortal: CityLoopPortal | null;
+  readonly routeLoopPortal: PortalRequirement<Route>;
 
   /** Details about the directions this line travels in. */
   readonly directions: Direction[];
@@ -66,8 +74,16 @@ export class Line {
    * @param directions Details about the directions this line travels in.
    */
   constructor(id: LineID, name: string, color: LineColor, service: LineService,
-    routeType: LineRouteType, specialEventsOnly: boolean, tags: string[],
-    routeLoopPortal: CityLoopPortal | null, directions: Direction[]) {
+    routeType: Route, specialEventsOnly: boolean, tags: string[],
+    routeLoopPortal: PortalRequirement<Route>, directions: Direction[]) {
+
+    if (directions.length < 1) { throw TransitDataError.noDirections(id); }
+
+    // Check that two directions don't have the same ID.
+    const uniqueDirectionIDsCount = new Set(directions.map(d => d.id)).size;
+    if (uniqueDirectionIDsCount < directions.length) {
+      throw TransitDataError.duplicateDirections(id);
+    }
 
     this.id = id;
     this.name = name;
@@ -78,5 +94,12 @@ export class Line {
     this.tags = tags;
     this.routeLoopPortal = routeLoopPortal;
     this.directions = directions;
+  }
+
+  /**
+   * Returns every stop on this line in no particular order.
+   */
+  get stops(): StopID[] {
+    return [...new Set(this.directions.map(d => d.stops).flat())];
   }
 }

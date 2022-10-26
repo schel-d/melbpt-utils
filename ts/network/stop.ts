@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { TransitDataError } from "./error";
 import { Platform } from "./platform";
 import { isStopID, StopID, toStopID } from "./stop-id";
 
@@ -12,7 +13,10 @@ export class Stop {
   /** The stop's name. */
   readonly name: string;
 
-  /** Details about the platforms at this stop. */
+  /**
+   * Details about the platforms at this stop. This array must contain at least
+   * 1 element.
+   */
   readonly platforms: Platform[];
 
   /** Alternative search tags, if any. */
@@ -25,7 +29,7 @@ export class Stop {
   static readonly json = z.object({
     id: z.number().refine(x => isStopID(x)).transform(x => toStopID(x)),
     name: z.string(),
-    platforms: Platform.json.array(),
+    platforms: Platform.json.array().min(1),
     tags: z.string().array(),
     urlName: z.string()
   }).transform(x => new Stop(x.id, x.name, x.platforms, x.tags, x.urlName));
@@ -34,13 +38,22 @@ export class Stop {
    * Creates a {@link Stop}.
    * @param id The stop's unique ID number.
    * @param name The stop's name.
-   * @param platforms Details about the platforms at this stop.
+   * @param platforms Details about the platforms at this stop. This array must
+   * contain at least 1 element.
    * @param tags Alternative search tags, if any.
    * @param urlName The url for this stop. Becomes
    * `"trainquery.com/${urlName}"`.
    */
   constructor(id: StopID, name: string, platforms: Platform[], tags: string[],
     urlName: string) {
+
+    if (platforms.length < 1) { throw TransitDataError.noPlatforms(id); }
+
+    // Check that two platforms don't have the same ID.
+    const uniquePlatformIDsCount = new Set(platforms.map(p => p.id)).size;
+    if (uniquePlatformIDsCount < platforms.length) {
+      throw TransitDataError.duplicatePlatforms(id);
+    }
 
     this.id = id;
     this.name = name;

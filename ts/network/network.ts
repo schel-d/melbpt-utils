@@ -1,5 +1,7 @@
 import { z } from "zod";
+import { TransitDataError } from "./error";
 import { Line } from "./line";
+import { LineRouteType } from "./line-enums";
 import { Stop } from "./stop";
 
 /**
@@ -18,7 +20,7 @@ export class Network {
   readonly stops: Stop[];
 
   /** The lines in the transit network. */
-  readonly lines: Line[];
+  readonly lines: Line<LineRouteType>[];
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
@@ -35,7 +37,26 @@ export class Network {
    * @param stops The stops in the transit network.
    * @param lines The lines in the transit network.
    */
-  constructor(hash: string, stops: Stop[], lines: Line[]) {
+  constructor(hash: string, stops: Stop[], lines: Line<LineRouteType>[]) {
+    // Check that two stops don't have the same ID.
+    const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
+    if (uniqueStopIDsCount < stops.length) {
+      throw TransitDataError.duplicateStops();
+    }
+
+    // Check that two lines don't have the same ID.
+    const uniqueLineIDsCount = new Set(lines.map(l => l.id)).size;
+    if (uniqueLineIDsCount < lines.length) {
+      throw TransitDataError.duplicateLines();
+    }
+
+    // Check that all stop IDs used in the lines are present in the stops array.
+    const stopIDs = stops.map(s => s.id);
+    const stopIDsInLines = lines.map(l => l.stops).flat();
+    if (stopIDsInLines.some(s => !stopIDs.includes(s))) {
+      throw TransitDataError.linesHaveGhostStops();
+    }
+
     this.hash = hash;
     this.stops = stops;
     this.lines = lines;
