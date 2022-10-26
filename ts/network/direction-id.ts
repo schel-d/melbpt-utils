@@ -1,4 +1,4 @@
-import { BadIDError } from "./bad-id-error";
+import { BadIDError } from "./error";
 
 /**
  * Regex to detect correctly formatted kebab-case string.

@@ -40,7 +40,7 @@ export class TtblFileGridSection extends TtblFileSection {
 
     // Must be at least 2 rows.
     if (rows.length < 2) {
-      throw TtblFormatError.gridTooShort(this.title);
+      throw TtblFormatError.gridNotEnoughRows(this.title);
     }
 
     // Check rectangularacity (all rows have same number of columns).
@@ -57,7 +57,7 @@ export class TtblFileGridSection extends TtblFileSection {
 
       // Each service must stop at least twice.
       if (service.length < 2) {
-        throw TtblFormatError.gridServiceTooFewStops(this.title, col);
+        throw TtblFormatError.gridServiceNotEnoughStops(this.title, col);
       }
 
       // Times must be sequential, ordered from earliest to latest down the

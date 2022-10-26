@@ -1,4 +1,4 @@
-import { BadIDError } from "../../ts/network/bad-id-error";
+import { BadIDError } from "../../ts/network/error";
 import { toTimetableID } from "../../ts/network/timetable-id";
 
 test("toTimetableID", () => {

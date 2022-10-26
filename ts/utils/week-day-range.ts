@@ -134,7 +134,7 @@ export class WeekdayRange {
     if (index < 0 || index >= days.length) {
       throw TimeError.invalidDayOfWeekIndex(index);
     }
-    return new DayOfWeek(days[index]);
+    return DayOfWeek.fromDaysSinceMonday(days[index]);
   }
 
   /**
@@ -142,16 +142,16 @@ export class WeekdayRange {
    * @param day The day of week to test.
    */
   includes(day: DayOfWeek): boolean {
-    if (day.daysSinceMonday == 0) { return this.mon; }
-    if (day.daysSinceMonday == 1) { return this.tue; }
-    if (day.daysSinceMonday == 2) { return this.wed; }
-    if (day.daysSinceMonday == 3) { return this.thu; }
-    if (day.daysSinceMonday == 4) { return this.fri; }
-    if (day.daysSinceMonday == 5) { return this.sat; }
-    if (day.daysSinceMonday == 6) { return this.sun; }
-
-    // DayOfWeek checks daysSinceMonday, so this will never happen.
-    throw TimeError.invalidDayOfWeekIndex(day.daysSinceMonday);
+    const indexedDays = {
+      0: this.mon,
+      1: this.tue,
+      2: this.wed,
+      3: this.thu,
+      4: this.fri,
+      5: this.sat,
+      6: this.sun
+    };
+    return indexedDays[day.daysSinceMonday];
   }
 
 
@@ -169,8 +169,10 @@ export class WeekdayRange {
     if (this.fri) { days.push(4); }
     if (this.sat) { days.push(5); }
     if (this.sun) { days.push(6); }
+
     const index = days.indexOf(dayOfWeek.daysSinceMonday);
     if (index == -1) { throw TimeError.dayNotFound(dayOfWeek); }
+
     return index;
   }
 }

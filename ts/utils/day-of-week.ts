@@ -2,6 +2,8 @@ import { DateTime } from "luxon";
 import { posMod } from "./num-utils";
 import { TimeError } from "./time-utils";
 
+type DayOfWeekNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 /**
  * Represents a day of the week value, e.g. Thursday.
  */
@@ -10,7 +12,7 @@ export class DayOfWeek {
    * The number of days this day of the week is away from Monday, e.g. 3 for
    * Thursday. This value will be an integer between 0-6 inclusive.
    */
-  readonly daysSinceMonday: number;
+  readonly daysSinceMonday: DayOfWeekNumber;
 
   /** Monday. */
   static readonly mon = new DayOfWeek(0);
@@ -36,16 +38,9 @@ export class DayOfWeek {
   /**
    * Creates a {@link DayOfWeek}.
    * @param daysSinceMonday The number of days this day of the week is away from
-   * Monday, e.g. 3 for Thursday. This value must be an integer between 0-6
-   * inclusive, otherwise a {@link TimeError} is thrown.
+   * Monday, e.g. 3 for Thursday.
    */
-  constructor(daysSinceMonday: number) {
-    if (daysSinceMonday < 0 || daysSinceMonday >= 7 ||
-      !Number.isInteger(daysSinceMonday)) {
-
-      throw TimeError.invalidDaysSinceMonday(daysSinceMonday);
-    }
-
+  constructor(daysSinceMonday: DayOfWeekNumber) {
     this.daysSinceMonday = daysSinceMonday;
   }
 
@@ -53,32 +48,14 @@ export class DayOfWeek {
    * Returns the name of the day of the week, e.g. "Thursday" for Thursday.
    */
   get name(): string {
-    if (this.daysSinceMonday == 0) { return "Monday"; }
-    if (this.daysSinceMonday == 1) { return "Tuesday"; }
-    if (this.daysSinceMonday == 2) { return "Wednesday"; }
-    if (this.daysSinceMonday == 3) { return "Thursday"; }
-    if (this.daysSinceMonday == 4) { return "Friday"; }
-    if (this.daysSinceMonday == 5) { return "Saturday"; }
-    if (this.daysSinceMonday == 6) { return "Sunday"; }
-
-    // Never happens since value is checked in constructor.
-    throw TimeError.invalidDaysSinceMonday(this.daysSinceMonday);
+    return names[this.daysSinceMonday].full;
   }
 
   /**
    * Returns the code name of the day of the week, e.g. "thu" for Thursday.
    */
   get codeName(): string {
-    if (this.daysSinceMonday == 0) { return "mon"; }
-    if (this.daysSinceMonday == 1) { return "tue"; }
-    if (this.daysSinceMonday == 2) { return "wed"; }
-    if (this.daysSinceMonday == 3) { return "thu"; }
-    if (this.daysSinceMonday == 4) { return "fri"; }
-    if (this.daysSinceMonday == 5) { return "sat"; }
-    if (this.daysSinceMonday == 6) { return "sun"; }
-
-    // Never happens since value is checked in constructor.
-    throw TimeError.invalidDaysSinceMonday(this.daysSinceMonday);
+    return names[this.daysSinceMonday].codeName;
   }
 
   /**
@@ -99,14 +76,29 @@ export class DayOfWeek {
    * Returns the day of week of the day before this one.
    */
   yesterday(): DayOfWeek {
-    return new DayOfWeek(posMod(this.daysSinceMonday - 1, 7));
+    return DayOfWeek.fromDaysSinceMonday(posMod(this.daysSinceMonday - 1, 7));
   }
 
   /**
    * Returns the day of week of the day after this one.
    */
   tomorrow(): DayOfWeek {
-    return new DayOfWeek(posMod(this.daysSinceMonday + 1, 7));
+    return DayOfWeek.fromDaysSinceMonday(posMod(this.daysSinceMonday + 1, 7));
+  }
+
+  /**
+   * Creates a {@link DayOfWeek} from an arbitrary number.
+   * @param daysSinceMonday The number of days this day of the week is away from
+   * Monday, e.g. 3 for Thursday. This value must be an integer between 0-6
+   * inclusive, otherwise a {@link TimeError} is thrown.
+   */
+  static fromDaysSinceMonday(daysSinceMonday: number): DayOfWeek {
+    if (!Number.isInteger(daysSinceMonday) || daysSinceMonday < 0
+      || daysSinceMonday >= 7) {
+      throw TimeError.invalidDaysSinceMonday(daysSinceMonday);
+    }
+
+    return new DayOfWeek(daysSinceMonday as DayOfWeekNumber);
   }
 
   /**
@@ -114,6 +106,17 @@ export class DayOfWeek {
    * @param value The date to determine the day of week from.
    */
   static fromLuxon(value: DateTime): DayOfWeek {
-    return new DayOfWeek(value.weekday - 1);
+    return DayOfWeek.fromDaysSinceMonday(value.weekday - 1);
   }
 }
+
+/** The names and codenames for each possible {@link DayOfWeekNumber}. */
+const names = {
+  0: { full: "Monday", codeName: "mon" },
+  1: { full: "Tuesday", codeName: "tue" },
+  2: { full: "Wednesday", codeName: "wed" },
+  3: { full: "Thursday", codeName: "thu" },
+  4: { full: "Friday", codeName: "fri" },
+  5: { full: "Saturday", codeName: "sat" },
+  6: { full: "Sunday", codeName: "sun" }
+};

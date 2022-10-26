@@ -1,4 +1,4 @@
-import { BadIDError } from "./bad-id-error";
+import { BadIDError } from "./error";
 
 /**
  * Represents a unique integer identifier for a stop. Doesn't necessarily

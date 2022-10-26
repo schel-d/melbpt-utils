@@ -2,20 +2,6 @@ import { DateTime } from "luxon";
 import { DayOfWeek } from "../../ts/utils/day-of-week";
 import { TimeError } from "../../ts/utils/time-utils";
 
-test("constructor validation", () => {
-  expect(() => new DayOfWeek(0)).not.toThrow(TimeError);
-  expect(() => new DayOfWeek(1)).not.toThrow(TimeError);
-  expect(() => new DayOfWeek(6)).not.toThrow(TimeError);
-
-  expect(() => new DayOfWeek(7)).toThrow(TimeError);
-  expect(() => new DayOfWeek(-1)).toThrow(TimeError);
-
-  expect(() => new DayOfWeek(6.1)).toThrow(TimeError);
-  expect(() => new DayOfWeek(0.1)).toThrow(TimeError);
-  expect(() => new DayOfWeek(5.2)).toThrow(TimeError);
-  expect(() => new DayOfWeek(NaN)).toThrow(TimeError);
-});
-
 test("name and codename", () => {
   expect(DayOfWeek.mon.name).toStrictEqual("Monday");
   expect(DayOfWeek.fri.name).toStrictEqual("Friday");
@@ -48,4 +34,18 @@ test("fromLuxon", () => {
     .toStrictEqual(DayOfWeek.mon);
   expect(DayOfWeek.fromLuxon(DateTime.local(2022, 10, 24)))
     .toStrictEqual(DayOfWeek.mon);
+});
+
+test("fromDaysSinceMonday", () => {
+  expect(() => DayOfWeek.fromDaysSinceMonday(0)).not.toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(1)).not.toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(6)).not.toThrow(TimeError);
+
+  expect(() => DayOfWeek.fromDaysSinceMonday(7)).toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(-1)).toThrow(TimeError);
+
+  expect(() => DayOfWeek.fromDaysSinceMonday(6.1)).toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(0.1)).toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(5.2)).toThrow(TimeError);
+  expect(() => DayOfWeek.fromDaysSinceMonday(NaN)).toThrow(TimeError);
 });

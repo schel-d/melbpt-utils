@@ -59,7 +59,7 @@ export class TtblFile {
 
     // Must have at least one grid.
     if (grids.length < 1) {
-      throw TtblFormatError.noGrids();
+      throw TtblFormatError.notEnoughGrids();
     }
 
     this.created = created;

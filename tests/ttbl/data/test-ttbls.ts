@@ -140,9 +140,7 @@ const obj01 = new TtblFile(
   ]
 );
 
-/**
- * Test writing.
- */
+/** Test writing. */
 const out01 =
   `[timetable]\n` +
   `version: 2\n` +

@@ -106,6 +106,13 @@ const badText07 = `
 0002 other 03:06
 `;
 
+/** Test bad stop id. */
+const badText08 = `
+[up, MTWTFSS]
+77771 place 02:04
+0002 other 03:06
+`;
+
 /** Test jagged grid. */
 const badConstructor01 = () => new TtblFileGridSection(
   toDirectionID("up"),
@@ -181,6 +188,7 @@ export const failing = [
   { text: badText05 },
   { text: badText06 },
   { text: badText07 },
+  { text: badText08 },
 ];
 
 export const failingConstructors = [

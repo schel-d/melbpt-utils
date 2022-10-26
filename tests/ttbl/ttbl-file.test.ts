@@ -1,4 +1,3 @@
-import { writeFile } from "fs";
 import { TtblFile } from "../../ts/ttbl/ttbl-file";
 import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
 import { TtblVersionError } from "../../ts/ttbl/ttbl-version";
@@ -22,7 +21,6 @@ test("parse", () => {
 test("write", () => {
   for (const test of writing) {
     const text = test.obj.write();
-    writeFile("output.txt", text, () => { });
     expect(text).toEqual(test.out);
   }
 });

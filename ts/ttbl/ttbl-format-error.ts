@@ -81,7 +81,7 @@ export class TtblFormatError extends Error {
   /**
    * Grid has less than 2 rows in [`sectionTitle`].
    */
-  static gridTooShort(sectionTitle: string): TtblFormatError {
+  static gridNotEnoughRows(sectionTitle: string): TtblFormatError {
     return new TtblFormatError(
       `Grid has less than 2 rows in [${sectionTitle}]`
     );
@@ -90,7 +90,7 @@ export class TtblFormatError extends Error {
   /**
    * Service in [`sectionTitle`] at column `col` doesn't make at least 2 stops.
    */
-  static gridServiceTooFewStops(sectionTitle: string, col: number): TtblFormatError {
+  static gridServiceNotEnoughStops(sectionTitle: string, col: number): TtblFormatError {
     return new TtblFormatError(
       `Service in [${sectionTitle}] at column ${col} doesn't make at least 2 ` +
       `stops.`
@@ -140,7 +140,7 @@ export class TtblFormatError extends Error {
   /**
    * .ttbl file must have at least one grid.
    */
-  static noGrids(): TtblFormatError {
+  static notEnoughGrids(): TtblFormatError {
     return new TtblFormatError(
       `.ttbl file must have at least one grid`
     );
