@@ -1,5 +1,5 @@
 {
-  "include": ["./**/*", "../tests/**/*"],
+  "include": ["./**/*"],
   "compilerOptions": {
     "target": "ES2017",
     "esModuleInterop": true,
