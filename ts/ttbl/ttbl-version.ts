@@ -3,7 +3,7 @@ import { lineify } from "./utils";
 /**
  * .ttbl files without this version number will be rejected.
  */
-const requiredVersion = "2";
+export const requiredVersion = "2";
 
 /**
  * .ttbl files without these at the start will be rejected.

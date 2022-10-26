@@ -169,8 +169,8 @@ const badConstructor04 = () => new TtblFileGridSection(
 );
 
 export const passing = [
-  { text: text01, grid: obj01 },
-  { text: text02, grid: obj02 },
+  { text: text01, obj: obj01 },
+  { text: text02, obj: obj02 },
 ];
 
 export const failing = [

@@ -1,1 +1,1 @@
-export * from "./ttbl/ttbl";
+export * from "./ttbl/ttbl-file";

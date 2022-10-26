@@ -5,7 +5,7 @@ import { TtblFileGridSection } from "./ttbl-file-grid-section";
 import { TtblFileMetadataSection } from "./ttbl-file-metadata-section";
 import { TtblFileSection } from "./ttbl-file-section";
 import { TtblFormatError } from "./ttbl-format-error";
-import { throwIfUnsupportedVersion } from "./ttbl-version";
+import { requiredVersion, throwIfUnsupportedVersion } from "./ttbl-version";
 
 export type TtblType = typeof TtblTypes[number];
 export const TtblTypes = ["main", "temporary", "public-holiday"] as const;
@@ -15,7 +15,7 @@ export const TtblTypes = ["main", "temporary", "public-holiday"] as const;
  * and as such, is not validated against it, so invalid line IDs, direction IDs,
  * etc. may be present.
  */
-export class Ttbl {
+export class TtblFile {
   /** The date the .ttbl file was created. */
   readonly created: LocalDate;
 
@@ -38,7 +38,7 @@ export class Ttbl {
   readonly grids: TtblFileGridSection[];
 
   /**
-   * Creates a {@link Ttbl}.
+   * Creates a {@link TtblFile}.
    * @param created The date the .ttbl file was created.
    * @param id The timetable ID (0 - {@link MaxTimetableID} inclusive).
    * @param line The line ID (0 - {@link MaxLineID} inclusive).
@@ -78,7 +78,7 @@ export class Ttbl {
    * invalid line IDs, direction IDs, etc. may be present.
    * @param text The text.
    */
-  static parse(text: string): Ttbl {
+  static parse(text: string): TtblFile {
     // Throw a TtblVersionError if the version is not supported.
     throwIfUnsupportedVersion(text);
 
@@ -107,7 +107,7 @@ export class Ttbl {
       throw TtblFormatError.invalidLineID(line);
     }
 
-    return new Ttbl(created, id, line, type, begins, ends, grids);
+    return new TtblFile(created, id, line, type, begins, ends, grids);
   }
 
   /**
@@ -115,6 +115,7 @@ export class Ttbl {
    */
   write(): string {
     const metadata = new TtblFileMetadataSection("timetable", {
+      "version": requiredVersion,
       "created": this.created.toISO(),
       "id": this.id.toFixed(),
       "line": this.line.toFixed(),
@@ -123,6 +124,7 @@ export class Ttbl {
       "ends": this.ends == null ? "*" : this.ends.toISO()
     });
 
-    return metadata.write() + "\n\n" + this.grids.map(g => g.write()).join("\n\n");
+    return metadata.write() + "\n\n" +
+      this.grids.map(g => g.write()).join("\n\n") + "\n";
   }
 }

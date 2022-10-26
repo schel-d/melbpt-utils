@@ -1,6 +1,6 @@
 import { lineify } from "../../ts/ttbl/utils";
 
-test("lineify splits a string into lines", () => {
+test("lineify", () => {
   expect(lineify(""))
     .toStrictEqual([]);
 

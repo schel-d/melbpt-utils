@@ -13,7 +13,7 @@ test("promote", () => {
   for (const test of passing) {
     const section = TtblFileSection.parseSections(test.text)[0];
     const grid = TtblFileGridSection.promote(section);
-    expect(grid).toEqual(test.grid);
+    expect(grid).toEqual(test.obj);
   }
 
   for (const test of failing) {

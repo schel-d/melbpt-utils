@@ -1,48 +1,30 @@
 import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
 import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
-import { Metadata, TtblFileMetadataSection }
+import { TtblFileMetadataSection }
   from "../../ts/ttbl/ttbl-file-metadata-section";
+import { failing, failingProperties, objProperties, passing, passingProperties }
+  from "./data/test-metadata";
 
 test("promote", () => {
-  const passing: { text: string, result: Metadata }[] = [
-    {
-      text: "[timetable]\nversion: 2",
-      result: { "version": "2" },
-    },
-    {
-      text: "[timetable]\nversion: 2\nkey: value",
-      result: { "version": "2", "key": "value" },
-    },
-    {
-      text: "[timetable]\nversion: 2\nkey:value",
-      result: { "version": "2", "key": "value" }
-    },
-    {
-      text: "[timetable]\nversion: 2\nkey: value with a space",
-      result: { "version": "2", "key": "value with a space" },
-    }
-  ];
-
   for (const test of passing) {
     const section = TtblFileSection.parseSections(test.text)[0];
-    expect(TtblFileMetadataSection.promote(section))
-      .toEqual(new TtblFileMetadataSection("timetable", test.result));
+    const grid = TtblFileMetadataSection.promote(section);
+    expect(grid).toEqual(test.obj);
   }
 
-  const failing = [
-    "[timetable]\nversion: 2\nkey:: value",
-    "[timetable]\nversion: 2\nkey: value:",
-    "[timetable]\nversion: 2\nkey: value\nkey: value",
-    "[timetable]\nversion: 2\nkey: value\nkey: value2",
-    "[timetable]\nversion: 2\n:key",
-    "[timetable]\nversion: 2\n:key:value",
-    "[timetable]\nversion: 2\nkey:",
-    "[timetable]\nversion: 2\ntext"
-  ];
+  for (const test of failing) {
+    const section = TtblFileSection.parseSections(test.text)[0];
+    expect(() => TtblFileMetadataSection.promote(section)).toThrow(TtblFormatError);
+  }
+});
 
-  for (const text of failing) {
-    const section = TtblFileSection.parseSections(text)[0];
-    expect(() => TtblFileMetadataSection.promote(section))
-      .toThrow(TtblFormatError);
+test("get/getInt/getDate/getEnum", () => {
+  const metadata = objProperties;
+
+  for (const test of passingProperties) {
+    expect(test.func(metadata)).toStrictEqual(test.value);
+  }
+  for (const test of failingProperties) {
+    expect(() => test.func(metadata)).toThrow(TtblFormatError);
   }
 });

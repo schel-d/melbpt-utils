@@ -1,0 +1,22 @@
+[timetable]
+version: 2
+created: 2022-08-22
+id: 108
+line: 3
+type: main
+begins: 2022-09-01
+ends: *
+
+[albury-up, MTWT___]
+0244 seymour        09:02  -      19:44 
+0268 tallarook      -      15:08  -     
+0040 broadmeadows   09:53  15:59  21:10 
+0096 essendon       -      -      -     
+0253 southern-cross 10:27  16:33  21:45 
+
+[albury-down, ____F__]
+0253 southern-cross  07:07  -      18:02 
+0204 north-melbourne -      12:04  -     
+0096 essendon        -      -      -     
+0040 broadmeadows    07:35  12:32  18:30 
+0068 craigieburn     -      -      -     

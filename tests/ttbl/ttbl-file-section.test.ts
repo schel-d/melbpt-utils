@@ -1,23 +1,14 @@
 import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
+import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
+import { failing, passing } from "./data/test-sections";
 
-test("TtblFileSection.parseSections parses correctly", () => {
-  expect(TtblFileSection.parseSections(
-    "[irrelevant]\nbacon: stuff"
-  )).toEqual([
-    new TtblFileSection("irrelevant", [
-      "bacon: stuff"
-    ])
-  ]);
+test("parseSections", () => {
+  for (const test of passing) {
+    const sections = TtblFileSection.parseSections(test.text);
+    expect(sections).toEqual(test.obj);
+  }
 
-  expect(TtblFileSection.parseSections(
-    "\n[multiple]\nsections: now?\n\n[summit, whatever]\nsome text\nand more \n " +
-    "and a lil bit more!\n"
-  )).toEqual([
-    new TtblFileSection("multiple", [
-      "sections: now?"
-    ]),
-    new TtblFileSection("summit, whatever", [
-      "some text", "and more", "and a lil bit more!"
-    ])
-  ]);
+  for (const test of failing) {
+    expect(() => TtblFileSection.parseSections(test.text)).toThrow(TtblFormatError);
+  }
 });
