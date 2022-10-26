@@ -9,7 +9,7 @@
     "clean": "rimraf .out/*",
     "prebuild": "npm run clean",
     "build": "tsc --project ts/tsconfig.json",
-    "lint": "eslint . & tsc --project ts/tsconfig.json --noemit",
+    "lint": "eslint . & tsc --project ts/tsconfig.json --noemit & tsc --project tests/tsconfig.json --noemit",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "prepare": "npm run build"
