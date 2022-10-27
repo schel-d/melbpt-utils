@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TransitDataError } from "./error";
+import { TransitNetworkError } from "./error";
 import { Line } from "./line";
 import { LineRouteType } from "./line-enums";
 import { Stop } from "./stop";
@@ -8,7 +8,7 @@ import { Stop } from "./stop";
  * Represents details about the entire transit network, i.e. the stops and
  * lines.
  */
-export class Network {
+export class TransitNetwork {
   /**
    * A string representing the content in this object that can be used to
    * quickly determine if this is the latest data available. This is usually
@@ -27,10 +27,10 @@ export class Network {
     hash: z.string(),
     stops: Stop.json.array(),
     lines: Line.json.array()
-  }).transform(x => new Network(x.hash, x.stops, x.lines));
+  }).transform(x => new TransitNetwork(x.hash, x.stops, x.lines));
 
   /**
-   * Creates a {@link Network}.
+   * Creates a {@link TransitNetwork}.
    * @param hash A string representing the content in this object that can be
    * used to quickly determine if this is the latest data available. This is
    * usually the date of the data release, e.g. "2022-10-26".
@@ -41,20 +41,20 @@ export class Network {
     // Check that two stops don't have the same ID.
     const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
     if (uniqueStopIDsCount < stops.length) {
-      throw TransitDataError.duplicateStops();
+      throw TransitNetworkError.duplicateStops();
     }
 
     // Check that two lines don't have the same ID.
     const uniqueLineIDsCount = new Set(lines.map(l => l.id)).size;
     if (uniqueLineIDsCount < lines.length) {
-      throw TransitDataError.duplicateLines();
+      throw TransitNetworkError.duplicateLines();
     }
 
     // Check that all stop IDs used in the lines are present in the stops array.
     const stopIDs = stops.map(s => s.id);
     const stopIDsInLines = lines.map(l => l.stops).flat();
     if (stopIDsInLines.some(s => !stopIDs.includes(s))) {
-      throw TransitDataError.linesHaveGhostStops();
+      throw TransitNetworkError.linesHaveGhostStops();
     }
 
     this.hash = hash;

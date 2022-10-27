@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { TransitDataError } from "./error";
+import { TransitNetworkError } from "./error";
 import { Platform } from "./platform";
 import { isStopID, StopID, toStopID } from "./stop-id";
 
@@ -47,12 +47,12 @@ export class Stop {
   constructor(id: StopID, name: string, platforms: Platform[], tags: string[],
     urlName: string) {
 
-    if (platforms.length < 1) { throw TransitDataError.noPlatforms(id); }
+    if (platforms.length < 1) { throw TransitNetworkError.noPlatforms(id); }
 
     // Check that two platforms don't have the same ID.
     const uniquePlatformIDsCount = new Set(platforms.map(p => p.id)).size;
     if (uniquePlatformIDsCount < platforms.length) {
-      throw TransitDataError.duplicatePlatforms(id);
+      throw TransitNetworkError.duplicatePlatforms(id);
     }
 
     this.id = id;

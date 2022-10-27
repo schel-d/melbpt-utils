@@ -5,7 +5,7 @@ import {
 } from "./line-enums";
 import { z } from "zod";
 import { isLineID, LineID, toLineID } from "./line-id";
-import { TransitDataError } from "./error";
+import { TransitNetworkError } from "./error";
 import { StopID } from "./stop-id";
 
 /**
@@ -77,12 +77,12 @@ export class Line<Route extends LineRouteType> {
     routeType: Route, specialEventsOnly: boolean, tags: string[],
     routeLoopPortal: PortalRequirement<Route>, directions: Direction[]) {
 
-    if (directions.length < 1) { throw TransitDataError.noDirections(id); }
+    if (directions.length < 1) { throw TransitNetworkError.noDirections(id); }
 
     // Check that two directions don't have the same ID.
     const uniqueDirectionIDsCount = new Set(directions.map(d => d.id)).size;
     if (uniqueDirectionIDsCount < directions.length) {
-      throw TransitDataError.duplicateDirections(id);
+      throw TransitNetworkError.duplicateDirections(id);
     }
 
     this.id = id;

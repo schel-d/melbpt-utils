@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
-import { TransitDataError } from "../../ts/network/error";
-import { Network } from "../../ts/network/network";
+import { TransitNetworkError } from "../../ts/network/error";
+import { TransitNetwork } from "../../ts/network/transit-network";
 import { obj01 } from "./data/obj01";
 
 test("json parse", () => {
@@ -10,16 +10,16 @@ test("json parse", () => {
 
   for (const test of passingTests) {
     const json = readFileSync(test.file, { encoding: "utf8" });
-    expect(Network.json.parse(JSON.parse(json))).toEqual(test.obj);
+    expect(TransitNetwork.json.parse(JSON.parse(json))).toEqual(test.obj);
   }
 
   const failingTests = [
     // Line with unknown stop ID.
-    { file: "tests/network/data/badText01.json", errorType: TransitDataError }
+    { file: "tests/network/data/badText01.json", errorType: TransitNetworkError }
   ];
 
   for (const test of failingTests) {
     const json = readFileSync(test.file, { encoding: "utf8" });
-    expect(() => Network.json.parse(JSON.parse(json))).toThrow(test.errorType);
+    expect(() => TransitNetwork.json.parse(JSON.parse(json))).toThrow(test.errorType);
   }
 });

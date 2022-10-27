@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { DirectionID, isDirectionID, toDirectionID } from "./direction-id";
-import { TransitDataError } from "./error";
+import { TransitNetworkError } from "./error";
 import { isStopID, StopID, toStopID } from "./stop-id";
 
 /**
@@ -35,7 +35,7 @@ export class Direction {
    * cannot have fewer than 2 elements.
    */
   constructor(id: DirectionID, name: string, stops: StopID[]) {
-    if (stops.length < 2) { throw TransitDataError.notEnoughStops(id); }
+    if (stops.length < 2) { throw TransitNetworkError.notEnoughStops(id); }
 
     this.id = id;
     this.name = name;

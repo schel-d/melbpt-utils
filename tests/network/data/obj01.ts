@@ -2,13 +2,13 @@ import { Direction } from "../../../ts/network/direction";
 import { toDirectionID } from "../../../ts/network/direction-id";
 import { Line } from "../../../ts/network/line";
 import { toLineID } from "../../../ts/network/line-id";
-import { Network } from "../../../ts/network/network";
+import { TransitNetwork } from "../../../ts/network/transit-network";
 import { Platform } from "../../../ts/network/platform";
 import { toPlatformID } from "../../../ts/network/platform-id";
 import { Stop } from "../../../ts/network/stop";
 import { toStopID } from "../../../ts/network/stop-id";
 
-export const obj01 = new Network(
+export const obj01 = new TransitNetwork(
   "2022-10-26",
   [
     new Stop(
