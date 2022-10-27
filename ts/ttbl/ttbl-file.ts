@@ -1,5 +1,8 @@
 import { isLineID, LineID } from "../network/line-id";
+import { TransitNetwork } from "../network/transit-network";
+import { Timetable } from "../timetable/timetable";
 import { isTimetableID, TimetableID } from "../timetable/timetable-id";
+import { validateTimetable } from "../timetable/validate-timetable";
 import { LocalDate } from "../utils/local-date";
 import { TtblFileGridSection } from "./ttbl-file-grid-section";
 import { TtblFileMetadataSection } from "./ttbl-file-metadata-section";
@@ -69,6 +72,16 @@ export class TtblFile {
     this.begins = begins;
     this.ends = ends;
     this.grids = grids;
+  }
+
+  /**
+   * Checks the line exixts, each direction present exists on the line, and
+   * every entry stops correctly according to the direction. Throws a
+   * {@link TimetableError} if the timetable is invalid.
+   * @param network Transit network information.
+   */
+  validate(network: TransitNetwork) {
+    validateTimetable(Timetable.fromTtbl(this), network);
   }
 
   /**

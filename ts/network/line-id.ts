@@ -1,8 +1,8 @@
 import { BadIDError } from "../utils/error";
 
 /**
- * Represents a unique integer identifier for a line. Can be any number that
- * hasn't already been used (has no ties to the PTV API).
+ * Represents a unique integer identifier for a line. Must be 1-35 inclusive.
+ * Has no ties to the PTV API in any way.
  */
 export type LineID = number & { [LineIDBrand]: true }
 
@@ -29,7 +29,7 @@ export function isLineID(id: number): id is LineID {
 }
 
 /**
- * Converts a number to a {@link LineID}.
+ * Converts a number to a {@link LineID}. Throws {@link BadIDError} if invalid.
  * @param val The number.
  */
 export function toLineID(val: number): LineID {

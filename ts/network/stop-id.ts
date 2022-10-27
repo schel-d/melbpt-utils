@@ -1,8 +1,8 @@
 import { BadIDError } from "../utils/error";
 
 /**
- * Represents a unique integer identifier for a stop. Doesn't necessarily
- * match the PTV API, so it cannot be expected to be used for that purpose.
+ * Represents a unique integer identifier for a stop. Must be 1-9999 inclusive.
+ * Has no ties to the PTV API in any way.
  */
 export type StopID = number & { [StopIDBrand]: true }
 
@@ -29,7 +29,7 @@ export function isStopID(id: number): id is StopID {
 }
 
 /**
- * Converts a number to a {@link StopID}.
+ * Converts a number to a {@link StopID}. Throws {@link BadIDError} if invalid.
  * @param val The number.
  */
 export function toStopID(val: number): StopID {

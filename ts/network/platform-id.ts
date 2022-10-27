@@ -20,7 +20,8 @@ export function isPlatformID(id: string): id is PlatformID {
 }
 
 /**
- * Converts a string to a {@link PlatformID}.
+ * Converts a string to a {@link PlatformID}. Throws {@link BadIDError} if
+ * invalid.
  * @param val The string.
  */
 export function toPlatformID(val: string): PlatformID {

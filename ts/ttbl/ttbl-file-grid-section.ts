@@ -38,40 +38,22 @@ export class TtblFileGridSection extends TtblFileSection {
     // sake (for title and lines).
     super(toTitle(direction, wdr), toText(rows));
 
-    // Must be at least 2 rows.
-    if (rows.length < 2) {
-      throw TtblFormatError.gridNotEnoughRows(this.title);
-    }
-
     // Check rectangularacity (all rows have same number of columns).
     if (rows.some(r => r.times.length != rows[0].times.length)) {
       throw TtblFormatError.gridJagged(this.title);
     }
 
-    // Check each services for number of stops and time travel.
-    for (let col = 0; col < rows[0].times.length; col++) {
-      // Get every time in this column and filter all blanks.
-      const service = rows
-        .map(r => r.times[col])
-        .filter(t => t != null) as LocalTime[];
-
-      // Each service must stop at least twice.
-      if (service.length < 2) {
-        throw TtblFormatError.gridServiceNotEnoughStops(this.title, col);
-      }
-
-      // Times must be sequential, ordered from earliest to latest down the
-      // rows (so check each time occurs after the one before it).
-      for (let stop = 1; stop < service.length; stop++) {
-        if (service[stop - 1].isAfter(service[stop])) {
-          throw TtblFormatError.gridServiceTimeTravel(this.title, col);
-        }
-      }
-    }
+    // Does not check each service for number of stops and time travel to avoid
+    // duplication. This will be tested for when converting to a timetable.
 
     this.direction = direction;
     this.wdr = wdr;
     this.rows = rows;
+  }
+
+  /** The width of the grid (number of services). */
+  get width(): number {
+    return this.rows[0].times.length;
   }
 
   /**

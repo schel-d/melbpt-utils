@@ -24,7 +24,8 @@ export function isDirectionID(id: string): id is DirectionID {
 }
 
 /**
- * Converts a string to a {@link DirectionID}.
+ * Converts a string to a {@link DirectionID}. Throws {@link BadIDError} if
+ * invalid.
  * @param val The string.
  */
 export function toDirectionID(val: string): DirectionID {

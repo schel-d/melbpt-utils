@@ -1,6 +1,8 @@
 import { z } from "zod";
+import { LookupError } from "../utils/error";
 import { TransitNetworkError } from "./error";
 import { Platform } from "./platform";
+import { PlatformID } from "./platform-id";
 import { isStopID, StopID, toStopID } from "./stop-id";
 
 /**
@@ -60,5 +62,23 @@ export class Stop {
     this.platforms = platforms;
     this.tags = tags;
     this.urlName = urlName;
+  }
+
+  /**
+   * Returns the platform with the given id, or null.
+   * @param id The id.
+   */
+  getPlatform(id: PlatformID): Platform | null {
+    return this.platforms.find(d => d.id == id) ?? null;
+  }
+
+  /**
+   * Returns the platform with the given id, or throws a {@link LookupError}.
+   * @param id The id.
+   */
+  requirePlatform(id: PlatformID): Platform {
+    const platform = this.getPlatform(id);
+    if (platform != null) { return platform; }
+    throw LookupError.platformNotFound(id);
   }
 }

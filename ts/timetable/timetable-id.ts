@@ -2,7 +2,7 @@ import { BadIDError } from "../utils/error";
 
 /**
  * Represents a unique integer identifier for a timetable. This value needs to
- * be encodable to a 2-digit base-36 integer, so must be 0-1295 inclusive.
+ * be encodable to a 2-digit base-36 integer, so must be 36-1295 inclusive.
  * The convention is to have the first base-36 digit match the line ID if it
  * were to be encoded to base-36.
  */
@@ -34,7 +34,8 @@ export function isTimetableID(id: number): id is TimetableID {
 }
 
 /**
- * Converts a number to a {@link TimetableID}.
+ * Converts a number to a {@link TimetableID}. Throws {@link BadIDError} if
+ * invalid.
  * @param val The number.
  */
 export function toTimetableID(val: number): TimetableID {

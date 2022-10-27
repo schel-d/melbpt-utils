@@ -7,6 +7,8 @@ import { z } from "zod";
 import { isLineID, LineID, toLineID } from "./line-id";
 import { TransitNetworkError } from "./error";
 import { StopID } from "./stop-id";
+import { DirectionID } from "./direction-id";
+import { LookupError } from "../utils/error";
 
 /**
  * Compile-time checking that if route type is "city-loop", then the portal is
@@ -17,7 +19,7 @@ type PortalRequirement<Route> = Route extends "city-loop" ? CityLoopPortal : nul
 /**
  * Represents a line on the transit network.
  */
-export class Line<Route extends LineRouteType> {
+export class ILine<Route extends LineRouteType> {
   /** The line's unique ID. */
   readonly id: LineID;
 
@@ -102,4 +104,26 @@ export class Line<Route extends LineRouteType> {
   get stops(): StopID[] {
     return [...new Set(this.directions.map(d => d.stops).flat())];
   }
+
+  /**
+   *  Returns the direction with the given id, or null.
+   * @param id The id.
+   */
+  getDirection(id: DirectionID): Direction | null {
+    return this.directions.find(d => d.id == id) ?? null;
+  }
+
+  /**
+   * Returns the direction with the given id, or throws a {@link LookupError}.
+   * @param id The id.
+   */
+  requireDirection(id: DirectionID): Direction {
+    const direction = this.getDirection(id);
+    if (direction != null) { return direction; }
+    throw LookupError.directionNotFound(id);
+  }
+}
+
+export class Line extends ILine<LineRouteType> {
+
 }

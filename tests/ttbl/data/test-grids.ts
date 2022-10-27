@@ -92,22 +92,8 @@ const badText05 = `
 0001 other 03:06
 `;
 
-/** Test time travel. */
-const badText06 = `
-[up, MTWTFSS]
-0001 place 04:04
-0002 other 03:06
-`;
-
-/** Test day-spanning time travel. */
-const badText07 = `
-[up, MTWTFSS]
-0001 place >02:04
-0002 other 03:06
-`;
-
 /** Test bad stop id. */
-const badText08 = `
+const badText06 = `
 [up, MTWTFSS]
 77771 place 02:04
 0002 other 03:06
@@ -143,38 +129,6 @@ const badConstructor02 = () => new TtblFileGridSection(
   ]
 );
 
-/** Test time travel. */
-const badConstructor03 = () => new TtblFileGridSection(
-  toDirectionID("up"),
-  WeekdayRange.parse("MTWTFSS"),
-  [
-    new GridRow(toStopID(1), "place", [
-      LocalTime.fromTime(3, 4),
-      LocalTime.fromTime(4, 4)
-    ]),
-    new GridRow(toStopID(2), "place", [
-      LocalTime.fromTime(3, 8),
-      LocalTime.fromTime(4, 2)
-    ]),
-  ]
-);
-
-/** Test day-spanning time travel. */
-const badConstructor04 = () => new TtblFileGridSection(
-  toDirectionID("up"),
-  WeekdayRange.parse("MTWTFSS"),
-  [
-    new GridRow(toStopID(1), "place", [
-      LocalTime.fromTime(3, 4),
-      LocalTime.fromTime(4, 4, true)
-    ]),
-    new GridRow(toStopID(2), "place", [
-      LocalTime.fromTime(3, 8),
-      LocalTime.fromTime(4, 6)
-    ]),
-  ]
-);
-
 export const passing = [
   { text: text01, obj: obj01 },
   { text: text02, obj: obj02 },
@@ -187,13 +141,9 @@ export const failing = [
   { text: badText04 },
   { text: badText05 },
   { text: badText06 },
-  { text: badText07 },
-  { text: badText08 },
 ];
 
 export const failingConstructors = [
   badConstructor01,
-  badConstructor02,
-  badConstructor03,
-  badConstructor04
+  badConstructor02
 ];

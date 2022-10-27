@@ -1,3 +1,9 @@
+import { DirectionID } from "../network/direction-id";
+import { LineID } from "../network/line-id";
+import { PlatformID } from "../network/platform-id";
+import { StopID } from "../network/stop-id";
+import { TimetableEntryIndex } from "../timetable/timetable-entry-index";
+
 /**
  * The error object used when an attempt is made to use a bad string/number as
  * a {@link DirectionID}, {@link LineID}, {@link PlatformID}, {@link StopID}, or
@@ -57,6 +63,15 @@ export class BadIDError extends Error {
       `Bad timetable ID "${val}"`
     );
   }
+
+  /**
+   * Bad service index "`val`".
+   */
+  static badServiceIndex(val: number): BadIDError {
+    return new BadIDError(
+      `Bad service index "${val}"`
+    );
+  }
 }
 
 /**
@@ -107,6 +122,77 @@ export class BadEnumError extends Error {
   static badCityLoopPortal(val: string): BadEnumError {
     return new BadEnumError(
       `Bad city loop portal "${val}"`
+    );
+  }
+
+  /**
+   * Bad timetable type "`val`".
+   */
+  static badTimetableType(val: string): BadEnumError {
+    return new BadEnumError(
+      `Bad timetable type "${val}"`
+    );
+  }
+}
+
+/**
+ * The error object used when a {@link Stop}, {@link Line}, {@link Direction},
+ * or {@link Platform}, is looked up in the {@link TransitNetwork}, or a
+ * {@link TimetableEntry} is looked up in a {@link Timetable}, but is not
+ * found.
+ */
+export class LookupError extends Error {
+  /**
+   * Creates a {@link LookupError}.
+   * @param message The error message.
+   */
+  constructor(message: string) {
+    super(message);
+    this.name = "LookupError";
+  }
+
+  /**
+   * Line with ID "`id`" doesn't exist.
+   */
+  static lineNotFound(id: LineID): LookupError {
+    return new LookupError(
+      `Line with ID "${id}" doesn't exist`
+    );
+  }
+
+  /**
+   * Stop with ID "`id`" doesn't exist.
+   */
+  static stopNotFound(id: StopID): LookupError {
+    return new LookupError(
+      `Stop with ID "${id}" doesn't exist`
+    );
+  }
+
+  /**
+   * Direction with ID "`id`" doesn't exist.
+   */
+  static directionNotFound(id: DirectionID): LookupError {
+    return new LookupError(
+      `Direction with ID "${id}" doesn't exist`
+    );
+  }
+
+  /**
+   * Platform with ID "`id`" doesn't exist.
+   */
+  static platformNotFound(id: PlatformID): LookupError {
+    return new LookupError(
+      `Platform with ID "${id}" doesn't exist`
+    );
+  }
+
+  /**
+   * Timetable entry with index "`index`" doesn't exist.
+   */
+  static timetableEntryNotFound(index: TimetableEntryIndex): LookupError {
+    return new LookupError(
+      `Timetable entry with index "${index}" doesn't exist`
     );
   }
 }
