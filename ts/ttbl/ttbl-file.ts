@@ -2,6 +2,7 @@ import { isLineID, LineID } from "../network/line-id";
 import { TransitNetwork } from "../network/transit-network";
 import { Timetable } from "../timetable/timetable";
 import { isTimetableID, TimetableID } from "../timetable/timetable-id";
+import { TimetableType, TimetableTypes } from "../timetable/timetable-type";
 import { validateTimetable } from "../timetable/validate-timetable";
 import { LocalDate } from "../utils/local-date";
 import { TtblFileGridSection } from "./ttbl-file-grid-section";
@@ -9,9 +10,6 @@ import { TtblFileMetadataSection } from "./ttbl-file-metadata-section";
 import { TtblFileSection } from "./ttbl-file-section";
 import { TtblFormatError } from "./ttbl-format-error";
 import { requiredVersion, throwIfUnsupportedVersion } from "./ttbl-version";
-
-export type TtblType = typeof TtblTypes[number];
-export const TtblTypes = ["main", "temporary", "public-holiday"] as const;
 
 /**
  * The parsed form of a .ttbl file. This object has no knowledge of the network,
@@ -29,7 +27,7 @@ export class TtblFile {
   readonly line: LineID;
 
   /** The timetable type. */
-  readonly type: TtblType;
+  readonly type: TimetableType;
 
   /** The date this timetable comes into effect (null for no begin date). */
   readonly begins: LocalDate | null;
@@ -51,8 +49,8 @@ export class TtblFile {
    * @param ends The date this timetable is retired (null for no end date).
    * @param grids The timetable data, sectionized.
    */
-  constructor(created: LocalDate, id: TimetableID, line: LineID, type: TtblType,
-    begins: LocalDate | null, ends: LocalDate | null,
+  constructor(created: LocalDate, id: TimetableID, line: LineID,
+    type: TimetableType, begins: LocalDate | null, ends: LocalDate | null,
     grids: TtblFileGridSection[]) {
 
     // Ensure begins and ends do not require time travel.
@@ -104,7 +102,7 @@ export class TtblFile {
     const created = metadata.getDate("created", false);
     const id = metadata.getInt("id");
     const line = metadata.getInt("line");
-    const type = metadata.getEnum("type", TtblTypes);
+    const type = metadata.getEnum("type", TimetableTypes);
     const begins = metadata.getDate("begins", true);
     const ends = metadata.getDate("ends", true);
 
