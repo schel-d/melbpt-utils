@@ -1,5 +1,5 @@
 import { isLineID, LineID } from "../network/line-id";
-import { isTimetableID, TimetableID } from "../network/timetable-id";
+import { isTimetableID, TimetableID } from "../timetable/timetable-id";
 import { LocalDate } from "../utils/local-date";
 import { TtblFileGridSection } from "./ttbl-file-grid-section";
 import { TtblFileMetadataSection } from "./ttbl-file-metadata-section";

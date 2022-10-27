@@ -1,7 +1,7 @@
 import { toDirectionID } from "../../../ts/network/direction-id";
 import { toLineID } from "../../../ts/network/line-id";
 import { toStopID } from "../../../ts/network/stop-id";
-import { toTimetableID } from "../../../ts/network/timetable-id";
+import { toTimetableID } from "../../../ts/timetable/timetable-id";
 import { TtblFile } from "../../../ts/ttbl/ttbl-file";
 import { GridRow, TtblFileGridSection } from "../../../ts/ttbl/ttbl-file-grid-section";
 import { LocalDate } from "../../../ts/utils/local-date";

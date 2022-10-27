@@ -1,5 +1,5 @@
 import { toDirectionID } from "../../ts/network/direction-id";
-import { BadIDError } from "../../ts/network/error";
+import { BadIDError } from "../../ts/utils/error";
 
 test("toDirectionID", () => {
   expect(() => toDirectionID("fine")).not.toThrow(BadIDError);

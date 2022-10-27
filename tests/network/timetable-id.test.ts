@@ -1,5 +1,5 @@
-import { BadIDError } from "../../ts/network/error";
-import { toTimetableID } from "../../ts/network/timetable-id";
+import { BadIDError } from "../../ts/utils/error";
+import { toTimetableID } from "../../ts/timetable/timetable-id";
 
 test("toTimetableID", () => {
   expect(() => toTimetableID(1)).not.toThrow(BadIDError);

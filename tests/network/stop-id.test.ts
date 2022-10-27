@@ -1,4 +1,4 @@
-import { BadIDError } from "../../ts/network/error";
+import { BadIDError } from "../../ts/utils/error";
 import { toStopID } from "../../ts/network/stop-id";
 
 test("toStopID", () => {

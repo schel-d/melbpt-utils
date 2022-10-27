@@ -1,5 +1,5 @@
+import { BadIDError } from "../utils/error";
 import { kebabCaseRegex } from "./direction-id";
-import { BadIDError } from "./error";
 
 /**
  * Represents a unique integet identifier for a platform. Only needs to be

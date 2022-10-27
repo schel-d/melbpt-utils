@@ -1,4 +1,4 @@
-import { BadIDError } from "../../ts/network/error";
+import { BadIDError } from "../../ts/utils/error";
 import { toPlatformID } from "../../ts/network/platform-id";
 
 test("toPlatformID", () => {

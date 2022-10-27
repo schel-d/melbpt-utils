@@ -1,4 +1,4 @@
-import { BadIDError } from "../../ts/network/error";
+import { BadIDError } from "../../ts/utils/error";
 import { toLineID } from "../../ts/network/line-id";
 
 test("toLineID", () => {

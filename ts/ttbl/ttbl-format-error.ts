@@ -1,6 +1,6 @@
 import { MaxLineID, MinLineID } from "../network/line-id";
 import { StopID } from "../network/stop-id";
-import { MaxTimetableID, MinTimetableID } from "../network/timetable-id";
+import { MaxTimetableID, MinTimetableID } from "../timetable/timetable-id";
 
 /**
  * The error object used when errors occur reading/creating a timetable file.

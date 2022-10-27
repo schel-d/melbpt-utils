@@ -1,4 +1,4 @@
-import { BadEnumError } from "./error";
+import { BadEnumError } from "../utils/error";
 
 /**
  * Represents the behaviour of this line, mostly around the directions that it
