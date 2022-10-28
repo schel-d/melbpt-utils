@@ -99,4 +99,13 @@ export class TransitNetworkError extends Error {
       `loop portal.`
     );
   }
+
+  /**
+   * Direction "`id`" has the same stops multiple times.
+   */
+  static duplicateStopsInDirection(id: DirectionID): TransitNetworkError {
+    return new TransitNetworkError(
+      `Direction "${id}" has the same stops multiple times.`
+    );
+  }
 }

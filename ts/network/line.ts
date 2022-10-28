@@ -19,7 +19,7 @@ type PortalRequirement<Route> = Route extends "city-loop" ? CityLoopPortal : nul
 /**
  * Represents a line on the transit network.
  */
-export class ILine<Route extends LineRouteType> {
+export class Line<Route extends LineRouteType> {
   /** The line's unique ID. */
   readonly id: LineID;
 
@@ -79,7 +79,9 @@ export class ILine<Route extends LineRouteType> {
     routeType: Route, specialEventsOnly: boolean, tags: string[],
     routeLoopPortal: PortalRequirement<Route>, directions: Direction[]) {
 
-    if (directions.length < 1) { throw TransitNetworkError.noDirections(id); }
+    if (directions.length < 1) {
+      throw TransitNetworkError.noDirections(id);
+    }
 
     // Check that two directions don't have the same ID.
     const uniqueDirectionIDsCount = new Set(directions.map(d => d.id)).size;
@@ -122,8 +124,4 @@ export class ILine<Route extends LineRouteType> {
     if (direction != null) { return direction; }
     throw LookupError.directionNotFound(id);
   }
-}
-
-export class Line extends ILine<LineRouteType> {
-
 }

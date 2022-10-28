@@ -16,11 +16,20 @@ export class TimetableError extends Error {
   }
 
   /**
-   * Timetable section cannot be empty.
+   * Timetable section cannot be empty (have no entries).
    */
   static emptySection(): TimetableError {
     return new TimetableError(
-      `Timetable section cannot be empty`
+      `Timetable section cannot be empty (have no entries)`
+    );
+  }
+
+  /**
+   * Timetable cannot be empty (have no sections).
+   */
+  static emptyTimetable(): TimetableError {
+    return new TimetableError(
+      `Timetable cannot be empty (have no sections)`
     );
   }
 

@@ -15,7 +15,11 @@ test("json parse", () => {
 
   const failingTests = [
     // Line with unknown stop ID.
-    { file: "tests/network/data/badText01.json", errorType: TransitNetworkError }
+    { file: "tests/network/data/badText01.json", errorType: TransitNetworkError },
+    // Duplicate line ID.
+    { file: "tests/network/data/badText02.json", errorType: TransitNetworkError },
+    // Duplicate stop ID.
+    { file: "tests/network/data/badText03.json", errorType: TransitNetworkError }
   ];
 
   for (const test of failingTests) {

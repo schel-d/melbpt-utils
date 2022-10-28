@@ -6,6 +6,7 @@ import { LookupError } from "../utils/error";
 import { LocalDate } from "../utils/local-date";
 import { TimetableEntry } from "./timetable-entry";
 import { TimetableEntryIndex } from "./timetable-entry-index";
+import { TimetableError } from "./timetable-error";
 import { TimetableID } from "./timetable-id";
 import { TimetableSection } from "./timetable-section";
 import { TimetableType } from "./timetable-type";
@@ -68,6 +69,10 @@ export class Timetable {
   constructor(id: TimetableID, line: LineID, created: LocalDate,
     type: TimetableType, begins: LocalDate | null, ends: LocalDate | null,
     sections: TimetableSection[]) {
+
+    if (sections.length < 1) {
+      throw TimetableError.emptySection();
+    }
 
     this.id = id;
     this.line = line;

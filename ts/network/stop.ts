@@ -49,7 +49,9 @@ export class Stop {
   constructor(id: StopID, name: string, platforms: Platform[], tags: string[],
     urlName: string) {
 
-    if (platforms.length < 1) { throw TransitNetworkError.noPlatforms(id); }
+    if (platforms.length < 1) {
+      throw TransitNetworkError.noPlatforms(id);
+    }
 
     // Check that two platforms don't have the same ID.
     const uniquePlatformIDsCount = new Set(platforms.map(p => p.id)).size;

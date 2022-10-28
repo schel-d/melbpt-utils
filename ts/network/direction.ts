@@ -35,7 +35,14 @@ export class Direction {
    * cannot have fewer than 2 elements.
    */
   constructor(id: DirectionID, name: string, stops: StopID[]) {
-    if (stops.length < 2) { throw TransitNetworkError.notEnoughStops(id); }
+    if (stops.length < 2) {
+      throw TransitNetworkError.notEnoughStops(id);
+    }
+
+    // Check that all stop ID's in the array are unique.
+    if (new Set(stops).size < stops.length) {
+      throw TransitNetworkError.duplicateStopsInDirection(id);
+    }
 
     this.id = id;
     this.name = name;
