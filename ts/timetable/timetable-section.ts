@@ -1,5 +1,5 @@
 import { DirectionID } from "../network/direction-id";
-import { WeekdayRange } from "../utils/week-day-range";
+import { WeekdayRange } from "../utils/weekday-range";
 import { TimetableEntryWithinTimetable, TimetableEntryWithinSection }
   from "./timetable-entry";
 import { isTimetableEntryIndex, TimetableEntryIndex, toTimetableEntryIndex }

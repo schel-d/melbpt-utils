@@ -4,4 +4,4 @@ export * from "./local-date";
 export * from "./local-time";
 export * from "./num-utils";
 export * from "./time-utils";
-export * from "./week-day-range";
+export * from "./weekday-range";

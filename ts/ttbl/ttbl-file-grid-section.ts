@@ -1,7 +1,7 @@
 import { isStopID, StopID } from "../network/stop-id";
 import { LocalTime } from "../utils/local-time";
 import { parseIntNull } from "../utils/num-utils";
-import { WeekdayRange } from "../utils/week-day-range";
+import { WeekdayRange } from "../utils/weekday-range";
 import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
 import { splitTrim } from "./utils";
