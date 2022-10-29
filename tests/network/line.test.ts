@@ -1,4 +1,4 @@
-import { TransitNetworkError } from "../../ts/network/error";
+import { TransitNetworkError } from "../../ts/_export";
 import { failingConstructors, passingConstructors } from "./data/test-lines";
 
 test("constructor validation", () => {

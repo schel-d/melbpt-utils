@@ -1,5 +1,4 @@
-import { TtblFileMetadataSection } from "../../../ts/ttbl/ttbl-file-metadata-section";
-import { LocalDate } from "../../../ts/utils/local-date";
+import { LocalDate, TtblFileMetadataSection } from "../../../ts/_export";
 
 /** Test general parsing. */
 const text01 = `

@@ -1,7 +1,5 @@
-import { toStopID } from "../../../ts/network/stop-id";
-import { TimetableEntryStop, TimetableEntryWithinSection }
-  from "../../../ts/timetable/timetable-entry";
-import { LocalTime } from "../../../ts/utils/local-time";
+import { LocalTime, TimetableEntryStop, TimetableEntryWithinSection, toStopID }
+  from "../../../ts/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new TimetableEntryWithinSection([

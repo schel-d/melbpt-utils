@@ -11,15 +11,9 @@ import { DirectionID } from "./direction-id";
 import { LookupError } from "../utils/error";
 
 /**
- * Compile-time checking that if route type is "city-loop", then the portal is
- * specified and is null otherwise.
- */
-type PortalRequirement<Route> = Route extends "city-loop" ? CityLoopPortal : null;
-
-/**
  * Represents a line on the transit network.
  */
-export class Line<Route extends LineRouteType> {
+export class Line {
   /** The line's unique ID. */
   readonly id: LineID;
 
@@ -33,7 +27,7 @@ export class Line<Route extends LineRouteType> {
   readonly service: LineService;
 
   /** The route type, e.g. linear or city-loop. */
-  readonly routeType: Route;
+  readonly routeType: LineRouteType;
 
   /** Whether this line only operates for special events. */
   readonly specialEventsOnly: boolean;
@@ -42,7 +36,7 @@ export class Line<Route extends LineRouteType> {
   readonly tags: string[];
 
   /** The city loop portal this line uses (if any). */
-  readonly routeLoopPortal: PortalRequirement<Route>;
+  readonly routeLoopPortal: CityLoopPortal | null;
 
   /** Details about the directions this line travels in. */
   readonly directions: Direction[];
@@ -76,8 +70,8 @@ export class Line<Route extends LineRouteType> {
    * @param directions Details about the directions this line travels in.
    */
   constructor(id: LineID, name: string, color: LineColor, service: LineService,
-    routeType: Route, specialEventsOnly: boolean, tags: string[],
-    routeLoopPortal: PortalRequirement<Route>, directions: Direction[]) {
+    routeType: LineRouteType, specialEventsOnly: boolean, tags: string[],
+    routeLoopPortal: CityLoopPortal | null, directions: Direction[]) {
 
     if (directions.length < 1) {
       throw TransitNetworkError.noDirections(id);
@@ -87,6 +81,14 @@ export class Line<Route extends LineRouteType> {
     const uniqueDirectionIDsCount = new Set(directions.map(d => d.id)).size;
     if (uniqueDirectionIDsCount < directions.length) {
       throw TransitNetworkError.duplicateDirections(id);
+    }
+
+    // Has route loop portal if and only if route type is "city-loop", so throw
+    // if they mismatch.
+    const isCityLoop = routeType == "city-loop";
+    const hasPortal = routeLoopPortal != null;
+    if (isCityLoop != hasPortal) {
+      throw TransitNetworkError.lineLoopPortalInvalid(routeType, routeLoopPortal);
     }
 
     this.id = id;

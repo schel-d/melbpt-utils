@@ -2,8 +2,8 @@
   "name": "melbpt-utils",
   "version": "0.1.4",
   "description": "A library for code common to my various melbpt projects.",
-  "main": ".out/index.js",
-  "types": ".out/index.d.js",
+  "main": ".out/_export.js",
+  "types": ".out/_export.d.js",
   "type": "module",
   "scripts": {
     "clean": "rimraf .out/*",

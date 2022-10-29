@@ -1,5 +1,4 @@
-import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
-import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
+import { TtblFormatError, TtblFileSection } from "../../ts/_export";
 import { failing, passing } from "./data/test-sections";
 
 test("parseSections", () => {

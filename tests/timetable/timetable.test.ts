@@ -1,5 +1,5 @@
-import { TimetableError } from "../../ts/timetable/timetable-error";
-import { failingConstructors, passingConstructors } from "./test/test-timetables";
+import { TimetableError } from "../../ts/_export";
+import { failingConstructors, passingConstructors } from "./data/test-timetables";
 
 test("constructor validation", () => {
   for (const test of passingConstructors) {

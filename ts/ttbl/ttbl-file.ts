@@ -5,6 +5,7 @@ import { isTimetableID, TimetableID } from "../timetable/timetable-id";
 import { TimetableType, TimetableTypes } from "../timetable/timetable-type";
 import { validateTimetable } from "../timetable/validate-timetable";
 import { LocalDate } from "../utils/local-date";
+import { ttblFromTimetable } from "./ttbl-convert";
 import { TtblFileGridSection } from "./ttbl-file-grid-section";
 import { TtblFileMetadataSection } from "./ttbl-file-metadata-section";
 import { TtblFileSection } from "./ttbl-file-section";
@@ -83,6 +84,24 @@ export class TtblFile {
   }
 
   /**
+   * Returns the contents of this timetable as a .ttbl compliant string.
+   */
+  write(): string {
+    const metadata = new TtblFileMetadataSection("timetable", {
+      "version": requiredVersion,
+      "created": this.created.toISO(),
+      "id": this.id.toFixed(),
+      "line": this.line.toFixed(),
+      "type": this.type,
+      "begins": this.begins == null ? "*" : this.begins.toISO(),
+      "ends": this.ends == null ? "*" : this.ends.toISO()
+    });
+
+    return metadata.write() + "\n\n" +
+      this.grids.map(g => g.write()).join("\n\n") + "\n";
+  }
+
+  /**
    * Parses a ttbl file from the provided text. Throws a TtblVersionError if the
    * .ttbl version is unsupported, and a {@link TtblFormatError} if the file is
    * formatted incorrectly. The content is not validated against the network, so
@@ -122,20 +141,15 @@ export class TtblFile {
   }
 
   /**
-   * Returns the contents of this timetable as a .ttbl compliant string.
+   * Creates a {@link TtblFile} from a {@link Timetable}. Throws a
+   * {@link LookupError} if the lines, directions, and stops within the
+   * timetable do not exist. Use {@link Timetable.validate} to check before
+   * running.
+   * @param timetable The timetable information.
+   * @param network The transit network information to get full direction
+   * stop-lists from.
    */
-  write(): string {
-    const metadata = new TtblFileMetadataSection("timetable", {
-      "version": requiredVersion,
-      "created": this.created.toISO(),
-      "id": this.id.toFixed(),
-      "line": this.line.toFixed(),
-      "type": this.type,
-      "begins": this.begins == null ? "*" : this.begins.toISO(),
-      "ends": this.ends == null ? "*" : this.ends.toISO()
-    });
-
-    return metadata.write() + "\n\n" +
-      this.grids.map(g => g.write()).join("\n\n") + "\n";
+  static fromTimetable(timetable: Timetable, network: TransitNetwork): TtblFile {
+    return ttblFromTimetable(timetable, network);
   }
 }

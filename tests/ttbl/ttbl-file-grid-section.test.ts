@@ -1,6 +1,4 @@
-import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
-import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
-import { TtblFileGridSection } from "../../ts/ttbl/ttbl-file-grid-section";
+import { TtblFormatError, TtblFileSection, TtblFileGridSection } from "../../ts/_export";
 import { failing, failingConstructors, passing } from "./data/test-grids";
 
 test("constructor validation", () => {

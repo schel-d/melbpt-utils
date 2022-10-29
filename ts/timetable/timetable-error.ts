@@ -25,6 +25,17 @@ export class TimetableError extends Error {
   }
 
   /**
+   * Timetable sections have overlap or gaps between section indices, or are not
+   * sorted in smallest to largest order.`
+   */
+  static badSectionIDPartitioning(): TimetableError {
+    return new TimetableError(
+      `Timetable sections have overlap or gaps between section indices, or ` +
+      `are not sorted in smallest to largest order.`
+    );
+  }
+
+  /**
    * Timetable cannot be empty (have no sections).
    */
   static emptyTimetable(): TimetableError {

@@ -1,5 +1,4 @@
-import { TtblVersionError, throwIfUnsupportedVersion }
-  from "../../ts/ttbl/ttbl-version";
+import { TtblVersionError, throwIfUnsupportedVersion } from "../../ts/_export";
 
 test("throwIfUnsupportedVersion", () => {
   expect(() => throwIfUnsupportedVersion("[timetable]\nversion: 2"))

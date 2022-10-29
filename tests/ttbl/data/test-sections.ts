@@ -1,4 +1,4 @@
-import { TtblFileSection } from "../../../ts/ttbl/ttbl-file-section";
+import { TtblFileSection } from "../../../ts/_export";
 
 /**
  * Test general parsing, whitespace trimming, and brackets outside a section

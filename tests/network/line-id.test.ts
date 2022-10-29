@@ -1,5 +1,4 @@
-import { BadIDError } from "../../ts/utils/error";
-import { toLineID } from "../../ts/network/line-id";
+import { toLineID, BadIDError } from "../../ts/_export";
 
 test("toLineID", () => {
   expect(() => toLineID(1)).not.toThrow(BadIDError);

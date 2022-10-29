@@ -2,7 +2,6 @@ import { z } from "zod";
 import { LookupError } from "../utils/error";
 import { TransitNetworkError } from "./error";
 import { Line } from "./line";
-import { LineRouteType } from "./line-enums";
 import { LineID } from "./line-id";
 import { Stop } from "./stop";
 import { StopID } from "./stop-id";
@@ -23,7 +22,7 @@ export class TransitNetwork {
   readonly stops: Stop[];
 
   /** The lines in the transit network. */
-  readonly lines: Line<LineRouteType>[];
+  readonly lines: Line[];
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
@@ -40,7 +39,7 @@ export class TransitNetwork {
    * @param stops The stops in the transit network.
    * @param lines The lines in the transit network.
    */
-  constructor(hash: string, stops: Stop[], lines: Line<LineRouteType>[]) {
+  constructor(hash: string, stops: Stop[], lines: Line[]) {
     // Check that two stops don't have the same ID.
     const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
     if (uniqueStopIDsCount < stops.length) {
@@ -69,7 +68,7 @@ export class TransitNetwork {
    * Returns the line with the given id, or null.
    * @param id The id.
    */
-  getLine(id: LineID): Line<LineRouteType> | null {
+  getLine(id: LineID): Line | null {
     return this.lines.find(l => l.id == id) ?? null;
   }
 
@@ -85,7 +84,7 @@ export class TransitNetwork {
    * Returns the line with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requireLine(id: LineID): Line<LineRouteType> {
+  requireLine(id: LineID): Line {
     const line = this.getLine(id);
     if (line != null) { return line; }
     throw LookupError.lineNotFound(id);

@@ -1,6 +1,4 @@
-import { Direction } from "../../../ts/network/direction";
-import { toDirectionID } from "../../../ts/network/direction-id";
-import { toStopID } from "../../../ts/network/stop-id";
+import { Direction, toDirectionID, toStopID } from "../../../ts/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new Direction(

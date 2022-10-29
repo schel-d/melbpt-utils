@@ -1,7 +1,6 @@
 import { readFileSync } from "fs";
-import { TransitNetworkError } from "../../ts/network/error";
-import { TransitNetwork } from "../../ts/network/transit-network";
-import { obj01 } from "./data/obj01";
+import { TransitNetwork, TransitNetworkError } from "../../ts/_export";
+import { obj01 } from "./data/test-networks";
 
 test("json parse", () => {
   const passingTests = [

@@ -1,4 +1,5 @@
 import { DirectionID } from "./direction-id";
+import { CityLoopPortal, LineRouteType } from "./line-enums";
 import { LineID } from "./line-id";
 import { StopID } from "./stop-id";
 
@@ -90,13 +91,15 @@ export class TransitNetworkError extends Error {
   }
 
   /**
-   * Line with ID "`id`" is a city loop line, but does not specify a city loop
-   * portal.
+   * Line with route type "`type`" should not have city loop portal value of
+   * "`portal`".
    */
-  static cityLoopLineMissingPortal(id: LineID): TransitNetworkError {
+  static lineLoopPortalInvalid(type: LineRouteType,
+    portal: CityLoopPortal | null): TransitNetworkError {
+
     return new TransitNetworkError(
-      `Line with ID "${id}" is a city loop line, but does not specify a city ` +
-      `loop portal.`
+      `Line with route type "${type}" should not have city loop portal ` +
+      `value of "${(portal ?? "null")}".`
     );
   }
 

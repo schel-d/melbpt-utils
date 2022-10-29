@@ -1,8 +1,4 @@
-import { Direction } from "../../../ts/network/direction";
-import { toDirectionID } from "../../../ts/network/direction-id";
-import { Line } from "../../../ts/network/line";
-import { toLineID } from "../../../ts/network/line-id";
-import { toStopID } from "../../../ts/network/stop-id";
+import { Direction, Line, toDirectionID, toLineID, toStopID } from "../../../ts/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new Line(

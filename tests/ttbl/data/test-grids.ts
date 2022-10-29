@@ -1,8 +1,6 @@
-import { toDirectionID } from "../../../ts/network/direction-id";
-import { toStopID } from "../../../ts/network/stop-id";
-import { GridRow, TtblFileGridSection } from "../../../ts/ttbl/ttbl-file-grid-section";
-import { LocalTime } from "../../../ts/utils/local-time";
-import { WeekdayRange } from "../../../ts/utils/week-day-range";
+import {
+  GridRow, LocalTime, toDirectionID, toStopID, TtblFileGridSection, WeekdayRange
+} from "../../../ts/_export";
 
 /** Test general parsing, comments are ignored, and blank times permitted. */
 const text01 = `

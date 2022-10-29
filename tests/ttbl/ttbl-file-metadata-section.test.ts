@@ -1,7 +1,5 @@
-import { TtblFormatError } from "../../ts/ttbl/ttbl-format-error";
-import { TtblFileSection } from "../../ts/ttbl/ttbl-file-section";
-import { TtblFileMetadataSection }
-  from "../../ts/ttbl/ttbl-file-metadata-section";
+import { TtblFormatError, TtblFileSection, TtblFileMetadataSection }
+  from "../../ts/_export";
 import { failing, failingProperties, objProperties, passing, passingProperties }
   from "./data/test-metadata";
 

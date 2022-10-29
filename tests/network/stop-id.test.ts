@@ -1,5 +1,4 @@
-import { BadIDError } from "../../ts/utils/error";
-import { toStopID } from "../../ts/network/stop-id";
+import { toStopID, BadIDError } from "../../ts/_export";
 
 test("toStopID", () => {
   expect(() => toStopID(1)).not.toThrow(BadIDError);

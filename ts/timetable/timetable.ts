@@ -1,11 +1,11 @@
-import { TtblFile } from "../export";
+import { TtblFile } from "../_export";
 import { LineID } from "../network/line-id";
 import { TransitNetwork } from "../network/transit-network";
 import { timetableFromTtbl } from "../ttbl/ttbl-convert";
 import { LookupError } from "../utils/error";
 import { LocalDate } from "../utils/local-date";
 import { TimetableEntry } from "./timetable-entry";
-import { TimetableEntryIndex } from "./timetable-entry-index";
+import { TimetableEntryIndex, toTimetableEntryIndex } from "./timetable-entry-index";
 import { TimetableError } from "./timetable-error";
 import { TimetableID } from "./timetable-id";
 import { TimetableSection } from "./timetable-section";
@@ -72,6 +72,14 @@ export class Timetable {
 
     if (sections.length < 1) {
       throw TimetableError.emptySection();
+    }
+
+    let expectedIndex = 0;
+    for (const section of sections) {
+      if (section.firstIndex != toTimetableEntryIndex(expectedIndex)) {
+        throw TimetableError.badSectionIDPartitioning();
+      }
+      expectedIndex = section.lastIndex + 1;
     }
 
     this.id = id;

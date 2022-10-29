@@ -1,7 +1,4 @@
-import { Platform } from "../../../ts/network/platform";
-import { toPlatformID } from "../../../ts/network/platform-id";
-import { Stop } from "../../../ts/network/stop";
-import { toStopID } from "../../../ts/network/stop-id";
+import { Platform, Stop, toPlatformID, toStopID } from "../../../ts/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new Stop(

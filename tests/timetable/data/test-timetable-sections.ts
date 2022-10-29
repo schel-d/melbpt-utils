@@ -1,18 +1,14 @@
-import { toDirectionID } from "../../../ts/network/direction-id";
-import { toStopID } from "../../../ts/network/stop-id";
-import { TimetableEntryStop, TimetableEntryWithinSection }
-  from "../../../ts/timetable/timetable-entry";
-import { MaxTimetableEntryIndex, toTimetableEntryIndex }
-  from "../../../ts/timetable/timetable-entry-index";
-import { TimetableSection } from "../../../ts/timetable/timetable-section";
-import { LocalTime } from "../../../ts/utils/local-time";
-import { WeekdayRange } from "../../../ts/utils/week-day-range";
+import {
+  LocalTime, MaxTimetableEntryIndex, TimetableEntryStop,
+  TimetableEntryWithinSection, TimetableSection, toDirectionID, toStopID,
+  toTimetableEntryIndex, WeekdayRange
+} from "../../../ts/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new TimetableSection(
   toDirectionID("up"),
   WeekdayRange.parse("MTWT___"),
-  toTimetableEntryIndex(1),
+  toTimetableEntryIndex(0),
   [
     new TimetableEntryWithinSection([
       new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 20)),
@@ -38,7 +34,7 @@ const constructor02 = () => new TimetableSection(
 const badConstructor01 = () => new TimetableSection(
   toDirectionID("up"),
   WeekdayRange.parse("MTWT___"),
-  toTimetableEntryIndex(1),
+  toTimetableEntryIndex(0),
   [
   ]
 );

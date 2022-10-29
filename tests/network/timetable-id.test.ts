@@ -1,5 +1,4 @@
-import { BadIDError } from "../../ts/utils/error";
-import { toTimetableID } from "../../ts/timetable/timetable-id";
+import { toTimetableID, BadIDError } from "../../ts/_export";
 
 test("toTimetableID", () => {
   expect(() => toTimetableID(1)).not.toThrow(BadIDError);
