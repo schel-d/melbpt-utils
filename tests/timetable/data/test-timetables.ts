@@ -1,5 +1,6 @@
 import {
-  LocalDate, LocalTime, Timetable, TimetableEntryStop,
+  DayOfWeek,
+  LocalDate, LocalTime, Timetable, TimetableEntry, TimetableEntryStop,
   TimetableEntryWithinSection, TimetableSection, toDirectionID, toLineID,
   toStopID, toTimetableEntryIndex, toTimetableID, WeekdayRange
 } from "../../../ts/_export";
@@ -91,7 +92,7 @@ const constructor03 = () => new Timetable(
     ),
     new TimetableSection(
       toDirectionID("up"),
-      WeekdayRange.parse("MTWT___"),
+      WeekdayRange.parse("____FSS"),
       toTimetableEntryIndex(8),
       [
         new TimetableEntryWithinSection([
@@ -266,9 +267,58 @@ const badConstructor05 = () => new Timetable(
   ]
 );
 
+const entry01 = new TimetableEntry(
+  toTimetableID(1),
+  toLineID(1),
+  toTimetableEntryIndex(1),
+  toDirectionID("up"),
+  DayOfWeek.mon,
+  [
+    new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 25)),
+    new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 28))
+  ]
+);
+
+const entry02 = new TimetableEntry(
+  toTimetableID(1),
+  toLineID(1),
+  toTimetableEntryIndex(3),
+  toDirectionID("up"),
+  DayOfWeek.tue,
+  [
+    new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 25)),
+    new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 28))
+  ]
+);
+
+const entry03 = new TimetableEntry(
+  toTimetableID(1),
+  toLineID(1),
+  toTimetableEntryIndex(8),
+  toDirectionID("up"),
+  DayOfWeek.fri,
+  [
+    new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 20)),
+    new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 23))
+  ]
+);
+
+const entry04 = new TimetableEntry(
+  toTimetableID(1),
+  toLineID(1),
+  toTimetableEntryIndex(10),
+  toDirectionID("up"),
+  DayOfWeek.sun,
+  [
+    new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 20)),
+    new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 23))
+  ]
+);
+
 export const passingConstructors = [
   constructor01,
-  constructor02
+  constructor02,
+  constructor03
 ];
 
 export const failingConstructors = [
@@ -277,4 +327,17 @@ export const failingConstructors = [
   badConstructor03,
   badConstructor04,
   badConstructor05
+];
+
+export const entries = [
+  { entry: entry01, timetable: constructor03() },
+  { entry: entry02, timetable: constructor03() },
+  { entry: entry03, timetable: constructor03() },
+  { entry: entry04, timetable: constructor03() }
+];
+
+export const entryBounds = [
+  { timetable: constructor01(), numOfEntries: 1 },
+  { timetable: constructor02(), numOfEntries: 3 },
+  { timetable: constructor03(), numOfEntries: 11 }
 ];
