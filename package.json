@@ -2,7 +2,9 @@
   "name": "melbpt-utils",
   "version": "0.1.5",
   "description": "A library for code common to the various melbpt services.",
-  "main": ".out/_export.js",
+  "exports": {
+    ".": "./.out/_exports.js"
+  },
   "types": ".out/_export.d.js",
   "type": "module",
   "scripts": {
