@@ -1,11 +1,9 @@
 {
   "name": "melbpt-utils",
-  "version": "0.1.5",
+  "version": "0.1.9",
   "description": "A library for code common to the various melbpt services.",
-  "exports": {
-    ".": "./.out/_exports.js"
-  },
-  "types": ".out/_export.d.js",
+  "main": "index.js",
+  "types": "index.d.js",
   "type": "module",
   "scripts": {
     "clean": "rimraf .out/*",
