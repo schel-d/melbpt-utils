@@ -1,1 +1,1 @@
-export * from "./.out/_export";
+export * from "./dist/_export";

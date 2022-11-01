@@ -1,4 +1,4 @@
-import { TtblFile } from "../_export";
+import { TtblFile } from "../ttbl/ttbl-file";
 import { LineID } from "../network/line-id";
 import { TransitNetwork } from "../network/transit-network";
 import { timetableFromTtbl } from "../ttbl/ttbl-convert";
