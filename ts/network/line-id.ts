@@ -43,3 +43,20 @@ export function toLineID(val: number | string): LineID {
   if (num != null && isLineID(num)) { return num; }
   throw BadIDError.badLineID(val);
 }
+
+/**
+ * Converts a base-36 string to a {@link LineID}. Throws {@link BadIDError}
+ * if invalid.
+ * @param val The base-36 string.
+ */
+export function base36ToLineID(val: string): LineID {
+  return toLineID(parseInt(val, 36));
+}
+
+/**
+ * Converts a {@link LineID} to a base-36 string.
+ * @param id The timetable id.
+ */
+export function lineIDToBase36(id: LineID): string {
+  return id.toString(36);
+}

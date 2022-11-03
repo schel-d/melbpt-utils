@@ -48,3 +48,20 @@ export function toTimetableID(val: number | string): TimetableID {
   if (num != null && isTimetableID(num)) { return num; }
   throw BadIDError.badTimetableID(val);
 }
+
+/**
+ * Converts a base-36 string to a {@link TimetableID}. Throws {@link BadIDError}
+ * if invalid.
+ * @param val The base-36 string.
+ */
+export function base36ToTimetableID(val: string): TimetableID {
+  return toTimetableID(parseInt(val, 36));
+}
+
+/**
+ * Converts a {@link TimetableID} to a base-36 string.
+ * @param id The timetable id.
+ */
+export function timetableIDToBase36(id: TimetableID): string {
+  return id.toString(36).padStart(2, "0");
+}
