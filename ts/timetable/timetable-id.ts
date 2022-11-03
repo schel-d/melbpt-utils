@@ -1,4 +1,5 @@
 import { BadIDError } from "../utils/error";
+import { parseIntNull } from "../_export";
 
 /**
  * Represents a unique integer identifier for a timetable. This value needs to
@@ -27,18 +28,23 @@ export const MinTimetableID = 1;
 
 /**
  * Returns true for any integer between 36 and 1295 inclusive.
- * @param id The number to check.
+ * @param id The number/string to check.
  */
-export function isTimetableID(id: number): id is TimetableID {
-  return Number.isInteger(id) && id >= MinTimetableID && id <= MaxTimetableID;
+export function isTimetableID(id: number | string): id is TimetableID {
+  const num = typeof (id) == "number" ? id : parseIntNull(id);
+  return num != null
+    && Number.isInteger(num)
+    && num >= MinTimetableID
+    && num <= MaxTimetableID;
 }
 
 /**
- * Converts a number to a {@link TimetableID}. Throws {@link BadIDError} if
- * invalid.
- * @param val The number.
+ * Converts a number/string to a {@link TimetableID}. Throws {@link BadIDError}
+ * if invalid.
+ * @param val The number/string.
  */
-export function toTimetableID(val: number): TimetableID {
-  if (isTimetableID(val)) { return val; }
+export function toTimetableID(val: number | string): TimetableID {
+  const num = typeof (val) == "number" ? val : parseIntNull(val);
+  if (num != null && isTimetableID(num)) { return num; }
   throw BadIDError.badTimetableID(val);
 }

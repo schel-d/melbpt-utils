@@ -22,8 +22,8 @@ export function splitTrim(text: string, delimiter: string): string[] {
 
 /**
  * Returns the same string is kebab-case form. Returned string is guaranteed to
- * only contain a-z and dashes. All other symbols such as numbers, dollar signs,
- * and accented characters will be removed (for better or for worse).
+ * only contain a-z, numbers, and dashes. All other symbols such as dollar
+ * signs, and accented characters will be removed (for better or for worse).
  * @param text The string to convert.
  */
 export function kebabify(text: string): string {
@@ -35,5 +35,5 @@ export function kebabify(text: string): string {
     .replace(/\s/g, "-")
 
     // Remove all other non ASCII letters.
-    .replace(/[^a-z-]/g, "");
+    .replace(/[^a-z0-9-]/g, "");
 }

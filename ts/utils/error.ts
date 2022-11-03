@@ -31,7 +31,7 @@ export class BadIDError extends Error {
   /**
    * Bad line ID "`val`".
    */
-  static badLineID(val: number): BadIDError {
+  static badLineID(val: number | string): BadIDError {
     return new BadIDError(
       `Bad line ID "${val}"`
     );
@@ -49,7 +49,7 @@ export class BadIDError extends Error {
   /**
    * Bad stop ID "`val`".
    */
-  static badStopID(val: number): BadIDError {
+  static badStopID(val: number | string): BadIDError {
     return new BadIDError(
       `Bad stop ID "${val}"`
     );
@@ -58,7 +58,7 @@ export class BadIDError extends Error {
   /**
    * Bad timetable ID "`val`".
    */
-  static badTimetableID(val: number): BadIDError {
+  static badTimetableID(val: number | string): BadIDError {
     return new BadIDError(
       `Bad timetable ID "${val}"`
     );

@@ -1,4 +1,5 @@
 import { BadIDError } from "../utils/error";
+import { parseIntNull } from "../_export";
 
 /**
  * Represents a unique integer identifier for a stop. Must be 1-9999 inclusive.
@@ -22,17 +23,23 @@ export const MinStopID = 1;
 
 /**
  * Returns true for any integer between 1 and 9999 inclusive.
- * @param id The number to check.
+ * @param id The number/string to check.
  */
-export function isStopID(id: number): id is StopID {
-  return Number.isInteger(id) && id >= MinStopID && id <= MaxStopID;
+export function isStopID(id: number | string): id is StopID {
+  const num = typeof (id) == "number" ? id : parseIntNull(id);
+  return num != null
+    && Number.isInteger(num)
+    && num >= MinStopID
+    && num <= MaxStopID;
 }
 
 /**
- * Converts a number to a {@link StopID}. Throws {@link BadIDError} if invalid.
- * @param val The number.
+ * Converts a number/string to a {@link StopID}. Throws {@link BadIDError} if
+ * invalid.
+ * @param val The number/string.
  */
-export function toStopID(val: number): StopID {
-  if (isStopID(val)) { return val; }
+export function toStopID(val: number | string): StopID {
+  const num = typeof (val) == "number" ? val : parseIntNull(val);
+  if (num != null && isStopID(num)) { return num; }
   throw BadIDError.badStopID(val);
 }

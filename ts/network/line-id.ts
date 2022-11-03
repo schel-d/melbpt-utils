@@ -1,4 +1,5 @@
 import { BadIDError } from "../utils/error";
+import { parseIntNull } from "../utils/num-utils";
 
 /**
  * Represents a unique integer identifier for a line. Must be 1-35 inclusive.
@@ -22,17 +23,23 @@ export const MinLineID = 1;
 
 /**
  * Returns true for any integer between 1 and 35 inclusive.
- * @param id The number to check.
+ * @param id The number/string to check.
  */
-export function isLineID(id: number): id is LineID {
-  return Number.isInteger(id) && id >= MinLineID && id <= MaxLineID;
+export function isLineID(id: number | string): id is LineID {
+  const num = typeof (id) == "number" ? id : parseIntNull(id);
+  return num != null
+    && Number.isInteger(num)
+    && num >= MinLineID
+    && num <= MaxLineID;
 }
 
 /**
- * Converts a number to a {@link LineID}. Throws {@link BadIDError} if invalid.
- * @param val The number.
+ * Converts a number/string to a {@link LineID}. Throws {@link BadIDError} if
+ * invalid.
+ * @param val The number/string.
  */
-export function toLineID(val: number): LineID {
-  if (isLineID(val)) { return val; }
+export function toLineID(val: number | string): LineID {
+  const num = typeof (val) == "number" ? val : parseIntNull(val);
+  if (num != null && isLineID(num)) { return num; }
   throw BadIDError.badLineID(val);
 }

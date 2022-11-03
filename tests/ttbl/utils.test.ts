@@ -32,4 +32,5 @@ test("kebabify", () => {
   expect(kebabify("Dog food")).toStrictEqual("dog-food");
   expect(kebabify("It's about time!")).toStrictEqual("its-about-time");
   expect(kebabify("Söme fǔnky letţèrs")).toStrictEqual("sme-fnky-letrs");
+  expect(kebabify("n0mb3rs are f1ne")).toStrictEqual("n0mb3rs-are-f1ne");
 });
