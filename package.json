@@ -1,6 +1,6 @@
 {
   "name": "melbpt-utils",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "A library for code common to the various melbpt services.",
   "main": "index.js",
   "types": "index.d.js",
@@ -36,8 +36,6 @@
   ],
   "devDependencies": {
     "@types/jest": "^29.2.1",
-    "@types/luxon": "^3.0.2",
-    "@types/node": "^18.11.3",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "esbuild": "^0.15.12",
@@ -56,6 +54,7 @@
     "dist/**/*"
   ],
   "dependencies": {
+    "@types/luxon": "^3.0.2",
     "luxon": "^3.0.4",
     "zod": "^3.19.1"
   }
