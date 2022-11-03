@@ -17,6 +17,12 @@ export class Platform {
     name: z.string()
   }).transform(x => new Platform(x.id, x.name));
 
+  /** Zod schema for parsing from JSON but only using raw types. */
+  static readonly rawJson = z.object({
+    id: z.string(),
+    name: z.string()
+  });
+
   /**
    * Creates a {@link Platform}.
    * @param id The platform's unique ID (unique to its stop at least).
@@ -25,5 +31,13 @@ export class Platform {
   constructor(id: PlatformID, name: string) {
     this.id = id;
     this.name = name;
+  }
+
+  /** Convert to JSON object according to {@link Platform.rawJson}. */
+  toJSON(): z.infer<typeof Platform.rawJson> {
+    return {
+      id: this.id,
+      name: this.name
+    };
   }
 }

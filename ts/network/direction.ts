@@ -27,6 +27,13 @@ export class Direction {
       .array().min(2)
   }).transform(x => new Direction(x.id, x.name, x.stops));
 
+  /** Zod schema for parsing from JSON but only using raw types. */
+  static readonly rawJson = z.object({
+    id: z.string(),
+    name: z.string(),
+    stops: z.number().array()
+  });
+
   /**
    * Creates a {@link Direction}.
    * @param id The direction's unique ID (unique for this line at least).
@@ -47,5 +54,14 @@ export class Direction {
     this.id = id;
     this.name = name;
     this.stops = stops;
+  }
+
+  /** Convert to JSON object according to {@link Direction.rawJson}. */
+  toJSON(): z.infer<typeof Direction.rawJson> {
+    return {
+      id: this.id,
+      name: this.name,
+      stops: this.stops,
+    };
   }
 }

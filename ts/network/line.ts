@@ -57,6 +57,19 @@ export class Line {
     x.routeLoopPortal ?? null, x.directions
   ));
 
+  /** Zod schema for parsing from JSON but only using raw types. */
+  static readonly rawJson = z.object({
+    id: z.number(),
+    name: z.string(),
+    color: z.enum(LineColors),
+    service: z.enum(LineServices),
+    routeType: z.enum(LineRouteTypes),
+    specialEventsOnly: z.boolean(),
+    tags: z.string().array(),
+    routeLoopPortal: z.enum(CityLoopPortals).optional(),
+    directions: Direction.rawJson.array()
+  });
+
   /**
    * Creates a {@link Line}.
    * @param id The line's unique ID.
@@ -125,5 +138,20 @@ export class Line {
     const direction = this.getDirection(id);
     if (direction != null) { return direction; }
     throw LookupError.directionNotFound(id);
+  }
+
+  /** Convert to JSON object according to {@link Line.rawJson}. */
+  toJSON(): z.infer<typeof Line.rawJson> {
+    return {
+      id: this.id,
+      name: this.name,
+      color: this.color,
+      service: this.service,
+      routeType: this.routeType,
+      specialEventsOnly: this.specialEventsOnly,
+      tags: this.tags,
+      routeLoopPortal: this.routeLoopPortal ?? undefined,
+      directions: this.directions.map(d => d.toJSON())
+    };
   }
 }

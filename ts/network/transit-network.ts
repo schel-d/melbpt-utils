@@ -31,6 +31,13 @@ export class TransitNetwork {
     lines: Line.json.array()
   }).transform(x => new TransitNetwork(x.hash, x.stops, x.lines));
 
+  /** Zod schema for parsing from JSON but only using raw types. */
+  static readonly rawJson = z.object({
+    hash: z.string(),
+    stops: Stop.rawJson.array(),
+    lines: Line.rawJson.array()
+  });
+
   /**
    * Creates a {@link TransitNetwork}.
    * @param hash A string representing the content in this object that can be
@@ -98,5 +105,14 @@ export class TransitNetwork {
     const stop = this.getStop(id);
     if (stop != null) { return stop; }
     throw LookupError.stopNotFound(id);
+  }
+
+  /** Convert to JSON object according to {@link TransitNetwork.rawJson}. */
+  toJSON(): z.infer<typeof TransitNetwork.rawJson> {
+    return {
+      hash: this.hash,
+      stops: this.stops.map(s => s.toJSON()),
+      lines: this.lines.map(l => l.toJSON())
+    };
   }
 }

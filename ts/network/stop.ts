@@ -36,6 +36,15 @@ export class Stop {
     urlName: z.string()
   }).transform(x => new Stop(x.id, x.name, x.platforms, x.tags, x.urlName));
 
+  /** Zod schema for parsing from JSON but only using raw types. */
+  static readonly rawJson = z.object({
+    id: z.number(),
+    name: z.string(),
+    platforms: Platform.rawJson.array(),
+    tags: z.string().array(),
+    urlName: z.string()
+  });
+
   /**
    * Creates a {@link Stop}.
    * @param id The stop's unique ID number.
@@ -82,5 +91,16 @@ export class Stop {
     const platform = this.getPlatform(id);
     if (platform != null) { return platform; }
     throw LookupError.platformNotFound(id);
+  }
+
+  /** Convert to JSON object according to {@link Stop.rawJson}. */
+  toJSON(): z.infer<typeof Stop.rawJson> {
+    return {
+      id: this.id,
+      name: this.name,
+      platforms: this.platforms.map(p => p.toJSON()),
+      tags: this.tags,
+      urlName: this.urlName
+    };
   }
 }
