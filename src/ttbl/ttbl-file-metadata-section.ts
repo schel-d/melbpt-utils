@@ -1,7 +1,7 @@
 import { LocalDate } from "../utils/local-date";
-import { parseIntNull } from "../utils/num-utils";
 import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
+import { parseIntNull } from "schel-d-utils";
 
 export type Metadata = Record<string, string>;
 

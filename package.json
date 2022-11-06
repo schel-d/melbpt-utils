@@ -1,20 +1,21 @@
 {
   "name": "melbpt-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library for code common to the various melbpt services.",
-  "main": "index.js",
-  "types": "index.d.js",
+  "main": "dist/cjs/_export.js",
+  "types": "dist/cjs/_export.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./index.js"
+      "import": "./dist/esm/_export.js",
+      "require": "./dist/cjs/_export.js"
     }
   },
   "scripts": {
     "clean": "rimraf dist/*",
     "prebuild": "npm run clean",
-    "build": "tsc --project src/tsconfig.json",
-    "lint": "eslint . & tsc --project src/tsconfig.json --noemit & tsc --project tests/tsconfig.json --noemit",
+    "build": "tsc --project src/tsconfig-cjs.json & tsc --project src/tsconfig-esm.json",
+    "lint": "eslint . & tsc --project src/tsconfig-cjs.json --noemit & tsc --project tests/tsconfig.json --noemit",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "prepare": "npm run build"
@@ -38,7 +39,6 @@
     "@types/jest": "^29.2.1",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
-    "esbuild": "^0.15.12",
     "eslint": "^8.26.0",
     "eslint-config-prettier": "^8.5.0",
     "jest": "^29.2.2",
@@ -48,13 +48,12 @@
     "typescript": "^4.8.4"
   },
   "files": [
-    "index.js",
-    "index.d.ts",
     "dist/**/*"
   ],
   "dependencies": {
     "@types/luxon": "^3.0.2",
     "luxon": "^3.0.4",
+    "schel-d-utils": "^2.0.5",
     "zod": "^3.19.1"
   }
 }

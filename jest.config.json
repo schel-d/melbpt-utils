@@ -9,7 +9,7 @@
     "^.+\\.tsx?$": [
       "ts-jest",
       {
-        "tsconfig": "src/tsconfig.json"
+        "tsconfig": "src/tsconfig-cjs.json"
       }
     ]
   }

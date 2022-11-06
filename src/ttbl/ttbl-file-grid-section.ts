@@ -1,11 +1,11 @@
 import { isStopID, StopID } from "../network/stop-id";
 import { LocalTime } from "../utils/local-time";
-import { parseIntNull } from "../utils/num-utils";
 import { WeekdayRange } from "../utils/weekday-range";
 import { TtblFormatError } from "./ttbl-format-error";
 import { TtblFileSection } from "./ttbl-file-section";
 import { splitTrim } from "./utils";
 import { DirectionID, isDirectionID } from "../network/direction-id";
+import { parseIntNull } from "schel-d-utils";
 
 /**
  * Like a {@link TtblFileSection}, but the contents must be in the format of a

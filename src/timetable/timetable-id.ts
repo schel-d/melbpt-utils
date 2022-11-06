@@ -1,5 +1,5 @@
+import { parseIntNull } from "schel-d-utils";
 import { BadIDError } from "../utils/error";
-import { parseIntNull } from "../_export";
 
 /**
  * Represents a unique integer identifier for a timetable. This value needs to
