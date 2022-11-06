@@ -175,4 +175,18 @@ export class WeekdayRange {
 
     return index;
   }
+
+  /**
+   * Returns true if this and {@link other} refer to the same weekday range.
+   * @param other The other.
+   */
+  equals(other: WeekdayRange): boolean {
+    return this.mon == other.mon
+      && this.tue == other.tue
+      && this.wed == other.wed
+      && this.thu == other.thu
+      && this.fri == other.fri
+      && this.sat == other.sat
+      && this.sun == other.sun;
+  }
 }

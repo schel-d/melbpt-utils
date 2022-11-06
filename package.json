@@ -1,6 +1,6 @@
 {
   "name": "melbpt-utils",
-  "version": "0.1.17",
+  "version": "0.1.19",
   "description": "A library for code common to the various melbpt services.",
   "main": "index.js",
   "types": "index.d.js",

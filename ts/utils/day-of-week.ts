@@ -87,6 +87,14 @@ export class DayOfWeek {
   }
 
   /**
+   * Returns true if this and {@link other} refer to the same day of week.
+   * @param other The other.
+   */
+  equals(other: DayOfWeek): boolean {
+    return this.daysSinceMonday == other.daysSinceMonday;
+  }
+
+  /**
    * Creates a {@link DayOfWeek} from an arbitrary number.
    * @param daysSinceMonday The number of days this day of the week is away from
    * Monday, e.g. 3 for Thursday. This value must be an integer between 0-6

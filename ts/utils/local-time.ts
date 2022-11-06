@@ -159,6 +159,14 @@ export class LocalTime {
   }
 
   /**
+   * Returns true if this and {@link other} refer to the same time of day.
+   * @param other The other.
+   */
+  equals(other: LocalTime): boolean {
+    return this.minuteOfDay == other.minuteOfDay;
+  }
+
+  /**
    * Return the same local time, but the non-"next day" version. Throws a
    * {@link TimeError} if this local time is not the "next day" version.
    */

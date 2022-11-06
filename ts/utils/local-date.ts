@@ -132,6 +132,14 @@ export class LocalDate {
   }
 
   /**
+   * Returns true if this and {@link other} refer to the same date.
+   * @param other The other.
+   */
+  equals(other: LocalDate): boolean {
+    return this.year == other.year && this.month == other.month && this.day == other.day;
+  }
+
+  /**
    * Returns the local date of the day before this day in the calendar. Uses
    * luxon under the hood to work out the date.
    */
