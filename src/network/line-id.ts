@@ -1,5 +1,5 @@
+import { parseIntNull } from "schel-d-utils";
 import { BadIDError } from "../utils/error";
-import { parseIntNull } from "../utils/num-utils";
 
 /**
  * Represents a unique integer identifier for a line. Must be 1-35 inclusive.

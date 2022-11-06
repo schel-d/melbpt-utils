@@ -9,7 +9,7 @@ import { LocalTime } from "../utils/local-time";
 import { TtblFile } from "./ttbl-file";
 import { GridRow, TtblFileGridSection } from "./ttbl-file-grid-section";
 import { TransitNetwork } from "../network/transit-network";
-import { kebabify } from "./utils";
+import { kebabify } from "schel-d-utils";
 
 /**
  * Creates a {@link Timetable} from a {@link TtblFile}. Throws a

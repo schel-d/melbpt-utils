@@ -2,8 +2,9 @@
   "include": ["./**/*"],
   "compilerOptions": {
     "target": "ES2019",
+    "module": "CommonJS",
     "esModuleInterop": true,
-    "outDir": "../dist/",
+    "outDir": "../dist/cjs/",
     "strict": true,
     "lib": ["ES2019"],
     "moduleResolution": "node",

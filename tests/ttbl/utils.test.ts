@@ -1,4 +1,4 @@
-import { kebabify, lineify } from "../../src/_export";
+import { lineify } from "../../src/_export";
 
 test("lineify", () => {
   expect(lineify(""))
@@ -24,13 +24,4 @@ test("lineify", () => {
 
   expect(lineify("\nthe cat\n goes meow\n  \n the dog goes woof \n"))
     .toStrictEqual(["the cat", "goes meow", "the dog goes woof"]);
-});
-
-test("kebabify", () => {
-  expect(kebabify("")).toStrictEqual("");
-  expect(kebabify("SCREAM")).toStrictEqual("scream");
-  expect(kebabify("Dog food")).toStrictEqual("dog-food");
-  expect(kebabify("It's about time!")).toStrictEqual("its-about-time");
-  expect(kebabify("Söme fǔnky letţèrs")).toStrictEqual("sme-fnky-letrs");
-  expect(kebabify("n0mb3rs are f1ne")).toStrictEqual("n0mb3rs-are-f1ne");
 });

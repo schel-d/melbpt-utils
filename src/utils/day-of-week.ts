@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { posMod } from "./num-utils";
+import { posMod } from "schel-d-utils";
 import { TimeError } from "./time-utils";
 
 type DayOfWeekNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
