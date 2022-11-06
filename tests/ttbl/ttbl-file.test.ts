@@ -1,4 +1,4 @@
-import { TtblVersionError, TtblFormatError, TtblFile } from "../../ts/_export";
+import { TtblVersionError, TtblFormatError, TtblFile } from "../../src/_export";
 import { failing, failingVersion, passing, writing } from "./data/test-ttbls";
 
 test("parse", () => {

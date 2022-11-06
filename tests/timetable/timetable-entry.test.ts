@@ -1,4 +1,4 @@
-import { TimetableError } from "../../ts/_export";
+import { TimetableError } from "../../src/_export";
 import { failingConstructors, passingConstructors } from "./data/test-timetable-entries";
 
 test("constructor validation", () => {

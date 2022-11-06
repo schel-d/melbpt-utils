@@ -1,4 +1,4 @@
-import { parseIntThrow, parseIntNull, posMod } from "../../ts/_export";
+import { parseIntThrow, parseIntNull, posMod } from "../../src/_export";
 
 test("parseIntThrow", () => {
   expect(parseIntThrow("3")).toStrictEqual(3);

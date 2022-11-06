@@ -2,7 +2,7 @@ import {
   LocalTime, MaxTimetableEntryIndex, TimetableEntryStop,
   TimetableEntryWithinSection, TimetableSection, toDirectionID, toStopID,
   toTimetableEntryIndex, WeekdayRange
-} from "../../../ts/_export";
+} from "../../../src/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new TimetableSection(

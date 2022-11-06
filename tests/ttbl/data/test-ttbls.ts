@@ -1,7 +1,7 @@
 import {
   GridRow, LocalDate, LocalTime, toDirectionID, toLineID, toStopID,
   toTimetableID, TtblFile, TtblFileGridSection, WeekdayRange
-} from "../../../ts/_export";
+} from "../../../src/_export";
 
 /**
  * Test general parsing.

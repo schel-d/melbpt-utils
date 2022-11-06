@@ -1,4 +1,4 @@
-import { DayOfWeek, TimeError, WeekdayRange } from "../../ts/_export";
+import { DayOfWeek, TimeError, WeekdayRange } from "../../src/_export";
 
 test("parse", () => {
   expect(() => WeekdayRange.parse("MTWTFSS")).not.toThrow(TimeError);

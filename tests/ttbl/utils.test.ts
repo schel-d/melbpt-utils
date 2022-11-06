@@ -1,4 +1,4 @@
-import { kebabify, lineify } from "../../ts/_export";
+import { kebabify, lineify } from "../../src/_export";
 
 test("lineify", () => {
   expect(lineify(""))

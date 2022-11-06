@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { DayOfWeek, TimeError } from "../../ts/_export";
+import { DayOfWeek, TimeError } from "../../src/_export";
 
 test("name and codename", () => {
   expect(DayOfWeek.mon.name).toStrictEqual("Monday");

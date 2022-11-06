@@ -1,5 +1,5 @@
 import { toTimetableID, BadIDError, base36ToTimetableID, timetableIDToBase36 }
-  from "../../ts/_export";
+  from "../../src/_export";
 
 test("toTimetableID", () => {
   expect(() => toTimetableID(1)).not.toThrow(BadIDError);

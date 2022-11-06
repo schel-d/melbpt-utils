@@ -1,4 +1,4 @@
-import { TimetableError } from "../../ts/_export";
+import { TimetableError } from "../../src/_export";
 import { network01 } from "./data/test-networks";
 import { failing, passing } from "./data/test-timetables-validation";
 

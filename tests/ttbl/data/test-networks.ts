@@ -1,7 +1,7 @@
 import {
   Direction, Line, Platform, Stop, toDirectionID, toLineID, toPlatformID,
   toStopID, TransitNetwork
-} from "../../../ts/_export";
+} from "../../../src/_export";
 
 export const network01 = new TransitNetwork(
   "2022-10-26",

@@ -1,4 +1,4 @@
-import { toLineID, BadIDError, base36ToLineID, lineIDToBase36 } from "../../ts/_export";
+import { toLineID, BadIDError, base36ToLineID, lineIDToBase36 } from "../../src/_export";
 
 test("toLineID", () => {
   expect(() => toLineID(1)).not.toThrow(BadIDError);

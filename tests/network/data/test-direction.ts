@@ -1,4 +1,4 @@
-import { Direction, toDirectionID, toStopID } from "../../../ts/_export";
+import { Direction, toDirectionID, toStopID } from "../../../src/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new Direction(

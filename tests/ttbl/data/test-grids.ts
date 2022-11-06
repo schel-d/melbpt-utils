@@ -1,6 +1,6 @@
 import {
   GridRow, LocalTime, toDirectionID, toStopID, TtblFileGridSection, WeekdayRange
-} from "../../../ts/_export";
+} from "../../../src/_export";
 
 /** Test general parsing, comments are ignored, and blank times permitted. */
 const text01 = `

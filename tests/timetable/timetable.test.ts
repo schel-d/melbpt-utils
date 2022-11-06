@@ -1,4 +1,4 @@
-import { LookupError, TimetableError, toTimetableEntryIndex } from "../../ts/_export";
+import { LookupError, TimetableError, toTimetableEntryIndex } from "../../src/_export";
 import { entries, entryBounds, failingConstructors, passingConstructors }
   from "./data/test-timetables";
 

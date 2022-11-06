@@ -1,5 +1,5 @@
 import { DateTime } from "luxon";
-import { LocalDate, TimeError } from "../../ts/_export";
+import { LocalDate, TimeError } from "../../src/_export";
 
 test("constructor validation", () => {
   expect(() => new LocalDate(2020, 2, 29)).not.toThrow(TimeError);

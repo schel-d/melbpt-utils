@@ -1,4 +1,4 @@
-import { Timetable, TtblFile } from "../../ts/_export";
+import { Timetable, TtblFile } from "../../src/_export";
 import { network01 } from "./data/test-networks";
 import { passing, writing } from "./data/test-timetables";
 

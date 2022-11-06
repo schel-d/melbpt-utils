@@ -1,4 +1,4 @@
-import { toPlatformID, BadIDError } from "../../ts/_export";
+import { toPlatformID, BadIDError } from "../../src/_export";
 
 test("toPlatformID", () => {
   expect(() => toPlatformID("fine")).not.toThrow(BadIDError);

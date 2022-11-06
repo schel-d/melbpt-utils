@@ -1,4 +1,4 @@
-import { Direction, Line, toDirectionID, toLineID, toStopID } from "../../../ts/_export";
+import { Direction, Line, toDirectionID, toLineID, toStopID } from "../../../src/_export";
 
 /** Test regular constructor. */
 const constructor01 = () => new Line(

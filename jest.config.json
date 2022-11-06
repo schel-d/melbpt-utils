@@ -2,14 +2,14 @@
   "preset": "ts-jest",
   "testEnvironment": "node",
   "collectCoverageFrom": [
-    "ts/**/*.ts",
-    "!ts/export.ts"
+    "src/**/*.ts",
+    "!src/export.ts"
   ],
   "transform": {
     "^.+\\.tsx?$": [
       "ts-jest",
       {
-        "tsconfig": "ts/tsconfig.json"
+        "tsconfig": "src/tsconfig.json"
       }
     ]
   }

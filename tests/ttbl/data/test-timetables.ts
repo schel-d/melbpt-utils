@@ -2,7 +2,7 @@ import {
   LocalDate, LocalTime, Timetable, TimetableEntryStop,
   TimetableEntryWithinSection, TimetableSection, toDirectionID, toLineID,
   toStopID, toTimetableEntryIndex, toTimetableID, WeekdayRange
-} from "../../../ts/_export";
+} from "../../../src/_export";
 
 /** Test general parsing. */
 const text01 = `

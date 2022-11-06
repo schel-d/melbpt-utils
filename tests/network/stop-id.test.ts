@@ -1,4 +1,4 @@
-import { toStopID, BadIDError } from "../../ts/_export";
+import { toStopID, BadIDError } from "../../src/_export";
 
 test("toStopID", () => {
   expect(() => toStopID(1)).not.toThrow(BadIDError);

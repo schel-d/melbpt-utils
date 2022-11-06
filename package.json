@@ -1,6 +1,6 @@
 {
   "name": "melbpt-utils",
-  "version": "0.1.19",
+  "version": "1.0.0",
   "description": "A library for code common to the various melbpt services.",
   "main": "index.js",
   "types": "index.d.js",
@@ -13,8 +13,8 @@
   "scripts": {
     "clean": "rimraf dist/*",
     "prebuild": "npm run clean",
-    "build": "tsc --project ts/tsconfig.json",
-    "lint": "eslint . & tsc --project ts/tsconfig.json --noemit & tsc --project tests/tsconfig.json --noemit",
+    "build": "tsc --project src/tsconfig.json",
+    "lint": "eslint . & tsc --project src/tsconfig.json --noemit & tsc --project tests/tsconfig.json --noemit",
     "test": "jest",
     "test-coverage": "jest --coverage",
     "prepare": "npm run build"

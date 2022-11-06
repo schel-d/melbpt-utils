@@ -1,4 +1,4 @@
-import { BadIDError, toDirectionID } from "../../ts/_export";
+import { BadIDError, toDirectionID } from "../../src/_export";
 
 test("toDirectionID", () => {
   expect(() => toDirectionID("fine")).not.toThrow(BadIDError);
