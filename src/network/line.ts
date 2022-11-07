@@ -9,7 +9,7 @@ import { TransitNetworkError } from "./error";
 import { StopID } from "./stop-id";
 import { DirectionID } from "./direction-id";
 import { LookupError } from "../utils/error";
-import { unique } from "schel-d-utils";
+import { areUnique, unique } from "schel-d-utils";
 
 /**
  * Compile-time checking that if route type is "city-loop", then the portal is
@@ -102,8 +102,7 @@ export class Line<Route extends LineRouteType = LineRouteType> {
     }
 
     // Check that two directions don't have the same ID.
-    const uniqueDirectionIDsCount = new Set(directions.map(d => d.id)).size;
-    if (uniqueDirectionIDsCount < directions.length) {
+    if (!areUnique(directions, (a, b) => a.id == b.id)) {
       throw TransitNetworkError.duplicateDirections(id);
     }
 
@@ -126,13 +125,6 @@ export class Line<Route extends LineRouteType = LineRouteType> {
     this.directions = directions;
 
     this.allStops = unique<StopID>(this.directions.map(d => d.stops).flat());
-  }
-
-  /**
-   * Returns every stop on this line in no particular order.
-   */
-  get stops(): StopID[] {
-    return [...new Set(this.directions.map(d => d.stops).flat())];
   }
 
   /**

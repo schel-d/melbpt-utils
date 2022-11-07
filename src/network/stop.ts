@@ -1,3 +1,4 @@
+import { areUnique } from "schel-d-utils";
 import { z } from "zod";
 import { LookupError } from "../utils/error";
 import { TransitNetworkError } from "./error";
@@ -63,8 +64,7 @@ export class Stop<PlatformType extends Platform = Platform> {
     }
 
     // Check that two platforms don't have the same ID.
-    const uniquePlatformIDsCount = new Set(platforms.map(p => p.id)).size;
-    if (uniquePlatformIDsCount < platforms.length) {
+    if (!areUnique(platforms, (a, b) => a.id == b.id)) {
       throw TransitNetworkError.duplicatePlatforms(id);
     }
 
