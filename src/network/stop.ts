@@ -79,7 +79,7 @@ export class Stop<PlatformType extends Platform = Platform> {
    * Returns the platform with the given id, or null.
    * @param id The id.
    */
-  getPlatform(id: PlatformID): Platform | null {
+  getPlatform(id: PlatformID): PlatformType | null {
     return this.platforms.find(d => d.id == id) ?? null;
   }
 
@@ -87,7 +87,7 @@ export class Stop<PlatformType extends Platform = Platform> {
    * Returns the platform with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requirePlatform(id: PlatformID): Platform {
+  requirePlatform(id: PlatformID): PlatformType {
     const platform = this.getPlatform(id);
     if (platform != null) { return platform; }
     throw LookupError.platformNotFound(id);

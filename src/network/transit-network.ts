@@ -75,7 +75,7 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
    * Returns the line with the given id, or null.
    * @param id The id.
    */
-  getLine(id: LineID): Line | null {
+  getLine(id: LineID): LineType | null {
     return this.lines.find(l => l.id == id) ?? null;
   }
 
@@ -83,7 +83,7 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
    * Returns the line with the given id, or null.
    * @param id The id.
    */
-  getStop(id: StopID): Stop | null {
+  getStop(id: StopID): StopType | null {
     return this.stops.find(l => l.id == id) ?? null;
   }
 
@@ -91,7 +91,7 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
    * Returns the line with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requireLine(id: LineID): Line {
+  requireLine(id: LineID): LineType {
     const line = this.getLine(id);
     if (line != null) { return line; }
     throw LookupError.lineNotFound(id);
@@ -101,7 +101,7 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
    * Returns the stop with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requireStop(id: StopID): Stop {
+  requireStop(id: StopID): StopType {
     const stop = this.getStop(id);
     if (stop != null) { return stop; }
     throw LookupError.stopNotFound(id);
