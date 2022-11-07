@@ -1,3 +1,5 @@
+import { areUnique, unique } from "schel-d-utils";
+import { LineID } from "../network/line-id";
 import { LookupError } from "../utils/error";
 import { LocalDate } from "../utils/local-date";
 import { Timetable } from "./timetable";
@@ -22,14 +24,13 @@ export class TimetableSuite {
    */
   constructor(timetables: Timetable[]) {
     // Check that two timetables don't have the same ID.
-    const uniqueTimetableIDsCount = new Set(timetables.map(t => t.id)).size;
-    if (uniqueTimetableIDsCount < timetables.length) {
+    if (!areUnique(timetables, (a, b) => a.id == b.id)) {
       throw TimetableError.duplicateTimetables();
     }
 
     // Check that timetables with the same line and type do not occur in
     // overlapping timespans.
-    const uniqueLines = new Set(timetables.map(t => t.line));
+    const uniqueLines = unique<LineID>(timetables.map(t => t.line));
     for (const line of uniqueLines) {
       for (const type of TimetableTypes) {
         const relevant = timetables.filter(t => t.line == line && t.type == type);

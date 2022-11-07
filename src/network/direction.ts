@@ -1,3 +1,4 @@
+import { areUnique } from "schel-d-utils";
 import { z } from "zod";
 import { DirectionID, isDirectionID, toDirectionID } from "./direction-id";
 import { TransitNetworkError } from "./error";
@@ -47,7 +48,7 @@ export class Direction {
     }
 
     // Check that all stop ID's in the array are unique.
-    if (new Set(stops).size < stops.length) {
+    if (!areUnique(stops)) {
       throw TransitNetworkError.duplicateStopsInDirection(id);
     }
 

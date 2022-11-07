@@ -1,3 +1,4 @@
+import { areUnique } from "schel-d-utils";
 import { z } from "zod";
 import { LookupError } from "../utils/error";
 import { TransitNetworkError } from "./error";
@@ -48,20 +49,18 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
    */
   constructor(hash: string, stops: StopType[], lines: LineType[]) {
     // Check that two stops don't have the same ID.
-    const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
-    if (uniqueStopIDsCount < stops.length) {
+    if (!areUnique(stops, (a, b) => a.id == b.id)) {
       throw TransitNetworkError.duplicateStops();
     }
 
     // Check that two lines don't have the same ID.
-    const uniqueLineIDsCount = new Set(lines.map(l => l.id)).size;
-    if (uniqueLineIDsCount < lines.length) {
+    if (!areUnique(lines, (a, b) => a.id == b.id)) {
       throw TransitNetworkError.duplicateLines();
     }
 
     // Check that all stop IDs used in the lines are present in the stops array.
     const stopIDs = stops.map(s => s.id);
-    const stopIDsInLines = lines.map(l => l.stops).flat();
+    const stopIDsInLines = lines.map(l => l.allStops).flat();
     if (stopIDsInLines.some(s => !stopIDs.includes(s))) {
       throw TransitNetworkError.linesHaveGhostStops();
     }
