@@ -171,6 +171,24 @@ export class LookupError extends Error {
   }
 
   /**
+   * Line matching custom rule doesn't exist.
+   */
+  static lineMatchingRuleNotFound(): LookupError {
+    return new LookupError(
+      `Line matching custom rule doesn't exist.`
+    );
+  }
+
+  /**
+   * Stop matching custom rule doesn't exist.
+   */
+  static stopMatchingRuleNotFound(): LookupError {
+    return new LookupError(
+      `Stop matching custom rule doesn't exist.`
+    );
+  }
+
+  /**
    * Direction with ID "`id`" doesn't exist.
    */
   static directionNotFound(id: DirectionID): LookupError {
