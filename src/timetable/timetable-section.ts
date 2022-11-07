@@ -1,4 +1,5 @@
 import { DirectionID } from "../network/direction-id";
+import { DayOfWeek } from "../utils/day-of-week";
 import { WeekdayRange } from "../utils/weekday-range";
 import { TimetableEntryWithinTimetable, TimetableEntryWithinSection }
   from "./timetable-entry";
@@ -105,16 +106,34 @@ export class TimetableSection {
    */
   getIndexedEntries(): TimetableEntryWithinTimetable[] {
     // For each day of the week within the sections weekday range...
-    return this.wdr.days().map((w, i) => {
-      // Calculate the offset index for this day of the week.
-      const startIndex = this.firstIndex + this.entries.length * i;
-
-      // Convert all entries to their "WithinTimetable" versions.
-      return this.entries.map((e, j) => {
-        return TimetableEntryWithinTimetable.fromEntryWithinSection(
-          e, toTimetableEntryIndex(startIndex + j), this.direction, w
-        );
-      });
+    return this.wdr.days().map(w => {
+      return this.getIndexedEntriesForDay(w);
     }).flat();
+  }
+
+  /**
+   * Returns the entire list of entries from this section that would occur on
+   * the given day of the week as {@link TimetableEntryWithinTimetable}
+   * objects. If this section's week day range does not contain the given day
+   * of the week, then returns an empty list.
+   */
+  getIndexedEntriesForDay(dayOfWeek: DayOfWeek): TimetableEntryWithinTimetable[] {
+    const wdrIndex = this.wdr.includes(dayOfWeek)
+      ? this.wdr.indexOf(dayOfWeek)
+      : null;
+
+    // Return no entries if this section isn't relevant for the given day of the
+    // week.
+    if (wdrIndex == null) { return []; }
+
+    // Calculate the offset index for this day of the week.
+    const startIndex = this.firstIndex + this.entries.length * wdrIndex;
+
+    // Convert all entries to their "WithinTimetable" versions.
+    return this.entries.map((e, j) => {
+      return TimetableEntryWithinTimetable.fromEntryWithinSection(
+        e, toTimetableEntryIndex(startIndex + j), this.direction, dayOfWeek
+      );
+    });
   }
 }
