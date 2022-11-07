@@ -10,7 +10,7 @@ import { StopID } from "./stop-id";
  * Represents details about the entire transit network, i.e. the stops and
  * lines.
  */
-export class TransitNetwork {
+export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line = Line> {
   /**
    * A string representing the content in this object that can be used to
    * quickly determine if this is the latest data available. This is usually
@@ -19,10 +19,10 @@ export class TransitNetwork {
   readonly hash: string;
 
   /** The stops in the transit network. */
-  readonly stops: Stop[];
+  readonly stops: StopType[];
 
   /** The lines in the transit network. */
-  readonly lines: Line[];
+  readonly lines: LineType[];
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
@@ -46,7 +46,7 @@ export class TransitNetwork {
    * @param stops The stops in the transit network.
    * @param lines The lines in the transit network.
    */
-  constructor(hash: string, stops: Stop[], lines: Line[]) {
+  constructor(hash: string, stops: StopType[], lines: LineType[]) {
     // Check that two stops don't have the same ID.
     const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
     if (uniqueStopIDsCount < stops.length) {

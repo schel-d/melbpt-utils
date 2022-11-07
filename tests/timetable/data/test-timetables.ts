@@ -104,6 +104,29 @@ const constructor03 = () => new Timetable(
   ]
 );
 
+/** Test timetable lasting one day only. */
+const constructor04 = () => new Timetable(
+  toTimetableID(1),
+  toLineID(1),
+  new LocalDate(2022, 10, 28),
+  "main",
+  new LocalDate(2022, 7, 11),
+  new LocalDate(2022, 7, 11),
+  [
+    new TimetableSection(
+      toDirectionID("up"),
+      WeekdayRange.parse("M______"),
+      toTimetableEntryIndex(0),
+      [
+        new TimetableEntryWithinSection([
+          new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 20)),
+          new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 23))
+        ])
+      ]
+    )
+  ]
+);
+
 /** Must have at least one section. */
 const badConstructor01 = () => new Timetable(
   toTimetableID(1),
@@ -267,6 +290,29 @@ const badConstructor05 = () => new Timetable(
   ]
 );
 
+/** Cannot have begin time after end time. */
+const badConstructor06 = () => new Timetable(
+  toTimetableID(1),
+  toLineID(1),
+  new LocalDate(2022, 10, 28),
+  "main",
+  new LocalDate(2022, 11, 7),
+  new LocalDate(2022, 10, 20),
+  [
+    new TimetableSection(
+      toDirectionID("up"),
+      WeekdayRange.parse("M______"),
+      toTimetableEntryIndex(0),
+      [
+        new TimetableEntryWithinSection([
+          new TimetableEntryStop(toStopID(1), LocalTime.fromTime(1, 20)),
+          new TimetableEntryStop(toStopID(2), LocalTime.fromTime(1, 23))
+        ])
+      ]
+    )
+  ]
+);
+
 const entry01 = new TimetableEntry(
   toTimetableID(1),
   toLineID(1),
@@ -318,7 +364,8 @@ const entry04 = new TimetableEntry(
 export const passingConstructors = [
   constructor01,
   constructor02,
-  constructor03
+  constructor03,
+  constructor04
 ];
 
 export const failingConstructors = [
@@ -326,7 +373,8 @@ export const failingConstructors = [
   badConstructor02,
   badConstructor03,
   badConstructor04,
-  badConstructor05
+  badConstructor05,
+  badConstructor06
 ];
 
 export const entries = [

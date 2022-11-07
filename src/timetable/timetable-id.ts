@@ -3,7 +3,7 @@ import { BadIDError } from "../utils/error";
 
 /**
  * Represents a unique integer identifier for a timetable. This value needs to
- * be encodable to a 2-digit base-36 integer, so must be 36-1295 inclusive.
+ * be encodable to a 2-digit base-36 integer, so must be 1-1295 inclusive.
  * The convention is to have the first base-36 digit match the line ID if it
  * were to be encoded to base-36.
  */
@@ -27,7 +27,7 @@ export const MaxTimetableID = 36 * 36 - 1;
 export const MinTimetableID = 1;
 
 /**
- * Returns true for any integer between 36 and 1295 inclusive.
+ * Returns true for any integer between 1 and 1295 inclusive.
  * @param id The number/string to check.
  */
 export function isTimetableID(id: number | string): id is TimetableID {

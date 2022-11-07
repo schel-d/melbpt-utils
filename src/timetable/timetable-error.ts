@@ -1,5 +1,6 @@
 import { DirectionID } from "../network/direction-id";
 import { LineID } from "../network/line-id";
+import { TimetableType } from "./timetable-type";
 
 /**
  * The error object used when an attempt is made to create an invalid
@@ -31,7 +32,7 @@ export class TimetableError extends Error {
   static badSectionIDPartitioning(): TimetableError {
     return new TimetableError(
       `Timetable sections have overlap or gaps between section indices, or ` +
-      `are not sorted in smallest to largest order.`
+      `are not sorted in smallest to largest order`
     );
   }
 
@@ -99,6 +100,33 @@ export class TimetableError extends Error {
     return new TimetableError(
       `Cannot create timetable because direction "${id}" doesn't exist on ` +
       `line "${line}"`
+    );
+  }
+
+  /**
+   * Begins date occurs after ends date.
+   */
+  static metadataBeginsAfterEnds(): TimetableError {
+    return new TimetableError(
+      `Begins date occurs after ends date`
+    );
+  }
+
+  /**
+   * Not all timetable IDs are unique.
+   */
+  static duplicateTimetables(): TimetableError {
+    return new TimetableError(
+      `Not all timetable IDs are unique`
+    );
+  }
+
+  /**
+   * Multiple overlapping timetables for line "`line`" and type "`type`".
+   */
+  static overlappingTimetables(line: LineID, type: TimetableType): TimetableError {
+    return new TimetableError(
+      `Multiple overlapping timetables for line "${line}" and type "${type}"`
     );
   }
 }

@@ -8,7 +8,7 @@ import { isStopID, StopID, toStopID } from "./stop-id";
 /**
  * Represents a {@link Stop} on the transit network.
  */
-export class Stop {
+export class Stop<PlatformType extends Platform = Platform> {
   /** The stop's unique ID number. */
   readonly id: StopID;
 
@@ -19,7 +19,7 @@ export class Stop {
    * Details about the platforms at this stop. This array must contain at least
    * 1 element.
    */
-  readonly platforms: Platform[];
+  readonly platforms: PlatformType[];
 
   /** Alternative search tags, if any. */
   readonly tags: string[];
@@ -55,7 +55,7 @@ export class Stop {
    * @param urlName The url for this stop. Becomes
    * `"trainquery.com/${urlName}"`.
    */
-  constructor(id: StopID, name: string, platforms: Platform[], tags: string[],
+  constructor(id: StopID, name: string, platforms: PlatformType[], tags: string[],
     urlName: string) {
 
     if (platforms.length < 1) {
