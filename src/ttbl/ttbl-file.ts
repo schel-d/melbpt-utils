@@ -54,10 +54,7 @@ export class TtblFile {
     type: TimetableType, begins: LocalDate | null, ends: LocalDate | null,
     grids: TtblFileGridSection[]) {
 
-    // Ensure begins and ends do not require time travel.
-    if (begins != null && ends != null && !begins.isBeforeOrEqual(ends)) {
-      throw TtblFormatError.metadataBeginsAfterEnds();
-    }
+    // Begins and ends dates checked in Timetable object.
 
     // Must have at least one grid.
     if (grids.length < 1) {

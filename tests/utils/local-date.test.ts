@@ -7,6 +7,12 @@ test("constructor validation", () => {
   expect(() => new LocalDate(2021, 2, 29)).toThrow(TimeError);
   expect(() => new LocalDate(2022, 13, 1)).toThrow(TimeError);
   expect(() => new LocalDate(2022, NaN, 4)).toThrow(TimeError);
+  expect(() => new LocalDate(20.1, 1, 1)).toThrow(TimeError);
+
+  expect(() => new LocalDate(-1, 12, 31)).toThrow(TimeError);
+  expect(() => new LocalDate(-1, 1, 1)).toThrow(TimeError);
+  expect(() => new LocalDate(10000, 1, 1)).toThrow(TimeError);
+  expect(() => new LocalDate(20000, 1, 1)).toThrow(TimeError);
 });
 
 test("fromISO", () => {
@@ -84,4 +90,9 @@ test("yesterday and tomorrow", () => {
     .toStrictEqual("2022-12-30");
   expect(new LocalDate(2023, 1, 1).yesterday().toISO())
     .toStrictEqual("2022-12-31");
+});
+
+test("decimalISO", () => {
+  expect(LocalDate.fromISO("2020-02-29").decimalISO).toStrictEqual(20200229);
+  expect(LocalDate.fromISO("0001-11-07").decimalISO).toStrictEqual(11107);
 });

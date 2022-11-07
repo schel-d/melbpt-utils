@@ -129,15 +129,6 @@ export class TtblFormatError extends Error {
   }
 
   /**
-   * Begins date occurs after ends date.
-   */
-  static metadataBeginsAfterEnds(): TtblFormatError {
-    return new TtblFormatError(
-      `Begins date occurs after ends date`
-    );
-  }
-
-  /**
    * .ttbl file must have at least one grid.
    */
   static notEnoughGrids(): TtblFormatError {

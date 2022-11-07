@@ -3,6 +3,7 @@ import { LineID } from "../network/line-id";
 import { PlatformID } from "../network/platform-id";
 import { StopID } from "../network/stop-id";
 import { TimetableEntryIndex } from "../timetable/timetable-entry-index";
+import { TimetableID } from "../timetable/timetable-id";
 
 /**
  * The error object used when an attempt is made to use a bad string/number as
@@ -193,6 +194,18 @@ export class LookupError extends Error {
   static timetableEntryNotFound(index: TimetableEntryIndex): LookupError {
     return new LookupError(
       `Timetable entry with index "${index}" doesn't exist`
+    );
+  }
+
+  /**
+   * Timetable entry in timetable "`timetableID`" with index "`index`" doesn't
+   * exist.
+   */
+  static timetableEntryNotFoundInSuite(timetableID: TimetableID,
+    index: TimetableEntryIndex): LookupError {
+    return new LookupError(
+      `Timetable entry in timetable "${timetableID}" with index "${index}" ` +
+      `doesn't exist`
     );
   }
 }

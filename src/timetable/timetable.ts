@@ -74,12 +74,18 @@ export class Timetable {
       throw TimetableError.emptySection();
     }
 
+    // Ensure all sections are indexed in order, without overlap or gaps.
     let expectedIndex = 0;
     for (const section of sections) {
       if (section.firstIndex != toTimetableEntryIndex(expectedIndex)) {
         throw TimetableError.badSectionIDPartitioning();
       }
       expectedIndex = section.lastIndex + 1;
+    }
+
+    // Ensure begins and ends do not require time travel.
+    if (begins != null && ends != null && !begins.isBeforeOrEqual(ends)) {
+      throw TimetableError.metadataBeginsAfterEnds();
     }
 
     this.id = id;

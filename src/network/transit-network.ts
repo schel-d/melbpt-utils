@@ -10,7 +10,7 @@ import { StopID } from "./stop-id";
  * Represents details about the entire transit network, i.e. the stops and
  * lines.
  */
-export class TransitNetwork {
+export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line = Line> {
   /**
    * A string representing the content in this object that can be used to
    * quickly determine if this is the latest data available. This is usually
@@ -19,10 +19,10 @@ export class TransitNetwork {
   readonly hash: string;
 
   /** The stops in the transit network. */
-  readonly stops: Stop[];
+  readonly stops: StopType[];
 
   /** The lines in the transit network. */
-  readonly lines: Line[];
+  readonly lines: LineType[];
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
@@ -46,7 +46,7 @@ export class TransitNetwork {
    * @param stops The stops in the transit network.
    * @param lines The lines in the transit network.
    */
-  constructor(hash: string, stops: Stop[], lines: Line[]) {
+  constructor(hash: string, stops: StopType[], lines: LineType[]) {
     // Check that two stops don't have the same ID.
     const uniqueStopIDsCount = new Set(stops.map(s => s.id)).size;
     if (uniqueStopIDsCount < stops.length) {
@@ -75,7 +75,7 @@ export class TransitNetwork {
    * Returns the line with the given id, or null.
    * @param id The id.
    */
-  getLine(id: LineID): Line | null {
+  getLine(id: LineID): LineType | null {
     return this.lines.find(l => l.id == id) ?? null;
   }
 
@@ -83,7 +83,7 @@ export class TransitNetwork {
    * Returns the line with the given id, or null.
    * @param id The id.
    */
-  getStop(id: StopID): Stop | null {
+  getStop(id: StopID): StopType | null {
     return this.stops.find(l => l.id == id) ?? null;
   }
 
@@ -91,7 +91,7 @@ export class TransitNetwork {
    * Returns the line with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requireLine(id: LineID): Line {
+  requireLine(id: LineID): LineType {
     const line = this.getLine(id);
     if (line != null) { return line; }
     throw LookupError.lineNotFound(id);
@@ -101,7 +101,7 @@ export class TransitNetwork {
    * Returns the stop with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requireStop(id: StopID): Stop {
+  requireStop(id: StopID): StopType {
     const stop = this.getStop(id);
     if (stop != null) { return stop; }
     throw LookupError.stopNotFound(id);

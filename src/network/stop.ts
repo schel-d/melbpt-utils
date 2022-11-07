@@ -8,7 +8,7 @@ import { isStopID, StopID, toStopID } from "./stop-id";
 /**
  * Represents a {@link Stop} on the transit network.
  */
-export class Stop {
+export class Stop<PlatformType extends Platform = Platform> {
   /** The stop's unique ID number. */
   readonly id: StopID;
 
@@ -19,7 +19,7 @@ export class Stop {
    * Details about the platforms at this stop. This array must contain at least
    * 1 element.
    */
-  readonly platforms: Platform[];
+  readonly platforms: PlatformType[];
 
   /** Alternative search tags, if any. */
   readonly tags: string[];
@@ -55,7 +55,7 @@ export class Stop {
    * @param urlName The url for this stop. Becomes
    * `"trainquery.com/${urlName}"`.
    */
-  constructor(id: StopID, name: string, platforms: Platform[], tags: string[],
+  constructor(id: StopID, name: string, platforms: PlatformType[], tags: string[],
     urlName: string) {
 
     if (platforms.length < 1) {
@@ -79,7 +79,7 @@ export class Stop {
    * Returns the platform with the given id, or null.
    * @param id The id.
    */
-  getPlatform(id: PlatformID): Platform | null {
+  getPlatform(id: PlatformID): PlatformType | null {
     return this.platforms.find(d => d.id == id) ?? null;
   }
 
@@ -87,7 +87,7 @@ export class Stop {
    * Returns the platform with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
-  requirePlatform(id: PlatformID): Platform {
+  requirePlatform(id: PlatformID): PlatformType {
     const platform = this.getPlatform(id);
     if (platform != null) { return platform; }
     throw LookupError.platformNotFound(id);

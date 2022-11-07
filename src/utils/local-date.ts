@@ -23,20 +23,28 @@ export class LocalDate {
 
   /**
    * Creates a {@link LocalDate}. Throws a {@link TimeError} if Luxon reckons
-   * it's not a valid date.
+   * it's not a valid date or the year is outside 0-9999 inclusive.
    * @param year The year.
    * @param month The month, e.g. 5 for May.
    * @param day The day (of the month).
    */
   constructor(year: number, month: number, day: number) {
     // Use Luxon to validate the date components.
-    if (!DateTime.utc(year, month, day).isValid) {
+    if (year < 0 || year > 9999 || !DateTime.utc(year, month, day).isValid) {
       throw TimeError.invalidDate(year, month, day);
     }
 
     this.year = year;
     this.month = month;
     this.day = day;
+  }
+
+  /**
+   * A decimal number with digits resembling ISO, e.g. 7 Nov 2022 is 20220711,
+   * great for comparing dates.
+   */
+  get decimalISO(): number {
+    return this.year * 10000 + this.month * 100 + this.day;
   }
 
   /**
@@ -94,11 +102,7 @@ export class LocalDate {
    * @param other The date that if later, causes this method to return true.
    */
   isBefore(other: LocalDate) {
-    if (this.year < other.year) { return true; }
-    if (this.year > other.year) { return false; }
-    if (this.month < other.month) { return true; }
-    if (this.month > other.month) { return false; }
-    return this.day < other.day;
+    return this.decimalISO < other.decimalISO;
   }
 
   /**
@@ -107,11 +111,7 @@ export class LocalDate {
    * return true.
    */
   isBeforeOrEqual(other: LocalDate) {
-    if (this.year < other.year) { return true; }
-    if (this.year > other.year) { return false; }
-    if (this.month < other.month) { return true; }
-    if (this.month > other.month) { return false; }
-    return this.day <= other.day;
+    return this.decimalISO <= other.decimalISO;
   }
 
   /**
@@ -119,7 +119,7 @@ export class LocalDate {
    * @param other The date that if later, causes this method to return true.
    */
   isAfter(other: LocalDate) {
-    return !this.isBeforeOrEqual(other);
+    return this.decimalISO > other.decimalISO;
   }
 
   /**
@@ -128,7 +128,7 @@ export class LocalDate {
    * return true.
    */
   isAfterOrEqual(other: LocalDate) {
-    return !this.isBefore(other);
+    return this.decimalISO >= other.decimalISO;
   }
 
   /**
@@ -136,7 +136,7 @@ export class LocalDate {
    * @param other The other.
    */
   equals(other: LocalDate): boolean {
-    return this.year == other.year && this.month == other.month && this.day == other.day;
+    return this.decimalISO == other.decimalISO;
   }
 
   /**
