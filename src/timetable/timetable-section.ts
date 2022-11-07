@@ -97,4 +97,24 @@ export class TimetableSection {
       entry, index, this.direction, dayOfWeek
     );
   }
+
+  /**
+   * Returns the entire list of entries as {@link TimetableEntryWithinTimetable}
+   * objects. If this section spans multiple days of the week, then an entry
+   * for each day of the week is provided with the appropriate index.
+   */
+  getIndexedEntries(): TimetableEntryWithinTimetable[] {
+    // For each day of the week within the sections weekday range...
+    return this.wdr.days().map((w, i) => {
+      // Calculate the offset index for this day of the week.
+      const startIndex = this.firstIndex + this.entries.length * i;
+
+      // Convert all entries to their "WithinTimetable" versions.
+      return this.entries.map((e, j) => {
+        return TimetableEntryWithinTimetable.fromEntryWithinSection(
+          e, toTimetableEntryIndex(startIndex + j), this.direction, w
+        );
+      });
+    }).flat();
+  }
 }

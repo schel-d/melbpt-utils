@@ -123,7 +123,7 @@ export class WeekdayRange {
    * Saturday). Throws a {@link TimeError} if the index is out of range.
    */
   getDayOfWeekByIndex(index: number): DayOfWeek {
-    const days = [];
+    const days: number[] = [];
     if (this.mon) { days.push(0); }
     if (this.tue) { days.push(1); }
     if (this.wed) { days.push(2); }
@@ -154,6 +154,20 @@ export class WeekdayRange {
     return indexedDays[day.daysSinceMonday];
   }
 
+  /**
+   * Returns the weekday range as an array of {@link DayOfWeek} objects.
+   */
+  days(): DayOfWeek[] {
+    const result: DayOfWeek[] = [];
+    if (this.mon) { result.push(DayOfWeek.mon); }
+    if (this.tue) { result.push(DayOfWeek.tue); }
+    if (this.wed) { result.push(DayOfWeek.wed); }
+    if (this.thu) { result.push(DayOfWeek.thu); }
+    if (this.fri) { result.push(DayOfWeek.fri); }
+    if (this.sat) { result.push(DayOfWeek.sat); }
+    if (this.sun) { result.push(DayOfWeek.sun); }
+    return result;
+  }
 
   /**
    * Returns the index on the given day of week within this weekday range, e.g.
@@ -161,7 +175,7 @@ export class WeekdayRange {
    * if the day isn't in the weekday range at all.
    */
   indexOf(dayOfWeek: DayOfWeek): number {
-    const days = [];
+    const days: number[] = [];
     if (this.mon) { days.push(0); }
     if (this.tue) { days.push(1); }
     if (this.wed) { days.push(2); }
