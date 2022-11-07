@@ -9,12 +9,14 @@ import { TransitNetworkError } from "./error";
 import { StopID } from "./stop-id";
 import { DirectionID } from "./direction-id";
 import { LookupError } from "../utils/error";
+import { unique } from "schel-d-utils";
 
 /**
  * Compile-time checking that if route type is "city-loop", then the portal is
  * specified and is null otherwise.
  */
-type PortalRequirement<Route> = Route extends "city-loop" ? CityLoopPortal : null;
+export type PortalRequirement<Route> = Route extends "city-loop"
+  ? CityLoopPortal : null;
 
 /**
  * Represents a line on the transit network.
@@ -46,6 +48,9 @@ export class Line<Route extends LineRouteType = LineRouteType> {
 
   /** Details about the directions this line travels in. */
   readonly directions: Direction[];
+
+  /** A list of all stops on this line, in no particular order. */
+  readonly allStops: StopID[];
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
@@ -119,6 +124,8 @@ export class Line<Route extends LineRouteType = LineRouteType> {
     this.tags = tags;
     this.routeLoopPortal = routeLoopPortal;
     this.directions = directions;
+
+    this.allStops = unique<StopID>(this.directions.map(d => d.stops).flat());
   }
 
   /**
