@@ -97,6 +97,17 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
   }
 
   /**
+   * Returns the first line matching the predicate, or throws a
+   * {@link LookupError} if none match.
+   * @param predicate The predicate
+   */
+  requireLineThat(predicate: (l: Line) => boolean): LineType {
+    const line = this.lines.find(predicate);
+    if (line != null) { return line; }
+    throw LookupError.lineMatchingRuleNotFound();
+  }
+
+  /**
    * Returns the stop with the given id, or throws a {@link LookupError}.
    * @param id The id.
    */
@@ -104,6 +115,33 @@ export class TransitNetwork<StopType extends Stop = Stop, LineType extends Line 
     const stop = this.getStop(id);
     if (stop != null) { return stop; }
     throw LookupError.stopNotFound(id);
+  }
+
+  /**
+   * Returns the first stop matching the predicate, or throws a
+   * {@link LookupError} if none match.
+   * @param predicate The predicate
+   */
+  requireStopThat(predicate: (l: Stop) => boolean): StopType {
+    const stop = this.stops.find(predicate);
+    if (stop != null) { return stop; }
+    throw LookupError.stopMatchingRuleNotFound();
+  }
+
+  /**
+   * Returns all the lines which stop at the given stop.
+   * @param stop The stop the lines should stop at.
+   */
+  linesThatStopAt(stop: StopID): LineType[] {
+    return this.lines.filter(l => l.allStops.includes(stop));
+  }
+
+  /**
+   * Returns the stop matching the given name, or null if none exactly match.
+   * @param name The name of the stop.
+   */
+  stopFromName(name: string): StopType | null {
+    return this.stops.find(s => s.name == name) ?? null;
   }
 
   /** Convert to JSON object according to {@link TransitNetwork.rawJson}. */
