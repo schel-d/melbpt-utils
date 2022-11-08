@@ -4,7 +4,7 @@ import { LookupError } from "../utils/error";
 import { TransitNetworkError } from "./error";
 import { Platform } from "./platform";
 import { PlatformID } from "./platform-id";
-import { isStopID, StopID, toStopID } from "./stop-id";
+import { StopID, stopIDZodSchema } from "./stop-id";
 
 /**
  * Represents a {@link Stop} on the transit network.
@@ -30,7 +30,7 @@ export class Stop<PlatformType extends Platform = Platform> {
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
-    id: z.number().refine(x => isStopID(x)).transform(x => toStopID(x)),
+    id: stopIDZodSchema,
     name: z.string(),
     platforms: Platform.json.array().min(1),
     tags: z.string().array(),

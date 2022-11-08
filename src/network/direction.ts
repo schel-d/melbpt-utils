@@ -1,8 +1,8 @@
 import { areUnique } from "schel-d-utils";
 import { z } from "zod";
-import { DirectionID, isDirectionID, toDirectionID } from "./direction-id";
+import { DirectionID, directionIDZodSchema } from "./direction-id";
 import { TransitNetworkError } from "./error";
-import { isStopID, StopID, toStopID } from "./stop-id";
+import { StopID, stopIDZodSchema } from "./stop-id";
 
 /**
  * Represents a direction of travel on a particular line in the transit network.
@@ -22,10 +22,9 @@ export class Direction {
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
-    id: z.string().refine(x => isDirectionID(x)).transform(x => toDirectionID(x)),
+    id: directionIDZodSchema,
     name: z.string(),
-    stops: z.number().refine(x => isStopID(x)).transform(x => toStopID(x))
-      .array().min(2)
+    stops: stopIDZodSchema.array().min(2)
   }).transform(x => new Direction(x.id, x.name, x.stops));
 
   /** Zod schema for parsing from JSON but only using raw types. */

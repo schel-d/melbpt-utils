@@ -1,4 +1,5 @@
 import { parseIntNull } from "schel-d-utils";
+import { z } from "zod";
 import { BadIDError } from "../utils/error";
 
 /**
@@ -60,3 +61,8 @@ export function base36ToLineID(val: string): LineID {
 export function lineIDToBase36(id: LineID): string {
   return id.toString(36);
 }
+
+/** Zod schema for parsing a {@link LineID} from json. */
+export const lineIDZodSchema = z.number()
+  .refine(x => isLineID(x))
+  .transform(x => toLineID(x));

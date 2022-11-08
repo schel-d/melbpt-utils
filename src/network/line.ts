@@ -4,7 +4,7 @@ import {
   LineRouteTypes, LineService, LineServices
 } from "./line-enums";
 import { z } from "zod";
-import { isLineID, LineID, toLineID } from "./line-id";
+import { LineID, lineIDZodSchema } from "./line-id";
 import { TransitNetworkError } from "./error";
 import { StopID } from "./stop-id";
 import { DirectionID } from "./direction-id";
@@ -54,7 +54,7 @@ export class Line<Route extends LineRouteType = LineRouteType> {
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
-    id: z.number().refine(x => isLineID(x)).transform(x => toLineID(x)),
+    id: lineIDZodSchema,
     name: z.string(),
     color: z.enum(LineColors),
     service: z.enum(LineServices),

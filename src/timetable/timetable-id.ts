@@ -1,4 +1,5 @@
 import { parseIntNull } from "schel-d-utils";
+import { z } from "zod";
 import { BadIDError } from "../utils/error";
 
 /**
@@ -65,3 +66,8 @@ export function base36ToTimetableID(val: string): TimetableID {
 export function timetableIDToBase36(id: TimetableID): string {
   return id.toString(36).padStart(2, "0");
 }
+
+/** Zod schema for parsing a {@link TimetableID} from json. */
+export const timetableIDZodSchema = z.number()
+  .refine(x => isTimetableID(x))
+  .transform(x => toTimetableID(x));

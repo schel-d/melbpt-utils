@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { BadIDError } from "../utils/error";
 
 /**
@@ -32,3 +33,8 @@ export function toDirectionID(val: string): DirectionID {
   if (isDirectionID(val)) { return val; }
   throw BadIDError.badDirectionID(val);
 }
+
+/** Zod schema for parsing a {@link DirectionID} from json. */
+export const directionIDZodSchema = z.string()
+  .refine(x => isDirectionID(x))
+  .transform(x => toDirectionID(x));
