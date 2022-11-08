@@ -1,4 +1,5 @@
 import { parseIntNull } from "schel-d-utils";
+import { z } from "zod";
 import { BadIDError } from "../utils/error";
 
 /**
@@ -43,3 +44,8 @@ export function toStopID(val: number | string): StopID {
   if (num != null && isStopID(num)) { return num; }
   throw BadIDError.badStopID(val);
 }
+
+/** Zod schema for parsing a {@link StopID} from json. */
+export const stopIDZodSchema = z.number()
+  .refine(x => isStopID(x))
+  .transform(x => toStopID(x));

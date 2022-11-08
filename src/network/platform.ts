@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { isPlatformID, PlatformID, toPlatformID } from "./platform-id";
+import { PlatformID, platformIDZodSchema } from "./platform-id";
 
 /**
  * Represents a platform at a particular stop on the network.
@@ -13,7 +13,7 @@ export class Platform {
 
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
-    id: z.string().refine(x => isPlatformID(x)).transform(x => toPlatformID(x)),
+    id: platformIDZodSchema,
     name: z.string()
   }).transform(x => new Platform(x.id, x.name));
 

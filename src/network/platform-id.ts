@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { BadIDError } from "../utils/error";
 import { kebabCaseRegex } from "./direction-id";
 
@@ -28,3 +29,8 @@ export function toPlatformID(val: string): PlatformID {
   if (isPlatformID(val)) { return val; }
   throw BadIDError.badPlatformID(val);
 }
+
+/** Zod schema for parsing a {@link PlatformID} from json. */
+export const platformIDZodSchema = z.string()
+  .refine(x => isPlatformID(x))
+  .transform(x => toPlatformID(x));
