@@ -1,5 +1,6 @@
+import { CityLoopPortal } from "./city-loop";
 import { DirectionID } from "./direction-id";
-import { CityLoopPortal, LineRouteType } from "./line-enums";
+import { LineRouteType } from "./line-enums";
 import { LineID } from "./line-id";
 import { StopID } from "./stop-id";
 

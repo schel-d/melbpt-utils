@@ -86,31 +86,3 @@ export function toLineService(val: string): LineService {
   if (isLineService(val)) { return val; }
   throw BadEnumError.badLineService(val);
 }
-
-/**
- * Represents the type of service that runs on this line.
- */
-export type CityLoopPortal = typeof CityLoopPortals[number];
-
-/**
- * An array of all the possible types of service a line can be.
- */
-export const CityLoopPortals = ["richmond", "north-melbourne", "jolimont"] as const;
-
-/**
- * Returns true for any valid {@link CityLoopPortal}.
- * @param val The string to check.
- */
-export function isCityLoopPortal(val: string): val is CityLoopPortal {
-  return (CityLoopPortals as readonly string[]).includes(val);
-}
-
-/**
- * Returns the string as a {@link CityLoopPortal}, or throws a
- * {@link BadEnumError} is it is invalid.
- * @param val The string to check.
- */
-export function toCityLoopPortal(val: string): CityLoopPortal {
-  if (isCityLoopPortal(val)) { return val; }
-  throw BadEnumError.badCityLoopPortal(val);
-}
