@@ -1,6 +1,6 @@
 import { Direction } from "./direction";
 import {
-  CityLoopPortal, CityLoopPortals, LineColor, LineColors, LineRouteType,
+  LineColor, LineColors, LineRouteType,
   LineRouteTypes, LineService, LineServices
 } from "./line-enums";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import { StopID } from "./stop-id";
 import { DirectionID } from "./direction-id";
 import { LookupError } from "../utils/error";
 import { areUnique, unique } from "schel-d-utils";
+import { CityLoopPortal, CityLoopPortals } from "./city-loop";
 
 /**
  * Compile-time checking that if route type is "city-loop", then the portal is
