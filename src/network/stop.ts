@@ -28,14 +28,18 @@ export class Stop<PlatformType extends Platform = Platform> {
   /** The url for this stop. Becomes `"trainquery.com/${urlName}"`. */
   readonly urlName: string;
 
+  /** The ticketing zones this stop is inside. */
+  readonly zones: string[];
+
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
     id: stopIDZodSchema,
     name: z.string(),
     platforms: Platform.json.array().min(1),
     tags: z.string().array(),
-    urlName: z.string()
-  }).transform(x => new Stop(x.id, x.name, x.platforms, x.tags, x.urlName));
+    urlName: z.string(),
+    zones: z.string().array()
+  }).transform(x => new Stop(x.id, x.name, x.platforms, x.tags, x.urlName, x.zones));
 
   /** Zod schema for parsing from JSON but only using raw types. */
   static readonly rawJson = z.object({
@@ -43,7 +47,8 @@ export class Stop<PlatformType extends Platform = Platform> {
     name: z.string(),
     platforms: Platform.rawJson.array(),
     tags: z.string().array(),
-    urlName: z.string()
+    urlName: z.string(),
+    zones: z.string().array()
   });
 
   /**
@@ -57,7 +62,7 @@ export class Stop<PlatformType extends Platform = Platform> {
    * `"trainquery.com/${urlName}"`.
    */
   constructor(id: StopID, name: string, platforms: PlatformType[], tags: string[],
-    urlName: string) {
+    urlName: string, zones: string[]) {
 
     if (platforms.length < 1) {
       throw TransitNetworkError.noPlatforms(id);
@@ -73,6 +78,7 @@ export class Stop<PlatformType extends Platform = Platform> {
     this.platforms = platforms;
     this.tags = tags;
     this.urlName = urlName;
+    this.zones = zones;
   }
 
   /**
@@ -100,7 +106,8 @@ export class Stop<PlatformType extends Platform = Platform> {
       name: this.name,
       platforms: this.platforms.map(p => p.toJSON()),
       tags: this.tags,
-      urlName: this.urlName
+      urlName: this.urlName,
+      zones: this.zones
     };
   }
 }

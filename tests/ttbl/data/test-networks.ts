@@ -13,7 +13,8 @@ export const network01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "seymour"
+      "seymour",
+      []
     ),
     new Stop(
       toStopID(268),
@@ -22,7 +23,8 @@ export const network01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "tallarook"
+      "tallarook",
+      []
     ),
     new Stop(
       toStopID(40),
@@ -31,7 +33,8 @@ export const network01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "broadmeadows"
+      "broadmeadows",
+      []
     ),
     new Stop(
       toStopID(96),
@@ -40,7 +43,8 @@ export const network01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "essendon"
+      "essendon",
+      []
     ),
     new Stop(
       toStopID(253),
@@ -49,7 +53,8 @@ export const network01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "southerncross"
+      "southerncross",
+      []
     ),
   ],
   [

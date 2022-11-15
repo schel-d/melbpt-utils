@@ -14,7 +14,8 @@ export const obj01 = new TransitNetwork(
         new Platform(toPlatformID("2"), "2"),
       ],
       [],
-      "catville"
+      "catville",
+      []
     ),
     new Stop(
       toStopID(2),
@@ -23,7 +24,8 @@ export const obj01 = new TransitNetwork(
         new Platform(toPlatformID("1"), "1"),
       ],
       [],
-      "dogtown"
+      "dogtown",
+      []
     ),
     new Stop(
       toStopID(3),
@@ -35,7 +37,8 @@ export const obj01 = new TransitNetwork(
       [
         "mouseton"
       ],
-      "ratlands"
+      "ratlands",
+      []
     ),
   ],
   [
