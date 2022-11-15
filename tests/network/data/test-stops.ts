@@ -8,7 +8,8 @@ const constructor01 = () => new Stop(
     new Platform(toPlatformID("1"), "1a")
   ],
   [],
-  "catville"
+  "catville",
+  []
 );
 
 /** Can't have no platforms. */
@@ -17,7 +18,8 @@ const badConstructor01 = () => new Stop(
   "Catville",
   [],
   [],
-  "catville"
+  "catville",
+  []
 );
 
 /** Can't have multiple platforms with same ID. */
@@ -29,7 +31,8 @@ const badConstructor02 = () => new Stop(
     new Platform(toPlatformID("1"), "1b")
   ],
   [],
-  "catville"
+  "catville",
+  []
 );
 
 export const passingConstructors = [

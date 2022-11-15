@@ -15,7 +15,8 @@
         }
       ],
       "urlName": "catville",
-      "tags": []
+      "tags": [],
+      "zones": []
     },
     {
       "id": 1,
@@ -27,7 +28,8 @@
         }
       ],
       "urlName": "dogtown",
-      "tags": []
+      "tags": [],
+      "zones": []
     },
     {
       "id": 3,
@@ -45,7 +47,8 @@
       "urlName": "ratlands",
       "tags": [
         "mouseton"
-      ]
+      ],
+      "zones": []
     }
   ],
   "lines": [

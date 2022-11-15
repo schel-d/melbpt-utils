@@ -1,6 +1,6 @@
 {
   "name": "melbpt-utils",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "A library for code common to the various melbpt services.",
   "main": "dist/cjs/_export.js",
   "types": "dist/cjs/_export.d.ts",
