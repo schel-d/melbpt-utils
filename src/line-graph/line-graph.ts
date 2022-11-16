@@ -20,18 +20,28 @@ export class LineGraph {
   /** Details about how to show the branches on this line, if at all. */
   readonly branches: LineGraphBranches | null;
 
+  /**
+   * Unless null, all stops before this one will be shown semi-transparent. If
+   * a loop or branch is present, this must be null.
+   */
+  readonly firstOpaqueStopIndex: number | null;
+
   /** Zod schema for parsing from JSON. */
   static readonly json = z.object({
     stops: LineGraphStop.json.array().min(1),
     loop: LineGraphCityLoop.json.nullable(),
-    branches: LineGraphBranches.json.nullable()
-  }).transform(x => new LineGraph(x.stops, x.loop, x.branches));
+    branches: LineGraphBranches.json.nullable(),
+    firstOpaqueStopIndex: z.number().nullable()
+  }).transform(x => new LineGraph(
+    x.stops, x.loop, x.branches, x.firstOpaqueStopIndex
+  ));
 
   /** Zod schema for parsing from JSON but only using raw types. */
   static readonly rawJson = z.object({
     stops: LineGraphStop.rawJson.array(),
     loop: LineGraphCityLoop.rawJson.nullable(),
-    branches: LineGraphBranches.rawJson.nullable()
+    branches: LineGraphBranches.rawJson.nullable(),
+    firstOpaqueStopIndex: z.number().nullable()
   });
 
   /**
@@ -43,7 +53,7 @@ export class LineGraph {
    * all.
    */
   constructor(stops: LineGraphStop[], loop: LineGraphCityLoop | null,
-    branches: LineGraphBranches | null) {
+    branches: LineGraphBranches | null, firstOpaqueStopIndex: number | null) {
 
     // If the line is linear, you need two stops.
     if (loop == null && branches == null && stops.length < 2) {
@@ -62,9 +72,23 @@ export class LineGraph {
       throw BadLineGraphError.terminusOrOriginCannotBeExpress();
     }
 
+    // Only completely linear line graphs can have transparent stops.
+    if ((loop != null || branches != null) && firstOpaqueStopIndex != null) {
+      throw BadLineGraphError.transparentStopsUnavailable();
+    }
+
+    // Make sure the index is in range. 0 is valid for all stops opaque (regular
+    // behaviour) and the value can be equal to the number to stops to make all
+    // stops transparent.
+    if (firstOpaqueStopIndex != null && (!Number.isInteger(firstOpaqueStopIndex)
+      || firstOpaqueStopIndex < 0 || firstOpaqueStopIndex >= stops.length)) {
+      throw BadLineGraphError.badFirstOpaqueStopIndex();
+    }
+
     this.stops = stops;
     this.loop = loop;
     this.branches = branches;
+    this.firstOpaqueStopIndex = firstOpaqueStopIndex;
   }
 
   /** Convert to JSON object according to {@link LineGraph.rawJson}. */
@@ -72,7 +96,8 @@ export class LineGraph {
     return {
       stops: this.stops.map(x => x.toJSON()),
       loop: this.loop?.toJSON() ?? null,
-      branches: this.branches?.toJSON() ?? null
+      branches: this.branches?.toJSON() ?? null,
+      firstOpaqueStopIndex: this.firstOpaqueStopIndex
     };
   }
 }
