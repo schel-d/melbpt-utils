@@ -33,19 +33,19 @@ export function toCityLoopPortal(val: string): CityLoopPortal {
 export const flindersStreetName = "Flinders Street";
 
 /** The stop id of Flinders Street station. */
-const flindersStreet: StopID = toStopID(104);
+export const flindersStreet: StopID = toStopID(104);
 
 /** The stop id of Southern Cross station. */
-const southernCross: StopID = toStopID(253);
+export const southernCross: StopID = toStopID(253);
 
 /** The stop id of Flagstaff station. */
-const flagstaff: StopID = toStopID(101);
+export const flagstaff: StopID = toStopID(101);
 
 /** The stop id of Melbourne Central station. */
-const melbourneCentral: StopID = toStopID(171);
+export const melbourneCentral: StopID = toStopID(171);
 
 /** The stop id of Parliament station. */
-const parliament: StopID = toStopID(216);
+export const parliament: StopID = toStopID(216);
 
 /**
  * Returns the stops from the given city loop portal to Flinders Street Station,
